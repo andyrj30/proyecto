@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,9 +42,9 @@ public class Semestre implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idsemestre")
-    private String idsemestre;
+    private Integer idsemestre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -59,20 +61,25 @@ public class Semestre implements Serializable {
     public Semestre() {
     }
 
-    public Semestre(String idsemestre) {
+    public Semestre(Integer idsemestre) {
         this.idsemestre = idsemestre;
     }
 
-    public Semestre(String idsemestre, String semestre) {
+    public Semestre(Integer idsemestre, String semestre) {
         this.idsemestre = idsemestre;
         this.semestre = semestre;
     }
 
-    public String getIdsemestre() {
+    public Semestre(String semestre, Carrera carrera) {        
+        this.semestre = semestre;
+        this.idcarrera = carrera;
+    }
+
+    public Integer getIdsemestre() {
         return idsemestre;
     }
 
-    public void setIdsemestre(String idsemestre) {
+    public void setIdsemestre(Integer idsemestre) {
         this.idsemestre = idsemestre;
     }
 
