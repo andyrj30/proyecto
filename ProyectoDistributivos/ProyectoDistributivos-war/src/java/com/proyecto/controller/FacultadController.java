@@ -12,14 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name="facultadController")
+@Named("facultadController")
 @SessionScoped
 public class FacultadController implements Serializable {
 
@@ -31,16 +31,16 @@ public class FacultadController implements Serializable {
     public FacultadController() {
     }
 
-    public int count(){
-        return ejbFacade.count();
-    }
-    
     public Facultad getSelected() {
         return selected;
     }
 
     public void setSelected(Facultad selected) {
         this.selected = selected;
+    }
+
+    public int count() {
+        return ejbFacade.count();
     }
 
     protected void setEmbeddableKeys() {
@@ -68,6 +68,9 @@ public class FacultadController implements Serializable {
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("FacultadUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     public void destroy() {
@@ -88,32 +91,22 @@ public class FacultadController implements Serializable {
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
-            try {               
-                if (persistAction != null) switch (persistAction) {
-                    case DELETE:
-                        getFacade().remove(selected);
-                        break;
-                    case CREATE:
-                        getFacade().create(selected);
-                        break;
-                    default:
-                        getFacade().edit(selected);
-                        break;
+            try {
+                if (persistAction != null) {
+                    switch (persistAction) {
+                        case DELETE:
+                            getFacade().remove(selected);
+                            break;
+                        case CREATE:
+                            getFacade().create(selected);
+                            break;
+                        default:
+                            getFacade().edit(selected);
+                            break;
+                    }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
