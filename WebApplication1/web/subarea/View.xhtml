@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SubareaViewDlg" widgetVar="SubareaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSubareaTitle}">
+            <h:form id="SubareaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{subareaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSubareaLabel_idsubarea}"/>
+                        <h:outputText value="#{subareaController.selected.idsubarea}" title="#{bundle.ViewSubareaTitle_idsubarea}"/>
+                        <h:outputText value="#{bundle.ViewSubareaLabel_subarea}"/>
+                        <h:outputText value="#{subareaController.selected.subarea}" title="#{bundle.ViewSubareaTitle_subarea}"/>
+                        <h:outputText value="#{bundle.ViewSubareaLabel_idarea}"/>
+                        <h:outputText value="#{subareaController.selected.idarea}" title="#{bundle.ViewSubareaTitle_idarea}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SubareaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

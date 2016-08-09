@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MateriaEditDlg" widgetVar="MateriaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMateriaTitle}">
+            <h:form id="MateriaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_codmateria}" for="codmateria" />
+                        <p:inputText id="codmateria" value="#{materiaController.selected.codmateria}" title="#{bundle.EditMateriaTitle_codmateria}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_codmateria}"/>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_materia}" for="materia" />
+                        <p:inputText id="materia" value="#{materiaController.selected.materia}" title="#{bundle.EditMateriaTitle_materia}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_materia}"/>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_cargahoraria}" for="cargahoraria" />
+                        <p:inputText id="cargahoraria" value="#{materiaController.selected.cargahoraria}" title="#{bundle.EditMateriaTitle_cargahoraria}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_cargahoraria}"/>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_cargatutorial}" for="cargatutorial" />
+                        <p:inputText id="cargatutorial" value="#{materiaController.selected.cargatutorial}" title="#{bundle.EditMateriaTitle_cargatutorial}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_cargatutorial}"/>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_color}" for="color" />
+                        <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.EditMateriaTitle_color}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_color}"/>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_idsemestre}" for="idsemestre" />
+                        <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                                           var="idsemestreItem"
+                                           itemValue="#{idsemestreItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditMateriaLabel_idsubarea}" for="idsubarea" />
+                        <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsubarea}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{subareaController.itemsAvailableSelectOne}"
+                                           var="idsubareaItem"
+                                           itemValue="#{idsubareaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{materiaController.update}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MateriaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MateriaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
