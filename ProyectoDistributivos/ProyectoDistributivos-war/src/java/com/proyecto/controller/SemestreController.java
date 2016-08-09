@@ -68,7 +68,11 @@ public class SemestreController implements Serializable {
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SemestreUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
+
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SemestreDeleted"));
@@ -165,7 +169,7 @@ public class SemestreController implements Serializable {
             }
             if (object instanceof Semestre) {
                 Semestre o = (Semestre) object;
-                return getStringKey(o.getIdsemestre());
+                return getStringKey(o.getIdsemestre().toString());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Semestre.class.getName()});
                 return null;

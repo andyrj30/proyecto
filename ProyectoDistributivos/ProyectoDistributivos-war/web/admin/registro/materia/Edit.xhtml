@@ -12,16 +12,32 @@
             <h:form id="MateriaEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{materiaController.selected != null}" style="min-width: 400px">
-                        <p:outputLabel value="#{bundle.EditMateriaLabel_codmateria}" for="codmateria" />
-                        <p:inputText id="codmateria" value="#{materiaController.selected.codmateria}" title="#{bundle.EditMateriaTitle_codmateria}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_codmateria}"/>
-                        <p:outputLabel value="#{bundle.EditMateriaLabel_materia}" for="materia" />
-                        <p:inputText id="materia" value="#{materiaController.selected.materia}" title="#{bundle.EditMateriaTitle_materia}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_materia}"/>
-                        <p:outputLabel value="#{bundle.EditMateriaLabel_cargahoraria}" for="cargahoraria" />
-                        <p:inputText id="cargahoraria" value="#{materiaController.selected.cargahoraria}" title="#{bundle.EditMateriaTitle_cargahoraria}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_cargahoraria}"/>
-                        <p:outputLabel value="#{bundle.EditMateriaLabel_cargatutorial}" for="cargatutorial" />
-                        <p:inputText id="cargatutorial" value="#{materiaController.selected.cargatutorial}" title="#{bundle.EditMateriaTitle_cargatutorial}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_cargatutorial}"/>
-                        <p:outputLabel value="#{bundle.EditMateriaLabel_color}" for="color" />
-                        <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.EditMateriaTitle_color}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_color}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_codmateria}" for="codmateria" />
+                        <p:inputText id="codmateria" value="#{materiaController.selected.codmateria}" title="#{bundle.CreateMateriaTitle_codmateria}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_codmateria}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_materia}" for="materia" />
+                        <p:inputText id="materia" value="#{materiaController.selected.materia}" title="#{bundle.CreateMateriaTitle_materia}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_materia}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_cargahoraria}" for="cargahoraria" />
+                        <p:inputText id="cargahoraria" value="#{materiaController.selected.cargahoraria}" title="#{bundle.CreateMateriaTitle_cargahoraria}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_cargahoraria}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_cargatutorial}" for="cargatutorial" />
+                        <p:inputText id="cargatutorial" value="#{materiaController.selected.cargatutorial}" title="#{bundle.CreateMateriaTitle_cargatutorial}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_cargatutorial}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_color}" for="color" />
+                        <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.CreateMateriaTitle_color}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_color}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_idsemestre}" for="idsemestre" />
+                        <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsemestre}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                                           var="idsemestreItem"
+                                           itemLabel="#{idsemestreItem.semestre}"
+                                           itemValue="#{idsemestreItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="SubArea:" for="idsubarea" />
+                        <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="El campo Subarea es requerido.">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{subareaController.itemsAvailableSelectOne}"
+                                           var="idsubareaItem"
+                                           itemLabel="#{idsubareaItem.subarea}"
+                                           itemValue="#{idsubareaItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="pull-right">
                         <p:commandButton actionListener="#{materiaController.update}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MateriaEditDialog'); $('.tabla').DataTable();"/>

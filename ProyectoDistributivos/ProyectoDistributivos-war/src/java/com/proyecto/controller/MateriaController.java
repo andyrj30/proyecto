@@ -6,6 +6,7 @@ import com.proyecto.controller.util.JsfUtil.PersistAction;
 import com.proyecto.model.MateriaFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,13 +27,50 @@ public class MateriaController implements Serializable {
     @EJB
     private com.proyecto.model.MateriaFacade ejbFacade;
     private List<Materia> items = null;
+    private List<String> colores;
     private Materia selected;
+    private String facultad;
+    private String carrera;
+    private String area;
 
     public MateriaController() {
+
+    }
+
+    public String getFacultad() {
+        return facultad;
+    }
+
+    public void setFacultad(String facultad) {
+        this.facultad = facultad;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public Materia getSelected() {
         return selected;
+    }
+
+    public List<String> getColores() {
+        return colores;
+    }
+
+    public void setColores(List<String> colores) {
+        this.colores = colores;
     }
 
     public int count() {
@@ -68,6 +106,9 @@ public class MateriaController implements Serializable {
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("MateriaUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     public void destroy() {

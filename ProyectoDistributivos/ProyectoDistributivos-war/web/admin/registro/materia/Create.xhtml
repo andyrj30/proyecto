@@ -12,6 +12,30 @@
             <h:form id="MateriaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{materiaController.selected != null}" style="min-width: 400px">
+                        <p:outputLabel value="#{bundle.CreateCarreraLabel_idfacultad}" for="idfacultad" />
+                        <p:selectOneMenu id="idfacultad" value="#{materiaController.facultad}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{facultadController.itemsAvailableSelectOne}"
+                                           var="idfacultadItem"
+                                           itemLabel="#{idfacultadItem.facultad}"
+                                           itemValue="#{idfacultadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Carrera" for="carrera" />
+                        <p:selectOneMenu id="carrera" value="#{materiaController.carrera}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{carreraController.itemsAvailableSelectOne}"
+                                           var="idfacultadItem"
+                                           itemLabel="#{idfacultadItem.carrera}"
+                                           itemValue="#{idfacultadItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Area:" for="area" />
+                        <p:selectOneMenu id="area" value="#{materiaController.area}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                                           var="areaItem"
+                                           itemLabel="#{areaItem.area}"
+                                           itemValue="#{areaItem}"/>
+                        </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_codmateria}" for="codmateria" />
                         <p:inputText id="codmateria" value="#{materiaController.selected.codmateria}" title="#{bundle.CreateMateriaTitle_codmateria}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_codmateria}"/>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_materia}" for="materia" />
@@ -21,23 +45,23 @@
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_cargatutorial}" for="cargatutorial" />
                         <p:inputText id="cargatutorial" value="#{materiaController.selected.cargatutorial}" title="#{bundle.CreateMateriaTitle_cargatutorial}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_cargatutorial}"/>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_color}" for="color" />
-                        <p:inputText id="color" styleClass="color">
-                            <select name="colorpicker"> 
-                                <option value="#7bd148">Green</option>
-                                <option value="#5484ed">Bold blue</option>
-                                <option value="#a4bdfc">Blue</option>
-                                <option value="#46d6db">Turquoise</option>
-                                <option value="#7ae7bf">Light green</option>
-                                <option value="#51b749">Bold green</option>
-                                <option value="#fbd75b">Yellow</option>
-                                <option value="#ffb878">Orange</option>
-                                <option value="#ff887c">Red</option>
-                                <option value="#dc2127">Bold red</option>
-                            </select>
-                            <script>
-                                $('select[name="colorpicker"]').simplecolorpicker();
-                            </script>
-                        </p:inputText>
+                        <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.CreateMateriaTitle_color}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_color}"/>
+                        <p:outputLabel value="#{bundle.CreateMateriaLabel_idsemestre}" for="idsemestre" />
+                        <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsemestre}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                                           var="idsemestreItem"
+                                           itemLabel="#{idsemestreItem.semestre}"
+                                           itemValue="#{idsemestreItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="SubArea:" for="idsubarea" />
+                        <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="El campo Subarea es requerido.">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{subareaController.itemsAvailableSelectOne}"
+                                           var="idsubareaItem"
+                                           itemLabel="#{idsubareaItem.subarea}"
+                                           itemValue="#{idsubareaItem}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="pull-right">                    
                         <p:commandButton actionListener="#{materiaController.create}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'MateriaCreateDialog'); $('.tabla').DataTable();"/>

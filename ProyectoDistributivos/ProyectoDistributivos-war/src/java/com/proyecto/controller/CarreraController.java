@@ -3,6 +3,7 @@ package com.proyecto.controller;
 import com.proyecto.entities.Carrera;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.controller.util.JsfUtil.PersistAction;
+import com.proyecto.entities.Semestre;
 import com.proyecto.model.CarreraFacade;
 
 import java.io.Serializable;
@@ -25,8 +26,11 @@ public class CarreraController implements Serializable {
 
     @EJB
     private com.proyecto.model.CarreraFacade ejbFacade;
+    @EJB
+    private com.proyecto.model.SemestreFacade semestreFacade;
     private List<Carrera> items = null;
     private Carrera selected;
+    private Semestre semestre;
 
     public CarreraController() {
     }
@@ -35,10 +39,10 @@ public class CarreraController implements Serializable {
         return selected;
     }
 
-    public int count(){
+    public int count() {
         return ejbFacade.count();
     }
-    
+
     public void setSelected(Carrera selected) {
         this.selected = selected;
     }
@@ -68,6 +72,9 @@ public class CarreraController implements Serializable {
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CarreraUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     public void destroy() {
@@ -89,16 +96,41 @@ public class CarreraController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                 if (persistAction != null) switch (persistAction) {
-                    case DELETE:
-                        getFacade().remove(selected);
-                        break;
-                    case CREATE:
-                        getFacade().create(selected);
-                        break;
-                    default:
-                        getFacade().edit(selected);
-                        break;
+                if (persistAction != null) {
+                    switch (persistAction) {
+                        case DELETE:
+                            getFacade().remove(selected);
+                            break;
+                        case CREATE:
+                            getFacade().create(selected);
+                            semestre = new Semestre();
+                            semestre.setIdsemestre(25);
+                            semestre.setIdcarrera(selected);
+                            semestre.setSemestre("Primer Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Segundo Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Tercero Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Cuarto Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Quinto Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Sexto Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Septimo Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Octavo Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Noveno Semestre");
+                            semestreFacade.create(semestre);
+                            semestre.setSemestre("Decimo Semestre");
+                            semestreFacade.create(semestre);
+                            break;
+                        default:
+                            getFacade().edit(selected);
+                            break;
+                    }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
