@@ -20,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "materia")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Materia.findAll", query = "SELECT m FROM Materia m"),
     @NamedQuery(name = "Materia.findByCodmateria", query = "SELECT m FROM Materia m WHERE m.codmateria = :codmateria"),
@@ -71,7 +68,7 @@ public class Materia implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
     private List<Distributivoclase> distributivoclaseList;
     @JoinColumn(name = "idsemestre", referencedColumnName = "idsemestre")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Semestre idsemestre;
     @JoinColumn(name = "idsubarea", referencedColumnName = "idsubarea")
     @ManyToOne(optional = false)
@@ -132,7 +129,6 @@ public class Materia implements Serializable {
         this.color = color;
     }
 
-    @XmlTransient
     public List<Distributivoaula> getDistributivoaulaList() {
         return distributivoaulaList;
     }
@@ -141,7 +137,6 @@ public class Materia implements Serializable {
         this.distributivoaulaList = distributivoaulaList;
     }
 
-    @XmlTransient
     public List<Distributivodocente> getDistributivodocenteList() {
         return distributivodocenteList;
     }
@@ -150,7 +145,6 @@ public class Materia implements Serializable {
         this.distributivodocenteList = distributivodocenteList;
     }
 
-    @XmlTransient
     public List<Distributivoclase> getDistributivoclaseList() {
         return distributivoclaseList;
     }

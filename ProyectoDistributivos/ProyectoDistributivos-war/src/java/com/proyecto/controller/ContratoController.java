@@ -72,7 +72,7 @@ public class ContratoController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ContratoDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -82,9 +82,7 @@ public class ContratoController implements Serializable {
     }
 
     public List<Contrato> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

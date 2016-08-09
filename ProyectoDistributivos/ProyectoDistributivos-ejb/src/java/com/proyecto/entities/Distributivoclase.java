@@ -20,8 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "distributivoclase")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Distributivoclase.findAll", query = "SELECT d FROM Distributivoclase d"),
     @NamedQuery(name = "Distributivoclase.findByIddistributivoclase", query = "SELECT d FROM Distributivoclase d WHERE d.iddistributivoclase = :iddistributivoclase")})
@@ -65,7 +62,6 @@ public class Distributivoclase implements Serializable {
         this.iddistributivoclase = iddistributivoclase;
     }
 
-    @XmlTransient
     public List<Horario> getHorarioList() {
         return horarioList;
     }

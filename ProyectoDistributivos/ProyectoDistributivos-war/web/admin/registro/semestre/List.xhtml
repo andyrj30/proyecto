@@ -41,9 +41,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSemestreTitle_idcarrera}"/>
+                                <h:outputText value="Carrera"/>
                             </f:facet>
-                            <h:outputText value="#{item.idcarrera}"/>
+                            <h:outputText value="#{item.idcarrera.carrera}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{semestreController.prepareCreate}" update=":SemestreCreateForm" oncomplete="PF('SemestreCreateDialog').show()"/>

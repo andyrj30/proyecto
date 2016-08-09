@@ -73,7 +73,6 @@ public class HorarioController implements Serializable {
         }
     }
 
-
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("HorarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -83,9 +82,7 @@ public class HorarioController implements Serializable {
     }
 
     public List<Horario> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

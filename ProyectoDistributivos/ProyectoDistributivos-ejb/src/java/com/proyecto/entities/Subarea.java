@@ -22,8 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,7 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "subarea")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Subarea.findAll", query = "SELECT s FROM Subarea s"),
     @NamedQuery(name = "Subarea.findByIdsubarea", query = "SELECT s FROM Subarea s WHERE s.idsubarea = :idsubarea"),
@@ -85,7 +82,6 @@ public class Subarea implements Serializable {
         this.subarea = subarea;
     }
 
-    @XmlTransient
     public List<Conocimiento> getConocimientoList() {
         return conocimientoList;
     }
@@ -102,7 +98,6 @@ public class Subarea implements Serializable {
         this.idarea = idarea;
     }
 
-    @XmlTransient
     public List<Materia> getMateriaList() {
         return materiaList;
     }

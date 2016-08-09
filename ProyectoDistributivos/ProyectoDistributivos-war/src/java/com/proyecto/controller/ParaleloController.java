@@ -83,9 +83,7 @@ public class ParaleloController implements Serializable {
     }
 
     public List<Paralelo> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

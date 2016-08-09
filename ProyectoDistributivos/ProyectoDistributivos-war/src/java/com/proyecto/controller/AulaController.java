@@ -35,7 +35,7 @@ public class AulaController implements Serializable {
         edificios.add("Facultad de Ciencias de la Ingenieria");
     }
 
-    public int count(){
+    public int count() {
         return ejbFacade.count();
     }
 
@@ -47,8 +47,6 @@ public class AulaController implements Serializable {
         this.edificios = edificios;
     }
 
-    
-    
     public Aula getSelected() {
         return selected;
     }
@@ -86,6 +84,7 @@ public class AulaController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
+
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("AulaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -95,9 +94,7 @@ public class AulaController implements Serializable {
     }
 
     public List<Aula> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 
@@ -105,16 +102,18 @@ public class AulaController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                 if (persistAction != null) switch (persistAction) {
-                    case DELETE:
-                        getFacade().remove(selected);
-                        break;
-                    case CREATE:
-                        getFacade().create(selected);
-                        break;
-                    default:
-                        getFacade().edit(selected);
-                        break;
+                if (persistAction != null) {
+                    switch (persistAction) {
+                        case DELETE:
+                            getFacade().remove(selected);
+                            break;
+                        case CREATE:
+                            getFacade().create(selected);
+                            break;
+                        default:
+                            getFacade().edit(selected);
+                            break;
+                    }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (Exception ex) {

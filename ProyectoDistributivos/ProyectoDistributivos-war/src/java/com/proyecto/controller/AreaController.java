@@ -82,9 +82,7 @@ public class AreaController implements Serializable {
     }
 
     public List<Area> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

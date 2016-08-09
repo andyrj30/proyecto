@@ -22,8 +22,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,7 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "semestre")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Semestre.findAll", query = "SELECT s FROM Semestre s"),
     @NamedQuery(name = "Semestre.findByIdsemestre", query = "SELECT s FROM Semestre s WHERE s.idsemestre = :idsemestre"),
@@ -40,9 +37,8 @@ public class Semestre implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "idsemestre")
     private Integer idsemestre;
     @Basic(optional = false)
@@ -52,7 +48,7 @@ public class Semestre implements Serializable {
     private String semestre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsemestre")
     private List<Paralelo> paraleloList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsemestre")
+    @OneToMany(mappedBy = "idsemestre")
     private List<Materia> materiaList;
     @JoinColumn(name = "idcarrera", referencedColumnName = "idcarrera")
     @ManyToOne(optional = false)
@@ -68,11 +64,6 @@ public class Semestre implements Serializable {
     public Semestre(Integer idsemestre, String semestre) {
         this.idsemestre = idsemestre;
         this.semestre = semestre;
-    }
-
-    public Semestre(String semestre, Carrera carrera) {        
-        this.semestre = semestre;
-        this.idcarrera = carrera;
     }
 
     public Integer getIdsemestre() {
@@ -91,7 +82,6 @@ public class Semestre implements Serializable {
         this.semestre = semestre;
     }
 
-    @XmlTransient
     public List<Paralelo> getParaleloList() {
         return paraleloList;
     }
@@ -100,7 +90,6 @@ public class Semestre implements Serializable {
         this.paraleloList = paraleloList;
     }
 
-    @XmlTransient
     public List<Materia> getMateriaList() {
         return materiaList;
     }

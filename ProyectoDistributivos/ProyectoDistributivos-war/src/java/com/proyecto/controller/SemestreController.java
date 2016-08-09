@@ -83,9 +83,7 @@ public class SemestreController implements Serializable {
     }
 
     public List<Semestre> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

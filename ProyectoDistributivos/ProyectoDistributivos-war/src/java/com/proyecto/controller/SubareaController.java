@@ -73,7 +73,6 @@ public class SubareaController implements Serializable {
         }
     }
 
-
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SubareaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -83,9 +82,7 @@ public class SubareaController implements Serializable {
     }
 
     public List<Subarea> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

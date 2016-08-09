@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -77,16 +76,15 @@ public class DocenteController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DocenteDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
         }
     }
+    
 
     public List<Docente> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
-
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {

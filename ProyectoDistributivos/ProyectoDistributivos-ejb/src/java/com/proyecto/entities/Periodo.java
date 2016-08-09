@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,7 +25,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "periodo")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),
     @NamedQuery(name = "Periodo.findByIdperiodo", query = "SELECT p FROM Periodo p WHERE p.idperiodo = :idperiodo"),
@@ -81,7 +78,6 @@ public class Periodo implements Serializable {
         this.peridodo = peridodo;
     }
 
-    @XmlTransient
     public List<Distributivoaula> getDistributivoaulaList() {
         return distributivoaulaList;
     }
@@ -90,7 +86,6 @@ public class Periodo implements Serializable {
         this.distributivoaulaList = distributivoaulaList;
     }
 
-    @XmlTransient
     public List<Paralelo> getParaleloList() {
         return paraleloList;
     }
@@ -99,7 +94,6 @@ public class Periodo implements Serializable {
         this.paraleloList = paraleloList;
     }
 
-    @XmlTransient
     public List<Distributivodocente> getDistributivodocenteList() {
         return distributivodocenteList;
     }

@@ -82,9 +82,7 @@ public class ConocimientoController implements Serializable {
     }
 
     public List<Conocimiento> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

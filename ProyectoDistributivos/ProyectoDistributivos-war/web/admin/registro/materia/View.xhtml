@@ -8,10 +8,10 @@
 
     <ui:composition>
 
-        <p:dialog id="MateriaViewDlg" widgetVar="MateriaViewDialog" resizable="false" appendTo="@(body)" header="#{bundle.ViewMateriaTitle}">
+        <p:dialog id="MateriaViewDlg" widgetVar="MateriaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMateriaTitle}">
             <h:form id="MateriaViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{materiaController.selected != null}" style="min-width: 400px">
+                    <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
                         <h:outputText value="#{bundle.ViewMateriaLabel_codmateria}"/>
                         <h:outputText value="#{materiaController.selected.codmateria}" title="#{bundle.ViewMateriaTitle_codmateria}"/>
                         <h:outputText value="#{bundle.ViewMateriaLabel_materia}"/>
@@ -22,14 +22,12 @@
                         <h:outputText value="#{materiaController.selected.cargatutorial}" title="#{bundle.ViewMateriaTitle_cargatutorial}"/>
                         <h:outputText value="#{bundle.ViewMateriaLabel_color}"/>
                         <h:outputText value="#{materiaController.selected.color}" title="#{bundle.ViewMateriaTitle_color}"/>
-                        <h:outputText value="#{bundle.ViewMateriaLabel_idarea}"/>
-                        <h:outputText value="#{materiaController.selected.idsubarea.subarea}" title="#{bundle.ViewMateriaTitle_idarea}"/>
                         <h:outputText value="#{bundle.ViewMateriaLabel_idsemestre}"/>
                         <h:outputText value="#{materiaController.selected.idsemestre}" title="#{bundle.ViewMateriaTitle_idsemestre}"/>
+                        <h:outputText value="#{bundle.ViewMateriaLabel_idsubarea}"/>
+                        <h:outputText value="#{materiaController.selected.idsubarea}" title="#{bundle.ViewMateriaTitle_idsubarea}"/>
                     </p:panelGrid>
-                    <div class="pull-right">
-                    <p:commandButton value="#{bundle.Close}" onclick="PF('MateriaViewDialog').hide()"/>
-                    </div>
+                    <p:commandButton value="#{bundle.Close}" onclick="MateriaViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

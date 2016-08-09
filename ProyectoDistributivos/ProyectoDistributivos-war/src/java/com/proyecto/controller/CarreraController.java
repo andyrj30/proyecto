@@ -86,9 +86,7 @@ public class CarreraController implements Serializable {
     }
 
     public List<Carrera> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

@@ -83,9 +83,7 @@ public class DistributivodocenteController implements Serializable {
     }
 
     public List<Distributivodocente> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

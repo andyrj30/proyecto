@@ -82,9 +82,7 @@ public class FacultadController implements Serializable {
     }
 
     public List<Facultad> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+         items = getFacade().findAll();
         return items;
     }
 

@@ -83,9 +83,7 @@ public class TituloController implements Serializable {
     }
 
     public List<Titulo> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

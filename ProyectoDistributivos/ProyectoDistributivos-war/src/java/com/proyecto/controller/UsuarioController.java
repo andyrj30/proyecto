@@ -91,9 +91,7 @@ public class UsuarioController implements Serializable {
     }
 
     public List<Usuario> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 

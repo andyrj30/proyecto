@@ -83,9 +83,7 @@ public class PeriodoController implements Serializable {
     }
 
     public List<Periodo> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
+        items = getFacade().findAll();
         return items;
     }
 
