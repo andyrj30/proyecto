@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DistributivoaulaViewDlg" widgetVar="DistributivoaulaViewDialog" resizable="false" appendTo="@(body)" header="#{bundle.ViewDistributivoaulaTitle}">
+            <h:form id="DistributivoaulaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{distributivoaulaController.selected != null}" style="min-width: 400px">
+                        <h:outputText value="#{bundle.ViewDistributivoaulaLabel_iddistributivoaula}"/>
+                        <h:outputText value="#{distributivoaulaController.selected.iddistributivoaula}" title="#{bundle.ViewDistributivoaulaTitle_iddistributivoaula}"/>
+                        <h:outputText value="#{bundle.ViewDistributivoaulaLabel_codaula}"/>
+                        <h:outputText value="#{distributivoaulaController.selected.codaula}" title="#{bundle.ViewDistributivoaulaTitle_codaula}"/>
+                        <h:outputText value="#{bundle.ViewDistributivoaulaLabel_codmateria}"/>
+                        <h:outputText value="#{distributivoaulaController.selected.codmateria}" title="#{bundle.ViewDistributivoaulaTitle_codmateria}"/>
+                        <h:outputText value="#{bundle.ViewDistributivoaulaLabel_idperiodo}"/>
+                        <h:outputText value="#{distributivoaulaController.selected.idperiodo}" title="#{bundle.ViewDistributivoaulaTitle_idperiodo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DistributivoaulaViewDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DocenteCreateDlg" widgetVar="DocenteCreateDialog" resizable="false" appendTo="@(body)" header="#{bundle.CreateDocenteTitle}">
+            <h:form id="DocenteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{docenteController.selected != null}" style="min-width: 400px">
+                        <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_cedula}" for="cedula" />
+                        <p:inputText styleClass="t-3" id="cedula" value="#{docenteController.selected.cedula}" title="#{bundle.CreateDocenteTitle_cedula}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_cedula}" maxlength="10">
+                            <f:validateLength maximum="10" minimum="5" />
+                        </p:inputText>
+                        <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_nombre}" for="nombre" />
+                        <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombre}" title="#{bundle.CreateDocenteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_nombre}"/>
+                        <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_apellido}" for="apellido" />
+                        <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellido}" title="#{bundle.CreateDocenteTitle_apellido}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_apellido}"/>
+                        <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_correo}" for="correo" />
+                        <p:inputText styleClass="t-4" id="correo" value="#{docenteController.selected.correo}" title="#{bundle.CreateDocenteTitle_correo}" required="false"/>
+                        <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_telefono}" for="telefono" />
+                        <p:inputText styleClass="t-3" id="telefono" value="#{docenteController.selected.telefono}" title="#{bundle.CreateDocenteTitle_telefono}" required="false" />
+
+                    </p:panelGrid>
+                    <div class="pull-right">
+                        <p:commandButton actionListener="#{docenteController.create}" value="#{bundle.Save}" update="display,:DocenteListForm:datalist,:growl" oncomplete="handleSubmit(args,'DocenteCreateDialog'); $('.tabla').DataTable();"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('DocenteCreateDialog').hide()"/></div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

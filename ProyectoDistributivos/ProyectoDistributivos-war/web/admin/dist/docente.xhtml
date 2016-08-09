@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/admin/template.xhtml">
+
+    <ui:define name="body">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Distributivo docente</h1>
+            </div>
+            <div class="col-md-7">
+                <h:form>
+                    <p:panelGrid id="display" columns="2" columnClasses="form-group">
+                        <p:outputLabel value="Facultad:" for="facultad" />
+                        <p:selectOneMenu styleClass="t-6" id="facultad" value="#{DistController.facultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
+                           <p:ajax listener="#{DistController.onFacultadChange}" update="carrera" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{distController.facultades}"
+                                           var="item" itemValue="#{item.idfacultad}" 
+                                           itemLabel="#{item.facultad}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Carrera:" for="carrera" />
+                        <p:selectOneMenu styleClass="t-6" id="carrera" value="#{DistController.carrera}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
+                            <p:ajax listener="#{DistController.onCarreraChange}" update="carrera" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
+                            <f:selectItems value="#{distController.carreras}" var="item" itemValue="#{item}"
+                                           itemLabel="#{item.carrera}"/>
+                        </p:selectOneMenu>
+                      
+                    </p:panelGrid>
+                </h:form>
+            </div>
+            <div class="col-md-5">
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

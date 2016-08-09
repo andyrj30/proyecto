@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoViewDlg" widgetVar="ContratoViewDialog" resizable="false" appendTo="@(body)" header="#{bundle.ViewContratoTitle}">
+            <h:form id="ContratoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{contratoController.selected != null}" style="min-width: 400px">
+                        <h:outputText value="#{bundle.ViewContratoLabel_idcontrato}"/>
+                        <h:outputText value="#{contratoController.selected.idcontrato}" title="#{bundle.ViewContratoTitle_idcontrato}"/>
+                        <h:outputText value="#{bundle.ViewContratoLabel_tipo}"/>
+                        <h:outputText value="#{contratoController.selected.tipo}" title="#{bundle.ViewContratoTitle_tipo}"/>
+                        <h:outputText value="#{bundle.ViewContratoLabel_horas}"/>
+                        <h:outputText value="#{contratoController.selected.horas}" title="#{bundle.ViewContratoTitle_horas}"/>
+                        <h:outputText value="#{bundle.ViewContratoLabel_detalle}"/>
+                        <h:outputText value="#{contratoController.selected.detalle}" title="#{bundle.ViewContratoTitle_detalle}"/>
+                        <h:outputText value="#{bundle.ViewContratoLabel_cedula}"/>
+                        <h:outputText value="#{contratoController.selected.cedula}" title="#{bundle.ViewContratoTitle_cedula}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ContratoViewDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

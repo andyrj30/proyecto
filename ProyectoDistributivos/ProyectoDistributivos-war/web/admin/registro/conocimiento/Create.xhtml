@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ConocimientoCreateDlg" widgetVar="ConocimientoCreateDialog" resizable="false" appendTo="@(body)" header="#{bundle.CreateConocimientoTitle}">
+            <h:form id="ConocimientoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{conocimientoController.selected != null}" style="min-width: 400px">
+                        <p:outputLabel value="#{bundle.CreateConocimientoLabel_idconocimiento}" for="idconocimiento" />
+                        <p:inputText id="idconocimiento" value="#{conocimientoController.selected.idconocimiento}" title="#{bundle.CreateConocimientoTitle_idconocimiento}" required="true" requiredMessage="#{bundle.CreateConocimientoRequiredMessage_idconocimiento}"/>
+                        <p:outputLabel value="#{bundle.CreateConocimientoLabel_idarea}" for="idarea" />
+                        <p:selectOneMenu id="idarea" value="#{conocimientoController.selected.idarea}" required="true" requiredMessage="#{bundle.EditConocimientoRequiredMessage_idarea}">
+                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                                           var="idareaItem"
+                                           itemValue="#{idareaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateConocimientoLabel_cedula}" for="cedula" />
+                        <p:selectOneMenu id="cedula" value="#{conocimientoController.selected.cedula}" required="true" requiredMessage="#{bundle.EditConocimientoRequiredMessage_cedula}">
+                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                                           var="cedulaItem"
+                                           itemValue="#{cedulaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{conocimientoController.create}" value="#{bundle.Save}" update="display,:ConocimientoListForm:datalist,:growl" oncomplete="handleSubmit(args,'ConocimientoCreateDialog'); $('.tabla').DataTable();"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ConocimientoCreateDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

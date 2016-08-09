@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DocenteViewDlg" widgetVar="DocenteViewDialog" resizable="false" appendTo="@(body)" header="#{bundle.ViewDocenteTitle}">
+            <h:form id="DocenteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{docenteController.selected != null}" style="min-width: 400px">
+                        <h:outputText value="#{bundle.ViewDocenteLabel_cedula}"/>
+                        <h:outputText value="#{docenteController.selected.cedula}" title="#{bundle.ViewDocenteTitle_cedula}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_nombre}"/>
+                        <h:outputText value="#{docenteController.selected.nombre}" title="#{bundle.ViewDocenteTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_apellido}"/>
+                        <h:outputText value="#{docenteController.selected.apellido}" title="#{bundle.ViewDocenteTitle_apellido}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_correo}"/>
+                        <h:outputText value="#{docenteController.selected.correo}" title="#{bundle.ViewDocenteTitle_correo}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_telefono}"/>
+                        <h:outputText value="#{docenteController.selected.telefono}" title="#{bundle.ViewDocenteTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_fechanacimeinto}"/>
+                        <h:outputText value="#{docenteController.selected.fechanacimeinto}" title="#{bundle.ViewDocenteTitle_fechanacimeinto}"/>
+                        <h:outputText value="#{bundle.ViewDocenteLabel_idusuario}"/>
+                        <h:outputText value="#{docenteController.selected.idusuario}" title="#{bundle.ViewDocenteTitle_idusuario}"/>
+                    </p:panelGrid>
+                    <div class="pull-right">
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DocenteViewDialog').hide()"/>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

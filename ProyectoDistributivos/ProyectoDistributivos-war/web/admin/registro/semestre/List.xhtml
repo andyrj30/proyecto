@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/admin/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSemestreTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="SemestreListForm">
+                <p:panel header="#{bundle.ListSemestreTitle}">
+                    <p:dataTable id="datalist" tableStyleClass="tabla" value="#{semestreController.items}" var="item"
+                                 selectionMode="single" selection="#{semestreController.selected}"
+                                 
+                                 rowKey="#{item.idsemestre}"
+                                 
+                                 
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSemestreTitle_idsemestre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idsemestre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSemestreTitle_semestre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.semestre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSemestreTitle_idcarrera}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idcarrera}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{semestreController.prepareCreate}" update=":SemestreCreateForm" oncomplete="PF('SemestreCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SemestreViewForm" oncomplete="PF('SemestreViewDialog').show()" disabled="#{empty semestreController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SemestreEditForm" oncomplete="PF('SemestreEditDialog').show()" disabled="#{empty semestreController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{semestreController.destroy}" oncomplete="$('.tabla').DataTable();" update=":growl,datalist" disabled="#{empty semestreController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

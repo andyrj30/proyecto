@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DistributivodocenteEditDlg" widgetVar="DistributivodocenteEditDialog" resizable="false" appendTo="@(body)" header="#{bundle.EditDistributivodocenteTitle}">
+            <h:form id="DistributivodocenteEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{distributivodocenteController.selected != null}" style="min-width: 400px">
+                        <p:outputLabel value="#{bundle.EditDistributivodocenteLabel_iddistributivodoc}" for="iddistributivodoc" />
+                        <p:inputText id="iddistributivodoc" value="#{distributivodocenteController.selected.iddistributivodoc}" title="#{bundle.EditDistributivodocenteTitle_iddistributivodoc}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_iddistributivodoc}"/>
+                        <p:outputLabel value="#{bundle.EditDistributivodocenteLabel_cedula}" for="cedula" />
+                        <p:selectOneMenu id="cedula" value="#{distributivodocenteController.selected.cedula}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_cedula}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                                           var="cedulaItem"
+                                           itemValue="#{cedulaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditDistributivodocenteLabel_codmateria}" for="codmateria" />
+                        <p:selectOneMenu id="codmateria" value="#{distributivodocenteController.selected.codmateria}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_codmateria}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{materiaController.itemsAvailableSelectOne}"
+                                           var="codmateriaItem"
+                                           itemValue="#{codmateriaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditDistributivodocenteLabel_idperiodo}" for="idperiodo" />
+                        <p:selectOneMenu id="idperiodo" value="#{distributivodocenteController.selected.idperiodo}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_idperiodo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{periodoController.itemsAvailableSelectOne}"
+                                           var="idperiodoItem"
+                                           itemValue="#{idperiodoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{distributivodocenteController.update}" value="#{bundle.Save}" update="display,:DistributivodocenteListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DistributivodocenteEditDialog'); $('.tabla').DataTable();"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('DistributivodocenteEditDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
