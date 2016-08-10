@@ -171,9 +171,12 @@ public class DocenteController {
     public void buscar() {
         dist.clear();
         for (Distributivodocente next : distFacade.findAll()) {
-            if (next.getCodmateria().getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getCodmateria().getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())
-                    && next.getIdparalelo().getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdparalelo().getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())) {
-                dist.add(next);
+            if (next.getCodmateria().getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getCodmateria().getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())) {
+                if (next.getIdparalelo().getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdparalelo().getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())) {
+                    if (next.getIdparalelo().getIdparalelo() == null ? paralelo.getIdparalelo() == null : next.getIdparalelo().getIdparalelo().equals(paralelo.getIdparalelo())) {
+                        dist.add(next);
+                    }
+                }
             }
         }
     }

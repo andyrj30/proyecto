@@ -41,9 +41,9 @@ public class Distributivodocente implements Serializable {
     @JoinColumn(name = "codmateria", referencedColumnName = "codmateria")
     @ManyToOne(optional = false)
     private Materia codmateria;
-    @JoinColumn(name = "idperiodo", referencedColumnName = "idperiodo")
+    @JoinColumn(name = "idparalelo", referencedColumnName = "idparalelo")
     @ManyToOne(optional = false)
-    private Periodo idperiodo;
+    private Paralelo idparalelo;
 
     public Distributivodocente() {
     }
@@ -76,12 +76,12 @@ public class Distributivodocente implements Serializable {
         this.codmateria = codmateria;
     }
 
-    public Periodo getIdperiodo() {
-        return idperiodo;
+    public Paralelo getIdparalelo() {
+        return idparalelo;
     }
 
-    public void setIdperiodo(Periodo idperiodo) {
-        this.idperiodo = idperiodo;
+    public void setIdparalelo(Paralelo idparalelo) {
+        this.idparalelo = idparalelo;
     }
 
     @Override
