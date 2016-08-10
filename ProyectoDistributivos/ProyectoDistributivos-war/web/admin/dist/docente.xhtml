@@ -53,12 +53,12 @@
                 </p:panel>
                 <p:panel id="basic">
                     <p:panelGrid id="datos" columns="1" style="width: 100%">      
-                        <div class="well col-xs-5 col-md-4 center"><h3>Materia</h3></div>
-                        <div class="col-xs-1 col-middle h1 center"> </div>
-                        <div class="well col-xs-6 col-md-4 center"><h3>Docente encargado</h3></div>
+                        <div class=" col-xs-5 col-md-4 center"><h3>Materia</h3></div>
+                        <div class="col-xs-1 hidden-xs col-middle h1 center"> </div>
+                        <div class=" col-xs-6 col-md-4 center"><h3>Docente encargado</h3></div>
                         <c:forEach items="#{docentedistController.getdist()}" var="item">
                             <div class="well col-xs-5 col-md-4">#{item.codmateria.materia}</div>
-                            <div class="col-xs-1 col-middle h1 center"> <span class="fa fa-angle-double-right"></span></div>
+                            <div class="col-xs-1 hidden-xs col-middle h1 center"> <span class="fa fa-angle-double-right"></span></div>
                             <div class="well col-xs-6 col-md-4">#{item.cedula.apellido} #{item.cedula.nombre}</div>
                         </c:forEach>                                         
                     </p:panelGrid>
