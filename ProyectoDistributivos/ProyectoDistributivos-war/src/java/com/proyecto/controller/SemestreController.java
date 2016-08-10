@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("semestreController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "semestreController")
+@javax.faces.bean.SessionScoped
 public class SemestreController implements Serializable {
 
     @EJB
@@ -39,6 +37,10 @@ public class SemestreController implements Serializable {
         this.selected = selected;
     }
 
+    public int count() {
+        return ejbFacade.count();
+    }
+
     protected void setEmbeddableKeys() {
     }
 
@@ -55,10 +57,6 @@ public class SemestreController implements Serializable {
         return selected;
     }
 
-    public int count() {
-        return ejbFacade.count();
-    }
-
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SemestreCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -73,7 +71,6 @@ public class SemestreController implements Serializable {
         }
     }
 
-
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SemestreDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -83,7 +80,9 @@ public class SemestreController implements Serializable {
     }
 
     public List<Semestre> getItems() {
-        items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -91,18 +90,10 @@ public class SemestreController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                            getFacade().edit(selected);
-                            break;
-                    }
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -123,7 +114,7 @@ public class SemestreController implements Serializable {
         }
     }
 
-    public Semestre getSemestre(java.lang.String id) {
+    public Semestre getSemestre(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
@@ -148,13 +139,13 @@ public class SemestreController implements Serializable {
             return controller.getSemestre(getKey(value));
         }
 
-        java.lang.String getKey(String value) {
-            java.lang.String key;
-            key = value;
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.lang.String value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -167,7 +158,7 @@ public class SemestreController implements Serializable {
             }
             if (object instanceof Semestre) {
                 Semestre o = (Semestre) object;
-                return getStringKey(o.getIdsemestre().toString());
+                return getStringKey(o.getIdsemestre());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Semestre.class.getName()});
                 return null;

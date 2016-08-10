@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("tituloController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "tituloController")
+@javax.faces.bean.SessionScoped
 public class TituloController implements Serializable {
 
     @EJB
@@ -55,10 +53,6 @@ public class TituloController implements Serializable {
         return selected;
     }
 
-    public int count() {
-        return ejbFacade.count();
-    }
-
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TituloCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -73,7 +67,6 @@ public class TituloController implements Serializable {
         }
     }
 
-
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TituloDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -83,7 +76,9 @@ public class TituloController implements Serializable {
     }
 
     public List<Titulo> getItems() {
-        items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -91,20 +86,23 @@ public class TituloController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                            getFacade().edit(selected);
-                            break;
-                    }
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));

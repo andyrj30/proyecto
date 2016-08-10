@@ -13,12 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 
-@Named("usuarioController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "usuarioController")
+@javax.faces.bean.SessionScoped
 public class UsuarioController implements Serializable {
 
     @EJB
@@ -81,7 +79,6 @@ public class UsuarioController implements Serializable {
         }
     }
 
-
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -91,7 +88,7 @@ public class UsuarioController implements Serializable {
     }
 
     public List<Usuario> getItems() {
-        items = getFacade().findAll();
+            items = getFacade().findAll();
         return items;
     }
 
@@ -108,9 +105,9 @@ public class UsuarioController implements Serializable {
                             getFacade().create(selected);
                             break;
                         default:
-                            getFacade().edit(selected);
+                    getFacade().edit(selected);
                             break;
-                    }
+                }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -170,7 +167,7 @@ public class UsuarioController implements Serializable {
         }
         if (tipo.equals("doc")) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/docentes");
-        }
+            }
         JsfUtil.addErrorMessage("Usuario o contraseña incorrecta"+tipo);
-    }
-}
+            }
+        }

@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("areaController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "areaController")
+@javax.faces.bean.SessionScoped
 public class AreaController implements Serializable {
 
     @EJB
@@ -82,7 +80,9 @@ public class AreaController implements Serializable {
     }
 
     public List<Area> getItems() {
-        items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -97,6 +97,17 @@ public class AreaController implements Serializable {
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }

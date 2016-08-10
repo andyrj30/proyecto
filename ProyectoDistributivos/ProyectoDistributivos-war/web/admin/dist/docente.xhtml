@@ -3,39 +3,64 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                template="/admin/template.xhtml">
+                template="/admin/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="body">
         <div class="clearfix"></div>
         <div class="row">
-            <div class="col-md-12">
-                <h1>Distributivo docente</h1>
-            </div>
-            <div class="col-md-7">
-                <h:form>
-                    <p:panelGrid id="display" columns="2" columnClasses="form-group">
+            <h:form>
+                <p:panel id="toggleable" header="Distributivo docente" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+
+                    <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
                         <p:outputLabel value="Facultad:" for="facultad" />
-                        <p:selectOneMenu styleClass="t-6" id="facultad" value="#{DistController.facultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
-                           <p:ajax listener="#{DistController.onFacultadChange}" update="carrera" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
-                            <f:selectItems value="#{distController.facultades}"
-                                           var="item" itemValue="#{item.idfacultad}" 
+                        <p:selectOneMenu styleClass="t-6" id="facultad" value="#{docentedistController.facultad}" >
+                            <p:ajax listener="#{docentedistController.onFacultadChange}" update="carrera" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docentedistController.getfacultades()}"
+                                           var="item" itemValue="#{item}" 
                                            itemLabel="#{item.facultad}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Carrera:" for="carrera" />
-                        <p:selectOneMenu styleClass="t-6" id="carrera" value="#{DistController.carrera}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
-                            <p:ajax listener="#{DistController.onCarreraChange}" update="carrera" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
-                            <f:selectItems value="#{distController.carreras}" var="item" itemValue="#{item}"
+                        <p:selectOneMenu styleClass="t-6" id="carrera" value="#{docentedistController.carrera}" >
+                            <p:ajax listener="#{docentedistController.onCarreraChange}" update="semestre" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docentedistController.getcarreras()}" var="item" itemValue="#{item}"
                                            itemLabel="#{item.carrera}"/>
                         </p:selectOneMenu>
-                      
+                        <p:outputLabel value="Semestre:" for="semestre" />
+                        <p:selectOneMenu styleClass="t-6" id="semestre" value="#{docentedistController.semestre}" >
+                            <p:ajax listener="#{docentedistController.onSemestreChange()}" update="periodo,paralelo" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docentedistController.getsemestres()}" var="item" itemValue="#{item}"
+                                           itemLabel="#{item.semestre}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Periodo:" for="periodo" />
+                        <p:selectOneMenu styleClass="t-6" id="periodo" value="#{docentedistController.periodo}" >
+                            <p:ajax listener="#{docentedistController.onPeriodoChange()}" update="paralelo" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docentedistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
+                                           itemLabel="#{periodo.peridodo}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Paralelo:" for="paralelo" />
+                        <p:selectOneMenu styleClass="t-6" id="paralelo" value="#{docentedistController.paralelo}" >
+                            <p:ajax listener="#{docentedistController.buscar()}" update="datos" />
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{docentedistController.getparalelos()}" var="paralelo" itemValue="#{paralelo}"
+                                           itemLabel="#{paralelo.paralelo}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>   
+                </p:panel>
+                <p:panel id="basic">
+                    <p:panelGrid id="datos" columns="1" style="width: 100%">                        
+                        <c:forEach items="#{docentedistController.getdist()}" var="item">
+                            <div class="well col-xs-5 col-md-4">#{item.codmateria.materia}</div>
+                            <div class="col-xs-1 col-middle h1 center"> <span class="fa fa-angle-double-right"></span></div>
+                            <div class="well col-xs-6 col-md-4">#{item.cedula.apellido} #{item.cedula.nombre}</div>
+                        </c:forEach>                                         
                     </p:panelGrid>
-                </h:form>
-            </div>
-            <div class="col-md-5">
-
-            </div>
+                </p:panel>
+            </h:form> 
         </div>
     </ui:define>
 </ui:composition>

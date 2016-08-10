@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "docente")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Docente.findAll", query = "SELECT d FROM Docente d"),
     @NamedQuery(name = "Docente.findByCedula", query = "SELECT d FROM Docente d WHERE d.cedula = :cedula"),
@@ -136,6 +139,7 @@ public class Docente implements Serializable {
         this.fechanacimeinto = fechanacimeinto;
     }
 
+    @XmlTransient
     public List<Conocimiento> getConocimientoList() {
         return conocimientoList;
     }
@@ -144,6 +148,7 @@ public class Docente implements Serializable {
         this.conocimientoList = conocimientoList;
     }
 
+    @XmlTransient
     public List<Contrato> getContratoList() {
         return contratoList;
     }
@@ -160,6 +165,7 @@ public class Docente implements Serializable {
         this.idusuario = idusuario;
     }
 
+    @XmlTransient
     public List<Titulo> getTituloList() {
         return tituloList;
     }
@@ -168,6 +174,7 @@ public class Docente implements Serializable {
         this.tituloList = tituloList;
     }
 
+    @XmlTransient
     public List<Distributivodocente> getDistributivodocenteList() {
         return distributivodocenteList;
     }

@@ -47,9 +47,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListDistributivodocenteTitle_idperiodo}"/>
+                                <h:outputText value="Paralelo"/>
                             </f:facet>
-                            <h:outputText value="#{item.idperiodo}"/>
+                            <h:outputText value="#{item.idparalelo.paralelo}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{distributivodocenteController.prepareCreate}" update=":DistributivodocenteCreateForm" oncomplete="PF('DistributivodocenteCreateDialog').show()"/>

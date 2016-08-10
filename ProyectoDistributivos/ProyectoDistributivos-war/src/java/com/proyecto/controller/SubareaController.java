@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("subareaController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "subareaController")
+@javax.faces.bean.SessionScoped
 public class SubareaController implements Serializable {
 
     @EJB
@@ -82,7 +80,7 @@ public class SubareaController implements Serializable {
     }
 
     public List<Subarea> getItems() {
-        items = getFacade().findAll();
+            items = getFacade().findAll();
         return items;
     }
 

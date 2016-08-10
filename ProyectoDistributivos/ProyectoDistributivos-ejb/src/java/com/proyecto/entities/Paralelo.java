@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +29,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "paralelo")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Paralelo.findAll", query = "SELECT p FROM Paralelo p"),
     @NamedQuery(name = "Paralelo.findByIdparalelo", query = "SELECT p FROM Paralelo p WHERE p.idparalelo = :idparalelo"),
@@ -98,6 +101,7 @@ public class Paralelo implements Serializable {
         this.idsemestre = idsemestre;
     }
 
+    @XmlTransient
     public List<Distributivoclase> getDistributivoclaseList() {
         return distributivoclaseList;
     }

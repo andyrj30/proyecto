@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("facultadController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "facultadController")
+@javax.faces.bean.SessionScoped
 public class FacultadController implements Serializable {
 
     @EJB
@@ -35,12 +33,12 @@ public class FacultadController implements Serializable {
         return selected;
     }
 
-    public void setSelected(Facultad selected) {
-        this.selected = selected;
-    }
-
     public int count() {
         return ejbFacade.count();
+    }
+
+    public void setSelected(Facultad selected) {
+        this.selected = selected;
     }
 
     protected void setEmbeddableKeys() {
@@ -82,7 +80,9 @@ public class FacultadController implements Serializable {
     }
 
     public List<Facultad> getItems() {
-         items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -90,21 +90,24 @@ public class FacultadController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                            getFacade().edit(selected);
-                            break;
-                    }
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }

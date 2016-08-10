@@ -26,11 +26,11 @@
                                            var="codmateriaItem"
                                            itemValue="#{codmateriaItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateDistributivodocenteLabel_idperiodo}" for="idperiodo" />
-                        <p:selectOneMenu id="idperiodo" value="#{distributivodocenteController.selected.idperiodo}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_idperiodo}">
-                            <f:selectItems value="#{periodoController.itemsAvailableSelectOne}"
-                                           var="idperiodoItem"
-                                           itemValue="#{idperiodoItem}"/>
+                        <p:outputLabel value="Paralelo" for="idparalelo" />
+                        <p:selectOneMenu id="idparalelo" value="#{distributivodocenteController.selected.idparalelo}" required="true" requiredMessage="El campo paralelo es requerido">
+                            <f:selectItems value="#{paraleloController.itemsAvailableSelectOne}"
+                                           var="idparaleloItem"
+                                           itemValue="#{idparaleloItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{distributivodocenteController.create}" value="#{bundle.Save}" update="display,:DistributivodocenteListForm:datalist,:growl" oncomplete="handleSubmit(args,'DistributivodocenteCreateDialog'); $('.tabla').DataTable();"/>

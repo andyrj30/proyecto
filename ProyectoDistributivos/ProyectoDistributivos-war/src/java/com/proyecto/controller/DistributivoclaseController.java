@@ -19,8 +19,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("distributivoclaseController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "distributivoclaseController")
+@javax.faces.bean.SessionScoped
 public class DistributivoclaseController implements Serializable {
 
     @EJB
@@ -55,10 +55,6 @@ public class DistributivoclaseController implements Serializable {
         return selected;
     }
 
-    public int count() {
-        return ejbFacade.count();
-    }
-
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DistributivoclaseCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -72,7 +68,6 @@ public class DistributivoclaseController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DistributivoclaseDeleted"));
@@ -83,7 +78,9 @@ public class DistributivoclaseController implements Serializable {
     }
 
     public List<Distributivoclase> getItems() {
-        items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -91,18 +88,10 @@ public class DistributivoclaseController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                            getFacade().edit(selected);
-                            break;
-                    }
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

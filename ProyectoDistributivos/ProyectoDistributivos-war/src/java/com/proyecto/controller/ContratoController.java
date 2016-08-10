@@ -12,15 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("contratoController")
-@SessionScoped
+@javax.faces.bean.ManagedBean(name = "contratoController")
+@javax.faces.bean.SessionScoped
 public class ContratoController implements Serializable {
 
     @EJB
@@ -33,10 +31,6 @@ public class ContratoController implements Serializable {
 
     public Contrato getSelected() {
         return selected;
-    }
-
-    public int count() {
-        return ejbFacade.count();
     }
 
     public void setSelected(Contrato selected) {
@@ -82,7 +76,9 @@ public class ContratoController implements Serializable {
     }
 
     public List<Contrato> getItems() {
-        items = getFacade().findAll();
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -90,18 +86,10 @@ public class ContratoController implements Serializable {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                            getFacade().edit(selected);
-                            break;
-                    }
+                if (persistAction != PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {

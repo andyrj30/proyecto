@@ -37,8 +37,10 @@
                                            itemValue="#{idsubareaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{materiaController.update}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MateriaEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="MateriaEditDialog.hide()"/>
+                    <div class="pull-right">
+                        <p:commandButton actionListener="#{materiaController.update}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'MateriaEditDialog'); $('.tabla').DataTable();"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('MateriaEditDialog').hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

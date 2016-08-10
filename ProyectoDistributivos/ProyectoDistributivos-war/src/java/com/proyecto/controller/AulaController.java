@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -19,8 +20,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@Named("aulaController")
-@SessionScoped
+
+@javax.faces.bean.ManagedBean(name = "aulaController")
+@javax.faces.bean.SessionScoped
 public class AulaController implements Serializable {
 
     @EJB
@@ -94,7 +96,7 @@ public class AulaController implements Serializable {
     }
 
     public List<Aula> getItems() {
-        items = getFacade().findAll();
+            items = getFacade().findAll();
         return items;
     }
 
@@ -111,9 +113,9 @@ public class AulaController implements Serializable {
                             getFacade().create(selected);
                             break;
                         default:
-                            getFacade().edit(selected);
+                    getFacade().edit(selected);
                             break;
-                    }
+                }
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (Exception ex) {

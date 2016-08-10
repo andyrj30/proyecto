@@ -24,19 +24,27 @@
                         <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.CreateMateriaTitle_color}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_color}"/>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_idsemestre}" for="idsemestre" />
                         <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
                             <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
                                            var="idsemestreItem"
+                                           itemLabel="#{idsemestreItem.semestre}"
                                            itemValue="#{idsemestreItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_idsubarea}" for="idsubarea" />
                         <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsubarea}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
                             <f:selectItems value="#{subareaController.itemsAvailableSelectOne}"
                                            var="idsubareaItem"
+                                           itemLabel="#{idsubareaItem.subarea}"
                                            itemValue="#{idsubareaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{materiaController.create}" value="#{bundle.Save}" update="display,:MateriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'MateriaCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="MateriaCreateDialog.hide()"/>
+                    <div class="pull-right">
+                        <p:commandButton actionListener="#{materiaController.create}" value="#{bundle.Save}" 
+                                         update="display,:MateriaListForm:datalist,:growl" 
+                                         oncomplete="handleSubmit(args,'MateriaCreateDialog'); $('.tabla').DataTable();"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="PF('MateriaCreateDialog').hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
