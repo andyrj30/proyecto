@@ -6,6 +6,7 @@
 package com.proyecto.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -16,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,7 +31,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Periodo.findAll", query = "SELECT p FROM Periodo p"),
     @NamedQuery(name = "Periodo.findByIdperiodo", query = "SELECT p FROM Periodo p WHERE p.idperiodo = :idperiodo"),
-    @NamedQuery(name = "Periodo.findByPeridodo", query = "SELECT p FROM Periodo p WHERE p.peridodo = :peridodo")})
+    @NamedQuery(name = "Periodo.findByPeridodo", query = "SELECT p FROM Periodo p WHERE p.peridodo = :peridodo"),
+    @NamedQuery(name = "Periodo.findByInicio", query = "SELECT p FROM Periodo p WHERE p.inicio = :inicio"),
+    @NamedQuery(name = "Periodo.findByFin", query = "SELECT p FROM Periodo p WHERE p.fin = :fin")})
 public class Periodo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +48,12 @@ public class Periodo implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "peridodo")
     private String peridodo;
+    @Column(name = "inicio")
+    @Temporal(TemporalType.DATE)
+    private Date inicio;
+    @Column(name = "fin")
+    @Temporal(TemporalType.DATE)
+    private Date fin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idperiodo")
     private List<Distributivoaula> distributivoaulaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idperiodo")
@@ -74,6 +85,22 @@ public class Periodo implements Serializable {
 
     public void setPeridodo(String peridodo) {
         this.peridodo = peridodo;
+    }
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 
     public List<Distributivoaula> getDistributivoaulaList() {

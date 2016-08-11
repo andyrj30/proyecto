@@ -1,197 +1,163 @@
 package com.proyecto.controller.distributivos;
 
+import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.*;
-import com.proyecto.model.CarreraFacade;
-import com.proyecto.model.DistributivodocenteFacade;
 import com.proyecto.model.DocenteFacade;
-import com.proyecto.model.FacultadFacade;
-import com.proyecto.model.ParaleloFacade;
-import com.proyecto.model.PeriodoFacade;
-import com.proyecto.model.SemestreFacade;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 @ManagedBean(name = "docentedistController")
 @SessionScoped
 public class DocenteController {
 
     @EJB
-    private DistributivodocenteFacade distFacade;
-
-    @EJB
-    private ParaleloFacade paraleloFacade;
-
-    @EJB
-    private PeriodoFacade periodoFacade;
-
-    @EJB
-    private SemestreFacade semestreFacade;
-
-    @EJB
-    private CarreraFacade carreraFacade;
-
-    @EJB
-    private FacultadFacade facultadFacade;
-
-    @EJB
-    private DocenteFacade docenteFacade;
-
-    private List<Facultad> facultades;
-    private List<Carrera> carreras;
-    private List<Semestre> semestres;
-    private List<Periodo> periodos;
-    private List<Paralelo> paralelos;
-    private List<Distributivodocente> dist;
-
-    private Facultad facultad;
-    private Carrera carrera;
-    private Semestre semestre;
-    private Periodo periodo;
-    private Paralelo paralelo;
-
-    public Facultad getFacultad() {
-        return facultad;
-    }
-
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
-    }
-
-    public Carrera getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(Carrera carrera) {
-        this.carrera = carrera;
-    }
-
-    public Semestre getSemestre() {
-        return semestre;
-    }
-
-    public void setSemestre(Semestre semestre) {
-        this.semestre = semestre;
-    }
-
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
-
-    public Paralelo getParalelo() {
-        return paralelo;
-    }
-
-    public void setParalelo(Paralelo paralelo) {
-        this.paralelo = paralelo;
-    }
-
-    public List<Facultad> getfacultades() {
-        facultades = facultadFacade.findAll();
-        return facultades;
-    }
-
-    public List<Carrera> getcarreras() {
-        if (carreras == null) {
-            carreras = carreraFacade.findAll();
-        }
-        return carreras;
-    }
-
-    public List<Semestre> getsemestres() {
-        if (semestres == null) {
-            semestres = semestreFacade.findAll();
-        }
-        return semestres;
-    }
-
-    public List<Periodo> getperiodos() {
-        if (periodos == null) {
-            periodos = periodoFacade.findAll();
-        }
-        return periodos;
-    }
-
-    public List<Paralelo> getparalelos() {
-        if (paralelos == null) {
-            paralelos = paraleloFacade.findAll();
-        }
-        return paralelos;
-    }
-
-    public List<Distributivodocente> getdist() {
-        if (dist == null) {
-            dist = new ArrayList<>();
-        }
-        return dist;
-    }
-
-    public void onFacultadChange() {
-        carreras.clear();
-        for (Carrera next : carreraFacade.findAll()) {
-            if (next.getIdfacultad().getIdfacultad() == null ? facultad.getIdfacultad() == null : next.getIdfacultad().getIdfacultad().equals(facultad.getIdfacultad())) {
-                carreras.add(next);
-            }
-        }
-    }
-
-    public void onCarreraChange() {
-        semestres.clear();
-        for (Semestre next : semestreFacade.findAll()) {
-            if (next.getIdcarrera().getIdcarrera() == null ? carrera.getIdcarrera() == null : next.getIdcarrera().getIdcarrera().equals(carrera.getIdcarrera())) {
-                semestres.add(next);
-            }
-        }
-    }
-
-    public void onSemestreChange() {
-        paralelos.clear();
-        periodos = periodoFacade.findAll();
-        periodo = new Periodo();
-    }
-
-    public void onPeriodoChange() {
-        paralelos.clear();
-        paralelo = new Paralelo();
-        for (Paralelo next : paraleloFacade.findAll()) {
-            if (next.getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())
-                    && (next.getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre()))) {
-                paralelos.add(next);
-            }
-        }
-    }
-
-    public void buscar() {
-        dist.clear();
-        for (Distributivodocente next : distFacade.findAll()) {
-            if (next.getCodmateria().getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getCodmateria().getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())) {
-                if (next.getIdparalelo().getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdparalelo().getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())) {
-                    if (next.getIdparalelo().getIdparalelo() == null ? paralelo.getIdparalelo() == null : next.getIdparalelo().getIdparalelo().equals(paralelo.getIdparalelo())) {
-                        dist.add(next);
-                    }
-                }
-            }
-        }
-    }
-
-    public void reset() {
-        facultad = new Facultad();
-        onFacultadChange();
-        facultades.clear();
-        carreras.clear();
-        semestres.clear();
-        periodos.clear();
-        paralelos.clear();
-    }
+    private com.proyecto.model.DocenteFacade ejbFacade;
+    private List<Docente> items = null;
+    private Docente selected;
 
     public DocenteController() {
+    }
+
+    public Docente getSelected() {
+        return selected;
+    }
+
+    public int count() {
+        return ejbFacade.count();
+    }
+
+    public void setSelected(Docente selected) {
+        this.selected = selected;
+    }
+
+   
+
+    private DocenteFacade getFacade() {
+        return ejbFacade;
+    }
+
+    public Docente prepareCreate() {
+        selected = new Docente();
+        return selected;
+    }
+
+    public void create() {
+        persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("DocenteCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void update() {
+        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("DocenteUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public void destroy() {
+        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("DocenteDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+
+    public List<Docente> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        return items;
+    }
+
+    private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
+        if (selected != null) {
+            try {
+                if (persistAction != JsfUtil.PersistAction.DELETE) {
+                    getFacade().edit(selected);
+                } else {
+                    getFacade().remove(selected);
+                }
+                JsfUtil.addSuccessMessage(successMessage);
+            } catch (EJBException ex) {
+                String msg = "";
+                Throwable cause = ex.getCause();
+                if (cause != null) {
+                    msg = cause.getLocalizedMessage();
+                }
+                if (msg.length() > 0) {
+                    JsfUtil.addErrorMessage(msg);
+                } else {
+                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            }
+        }
+    }
+
+    public Docente getDocente(java.lang.String id) {
+        return getFacade().find(id);
+    }
+
+    public List<Docente> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<Docente> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
+
+    @FacesConverter(forClass = Docente.class)
+    public static class DocenteControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            DocenteController controller = (DocenteController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "docenteController");
+            return controller.getDocente(getKey(value));
+        }
+
+        java.lang.String getKey(String value) {
+            java.lang.String key;
+            key = value;
+            return key;
+        }
+
+        String getStringKey(java.lang.String value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Docente) {
+                Docente o = (Docente) object;
+                return getStringKey(o.getCedula());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Docente.class.getName()});
+                return null;
+            }
+        }
+
     }
 
 }
