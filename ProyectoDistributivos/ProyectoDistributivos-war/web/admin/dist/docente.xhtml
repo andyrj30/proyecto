@@ -13,10 +13,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Lista de docente</a>
+                        <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
                     </h4>
                 </div>
-                <div id="collapse1" class="panel-collapse panel">
+                <div id="collapse1" class="panel-collapse in">
                     <h:form id="DocenteListForm">
                         <p:dataTable id="datalist" tableStyleClass="tabla" value="#{docenteController.items}" var="item"
                                      selectionMode="single" selection="#{docenteController.selected}"

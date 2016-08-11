@@ -1,6 +1,15 @@
 
 @charset "UTF-8";
 
+.accordion-toggle:after {
+    font-family: 'FontAwesome';
+    content: "\f078";    
+    float: right;
+}
+.accordion-opened .accordion-toggle:after {    
+    content: "\f054";    
+}
+
 .left_col {
     background: #2A544D; }
 

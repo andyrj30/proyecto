@@ -10,57 +10,73 @@
         <div class="clearfix"></div>
         <div class="row">
             <h:form>
-                <p:panel id="toggleable" header="Distributivo docente" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
 
-                    <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
-                        <p:outputLabel value="Facultad:" for="facultad" />
-                        <p:selectOneMenu styleClass="t-6" id="facultad" value="#{auladistController.facultad}" >
-                            <p:ajax listener="#{auladistController.onFacultadChange}" update="carrera" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{auladistController.getfacultades()}"
-                                           var="item" itemValue="#{item}" 
-                                           itemLabel="#{item.facultad}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Carrera:" for="carrera" />
-                        <p:selectOneMenu styleClass="t-6" id="carrera" value="#{auladistController.carrera}" >
-                            <p:ajax listener="#{auladistController.onCarreraChange}" update="semestre" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{auladistController.getcarreras()}" var="item" itemValue="#{item}"
-                                           itemLabel="#{item.carrera}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Semestre:" for="semestre" />
-                        <p:selectOneMenu styleClass="t-6" id="semestre" value="#{auladistController.semestre}" >
-                            <p:ajax listener="#{auladistController.onSemestreChange()}" update="periodo,paralelo" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{auladistController.getsemestres()}" var="item" itemValue="#{item}"
-                                           itemLabel="#{item.semestre}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Periodo:" for="periodo" />
-                        <p:selectOneMenu styleClass="t-6" id="periodo" value="#{auladistController.periodo}" >
-                            <p:ajax listener="#{auladistController.onPeriodoChange()}" update="paralelo" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{auladistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
-                                           itemLabel="#{periodo.peridodo}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Paralelo:" for="paralelo" />
-                        <p:selectOneMenu styleClass="t-6" id="paralelo" value="#{auladistController.paralelo}" >
-                            <p:ajax listener="#{auladistController.buscar()}" update="datos" />
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{auladistController.getparalelos()}" var="paralelo" itemValue="#{paralelo}"
-                                           itemLabel="#{paralelo.paralelo}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>   
-                </p:panel>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse in">
+
+                            <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
+                                <p:outputLabel value="Edificio:" for="edificio" />
+                                <p:selectOneMenu styleClass="t-6" id="edificio" value="#{auladistController.edificio}" >
+                                    <p:ajax listener="#{auladistController.onEdificioChange}" update="datos" />
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{auladistController.getedificios()}"
+                                                   var="item" itemValue="#{item}" 
+                                                   itemLabel="#{item}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Periodo:" for="periodo" />
+                                <p:selectOneMenu styleClass="t-6" id="periodo" value="#{auladistController.periodo}" >
+                                    <p:ajax listener="#{clasedistController.onPeriodoChange()}" update="datos" />
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{clasedistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
+                                                   itemLabel="#{periodo.peridodo}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>   
+                             <p:dataTable id="datalist" tableStyleClass="tabla col-md-6" value="#{areaController.items}" var="item"
+                                     selectionMode="single" selection="#{areaController.selected}"
+                                     rowKey="#{item.idarea}"                                 
+                                     >
+
+                            <p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Codigo de aula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idarea}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre del aula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Paralelo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Sección"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
+                            </f:facet>
+                        </p:dataTable>     
+                        </div>
+                    </div>
+                </div>
                 <p:panel id="basic">
-                    <p:panelGrid id="datos" columns="1" style="width: 100%">      
-                        <div class=" col-xs-5 col-md-4 center"><h3>Materia</h3></div>
-                        <div class="col-xs-1 hidden-xs col-middle h1 center"> </div>
-                        <div class=" col-xs-6 col-md-4 center"><h3>Docente encargado</h3></div>
-                        <c:forEach items="#{auladistController.getdist()}" var="item">
-                            <div class="well col-xs-5 col-md-4">#{item.codmateria.materia}</div>
-                            <div class="col-xs-1 hidden-xs col-middle h1 center"> <span class="fa fa-angle-double-right"></span></div>
-                            <div class="well col-xs-6 col-md-4">#{item.cedula.apellido} #{item.cedula.nombre}</div>
-                        </c:forEach>                                         
+                    <p:panelGrid id="datos" columns="1" style="width: 50%">      
+                                                        
                     </p:panelGrid>
                 </p:panel>
             </h:form> 
