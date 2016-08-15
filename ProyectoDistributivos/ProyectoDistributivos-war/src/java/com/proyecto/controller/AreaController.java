@@ -19,7 +19,7 @@ import javax.faces.convert.FacesConverter;
 
 @javax.faces.bean.ManagedBean(name = "areaController")
 @javax.faces.bean.SessionScoped
-public class AreaController implements Serializable {
+public class AreaController extends AbstractController implements Serializable {
 
     @EJB
     private com.proyecto.model.AreaFacade ejbFacade;
