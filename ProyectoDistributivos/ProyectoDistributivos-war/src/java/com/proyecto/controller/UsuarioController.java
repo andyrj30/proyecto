@@ -17,11 +17,8 @@ import javax.faces.context.FacesContext;
 
 @javax.faces.bean.ManagedBean(name = "usuarioController")
 @javax.faces.bean.SessionScoped
-public class UsuarioController implements Serializable {
+public class UsuarioController extends AbstractController implements Serializable {
 
-    @EJB
-    private com.proyecto.model.UsuarioFacade ejbFacade;
-    private List<Usuario> items = null;
     private Usuario selected;
     private Usuario activo;
 
@@ -29,107 +26,83 @@ public class UsuarioController implements Serializable {
         this.activo = new Usuario();
     }
 
+    private UsuarioFacade getFacade() {
+        return ejbUsuario;
+    }
+
     public Usuario getSelected() {
         return selected;
-    }
-
-    public Usuario getActivo() {
-        return activo;
-    }
-
-    public int count() {
-        return ejbFacade.count();
-    }
-
-    public void setActivo(Usuario activo) {
-        this.activo = activo;
     }
 
     public void setSelected(Usuario selected) {
         this.selected = selected;
     }
 
-    protected void setEmbeddableKeys() {
+    public Usuario getActivo() {
+        return activo;
     }
 
-    protected void initializeEmbeddableKey() {
+    public void setActivo(Usuario activo) {
+        this.activo = activo;
     }
 
-    private UsuarioFacade getFacade() {
-        return ejbFacade;
+    public int count() {
+        return getFacade().count();
     }
 
     public Usuario prepareCreate() {
         selected = new Usuario();
-        initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        try {
+            getFacade().create(selected);
+            JsfUtil.addSuccessMessage("Registro agregado correctamente");
+            listUsuario = null;
+        } catch (EJBException e) {
+            JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+        try {
+            getFacade().edit(selected);
+            JsfUtil.addSuccessMessage("Datos editados");
+            listUsuario = null;
+        } catch (EJBException e) {
+            JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+        try {
+            getFacade().remove(selected);
+            JsfUtil.addSuccessMessage("Registro eliminado correctamente");
+            selected = null;
+            listUsuario = null;
+        } catch (EJBException e) {
+            JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Usuario> getItems() {
-            items = getFacade().findAll();
-        return items;
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            setEmbeddableKeys();
-            try {
-                if (persistAction != null) {
-                    switch (persistAction) {
-                        case DELETE:
-                            getFacade().remove(selected);
-                            break;
-                        case CREATE:
-                            getFacade().create(selected);
-                            break;
-                        default:
-                    getFacade().edit(selected);
-                            break;
-                }
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
+        if (listUsuario == null) {
+            listUsuario = getFacade().findAll();
         }
+        return listUsuario;
     }
 
-    public Usuario getUsuario(java.lang.String id) {
+    public Usuario getUsuario(Object id) {
         return getFacade().find(id);
+    }
+
+    public List<Usuario> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<Usuario> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
     }
 
     public String getUsuario(String username, String password) {
@@ -141,14 +114,6 @@ public class UsuarioController implements Serializable {
             }
         }
         return tipo;
-    }
-
-    public List<Usuario> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Usuario> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 
     public void login() throws IOException {
@@ -167,7 +132,8 @@ public class UsuarioController implements Serializable {
         }
         if (tipo.equals("doc")) {
             FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/docentes");
-            }
-        JsfUtil.addErrorMessage("Usuario o contraseña incorrecta"+tipo);
-            }
         }
+        JsfUtil.addErrorMessage("Usuario o contraseña incorrecta" + tipo);
+    }
+
+}

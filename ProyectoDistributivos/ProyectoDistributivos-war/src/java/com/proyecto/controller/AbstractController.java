@@ -1,63 +1,84 @@
 package com.proyecto.controller;
 
+import com.proyecto.entities.*;
 import com.proyecto.model.*;
+import java.util.List;
 import javax.ejb.EJB;
 
 public abstract class AbstractController {
 
     @EJB
-    private AreaFacade ejbArea;
+    protected AreaFacade ejbArea;
 
     @EJB
-    private AulaFacade ejbAula;
+    protected AulaFacade ejbAula;
 
     @EJB
-    private CarreraFacade ejbCarrera;
+    protected CarreraFacade ejbCarrera;
 
     @EJB
-    private ConocimientoFacade ejbConocimiento;
+    protected ConocimientoFacade ejbConocimiento;
 
     @EJB
-    private ContratoFacade ejbContrato;
+    protected ContratoFacade ejbContrato;
 
     @EJB
-    private DistributivoaulaFacade ejbDistributivoaula;
+    protected DistributivoaulaFacade ejbDistributivoaula;
 
     @EJB
-    private DistributivodocenteFacade ejbDistributivodocente;
+    protected DistributivodocenteFacade ejbDistributivodocente;
 
     @EJB
-    private DistributivoclaseFacade ejbDistributivoclase;
+    protected DistributivoclaseFacade ejbDistributivoclase;
 
     @EJB
-    private DocenteFacade ejbDocente;
+    protected DocenteFacade ejbDocente;
 
     @EJB
-    private FacultadFacade ejbFacultad;
+    protected FacultadFacade ejbFacultad;
 
     @EJB
-    private HorarioFacade ejbHorario;
+    protected HorarioFacade ejbHorario;
 
     @EJB
-    private MateriaFacade ejbMateria;
+    protected MateriaFacade ejbMateria;
 
     @EJB
-    private ParaleloFacade ejbParalelo;
+    protected ParaleloFacade ejbParalelo;
 
     @EJB
-    private PeriodoFacade ejbPeriodo;
+    protected PeriodoFacade ejbPeriodo;
 
     @EJB
-    private SemestreFacade ejbSemestre;
+    protected SemestreFacade ejbSemestre;
 
     @EJB
-    private SubareaFacade ejbSubarea;
+    protected SubareaFacade ejbSubarea;
 
     @EJB
-    private TituloFacade ejbTitulo;
+    protected TituloFacade ejbTitulo;
 
     @EJB
-    private UsuarioFacade ejbUsuario;
-    
-    
+    protected UsuarioFacade ejbUsuario;
+
+    protected List<Area> listArea;
+    protected List<Aula> listAula;
+    protected List<Carrera> listCarrera;
+    protected List<Conocimiento> listConocimiento;
+    protected List<Contrato> listContrato;
+    protected List<Distributivoaula> listDistributivoaula;
+    protected List<Distributivoclase> listDistributivoclase;
+    protected List<Distributivodocente> listDistributivodocente;
+    protected List<Docente> listDocente;
+    protected List<Facultad> listFacultad;
+    protected List<Horario> listHorario;
+    protected List<Materia> listMateria;
+    protected List<Paralelo> listParalelo;
+    protected List<Periodo> listPeriodo;
+    protected List<Semestre> listSemestre;
+    protected List<Subarea> listSubarea;
+    protected List<Titulo> listTitulo;
+    protected List<Usuario> listUsuario;
+
+    protected String defaultMsg = "Error de persistencia";
 }
