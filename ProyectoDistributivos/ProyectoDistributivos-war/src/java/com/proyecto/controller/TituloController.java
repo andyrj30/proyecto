@@ -69,7 +69,6 @@ public class TituloController extends AbstractController implements Serializable
         }
     }
 
-
     public List<Titulo> getItems() {
         if (listTitulo == null) {
             listTitulo = getFacade().findAll();
@@ -79,13 +78,5 @@ public class TituloController extends AbstractController implements Serializable
 
     public Titulo getTitulo(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Titulo> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Titulo> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

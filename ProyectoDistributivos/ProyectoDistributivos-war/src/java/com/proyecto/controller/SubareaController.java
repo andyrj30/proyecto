@@ -69,7 +69,6 @@ public class SubareaController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Subarea> getItems() {
         if (listSubarea == null) {
             listSubarea = getFacade().findAll();
@@ -79,13 +78,5 @@ public class SubareaController extends AbstractController implements Serializabl
 
     public Subarea getSubarea(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Subarea> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Subarea> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

@@ -69,7 +69,6 @@ public class CarreraController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Carrera> getItems() {
         if (listCarrera == null) {
             listCarrera = getFacade().findAll();
@@ -79,13 +78,5 @@ public class CarreraController extends AbstractController implements Serializabl
 
     public Carrera getCarrera(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Carrera> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Carrera> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

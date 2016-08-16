@@ -80,12 +80,4 @@ public class DistributivodocenteController extends AbstractController implements
     public Distributivodocente getDistributivodocente(Object id) {
         return getFacade().find(id);
     }
-
-    public List<Distributivodocente> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Distributivodocente> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
 }

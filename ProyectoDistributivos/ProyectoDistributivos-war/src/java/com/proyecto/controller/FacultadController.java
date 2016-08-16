@@ -69,7 +69,6 @@ public class FacultadController extends AbstractController implements Serializab
         }
     }
 
-
     public List<Facultad> getItems() {
         if (listFacultad == null) {
             listFacultad = getFacade().findAll();
@@ -79,13 +78,5 @@ public class FacultadController extends AbstractController implements Serializab
 
     public Facultad getFacultad(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Facultad> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Facultad> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

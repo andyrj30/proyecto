@@ -69,7 +69,6 @@ public class AreaController extends AbstractController implements Serializable {
         }
     }
 
-
     public List<Area> getItems() {
         if (listArea == null) {
             listArea = getFacade().findAll();
@@ -81,11 +80,4 @@ public class AreaController extends AbstractController implements Serializable {
         return getFacade().find(id);
     }
 
-    public List<Area> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Area> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
 }

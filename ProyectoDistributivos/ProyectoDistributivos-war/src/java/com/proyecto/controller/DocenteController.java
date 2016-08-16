@@ -69,7 +69,6 @@ public class DocenteController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Docente> getItems() {
         if (listDocente == null) {
             listDocente = getFacade().findAll();
@@ -79,13 +78,5 @@ public class DocenteController extends AbstractController implements Serializabl
 
     public Docente getDocente(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Docente> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Docente> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

@@ -69,7 +69,6 @@ public class PeriodoController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Periodo> getItems() {
         if (listPeriodo == null) {
             listPeriodo = getFacade().findAll();
@@ -79,13 +78,5 @@ public class PeriodoController extends AbstractController implements Serializabl
 
     public Periodo getPeriodo(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Periodo> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Periodo> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

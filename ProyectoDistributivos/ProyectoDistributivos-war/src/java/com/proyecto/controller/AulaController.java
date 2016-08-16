@@ -92,12 +92,4 @@ public class AulaController extends AbstractController implements Serializable {
     public Aula getAula(Object id) {
         return getFacade().find(id);
     }
-
-    public List<Aula> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Aula> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
 }

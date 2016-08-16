@@ -69,7 +69,6 @@ public class MateriaController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Materia> getItems() {
         if (listMateria == null) {
             listMateria = getFacade().findAll();
@@ -79,13 +78,5 @@ public class MateriaController extends AbstractController implements Serializabl
 
     public Materia getMateria(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Materia> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Materia> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

@@ -80,12 +80,4 @@ public class DistributivoclaseController extends AbstractController implements S
     public Distributivoclase getDistributivoclase(Object id) {
         return getFacade().find(id);
     }
-
-    public List<Distributivoclase> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Distributivoclase> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
 }

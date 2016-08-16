@@ -80,12 +80,4 @@ public class DistributivoaulaController extends AbstractController implements Se
     public Distributivoaula getDistributivoaula(Object id) {
         return getFacade().find(id);
     }
-
-    public List<Distributivoaula> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Distributivoaula> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
 }

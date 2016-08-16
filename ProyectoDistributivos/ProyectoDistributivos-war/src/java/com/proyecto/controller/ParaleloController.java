@@ -69,7 +69,6 @@ public class ParaleloController extends AbstractController implements Serializab
         }
     }
 
-
     public List<Paralelo> getItems() {
         if (listParalelo == null) {
             listParalelo = getFacade().findAll();
@@ -79,13 +78,5 @@ public class ParaleloController extends AbstractController implements Serializab
 
     public Paralelo getParalelo(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Paralelo> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Paralelo> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

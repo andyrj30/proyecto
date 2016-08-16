@@ -69,7 +69,6 @@ public class HorarioController extends AbstractController implements Serializabl
         }
     }
 
-
     public List<Horario> getItems() {
         if (listHorario == null) {
             listHorario = getFacade().findAll();
@@ -79,13 +78,5 @@ public class HorarioController extends AbstractController implements Serializabl
 
     public Horario getHorario(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Horario> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Horario> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

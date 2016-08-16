@@ -69,7 +69,6 @@ public class SemestreController extends AbstractController implements Serializab
         }
     }
 
-
     public List<Semestre> getItems() {
         if (listSemestre == null) {
             listSemestre = getFacade().findAll();
@@ -79,13 +78,5 @@ public class SemestreController extends AbstractController implements Serializab
 
     public Semestre getSemestre(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Semestre> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Semestre> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

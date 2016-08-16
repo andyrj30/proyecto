@@ -81,4 +81,8 @@ public abstract class AbstractController {
     protected List<Usuario> listUsuario;
 
     protected String defaultMsg = "Error de persistencia";
+    
+    public void nada(){
+        
+    }
 }

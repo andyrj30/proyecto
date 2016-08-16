@@ -71,7 +71,6 @@ public class ConocimientoController extends AbstractController implements Serial
         }
     }
 
-
     public List<Conocimiento> getItems() {
         if (listConocimiento == null) {
             listConocimiento = getFacade().findAll();
@@ -81,13 +80,5 @@ public class ConocimientoController extends AbstractController implements Serial
 
     public Conocimiento getConocimiento(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Conocimiento> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Conocimiento> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

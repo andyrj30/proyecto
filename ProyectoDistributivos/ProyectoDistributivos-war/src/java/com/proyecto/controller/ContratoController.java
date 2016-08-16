@@ -69,7 +69,6 @@ public class ContratoController extends AbstractController implements Serializab
         }
     }
 
-
     public List<Contrato> getItems() {
         if (listContrato == null) {
             listContrato = getFacade().findAll();
@@ -79,13 +78,5 @@ public class ContratoController extends AbstractController implements Serializab
 
     public Contrato getContrato(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Contrato> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Contrato> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 }

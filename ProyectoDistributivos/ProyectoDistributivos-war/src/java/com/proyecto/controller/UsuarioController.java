@@ -2,16 +2,11 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Usuario;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.controller.util.JsfUtil.PersistAction;
 import com.proyecto.model.UsuarioFacade;
 import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 
@@ -95,14 +90,6 @@ public class UsuarioController extends AbstractController implements Serializabl
 
     public Usuario getUsuario(Object id) {
         return getFacade().find(id);
-    }
-
-    public List<Usuario> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Usuario> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 
     public String getUsuario(String username, String password) {
