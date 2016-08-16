@@ -2,6 +2,7 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.*;
 import com.proyecto.model.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 
@@ -79,8 +80,15 @@ public abstract class AbstractController {
     protected List<Subarea> listSubarea;
     protected List<Titulo> listTitulo;
     protected List<Usuario> listUsuario;
+    protected List<String> listEdificio;
 
     protected String defaultMsg = "Ha ocurrido un error en la transacción";
+
+    public AbstractController() {
+        this.listEdificio = new ArrayList<>();
+        listEdificio.add("Instituto de Informatica");
+        listEdificio.add("Facultad de Ciencias de la Ingenieria");
+    }
 
     public void filtrarCarrerasPor(Facultad facultad) {
         listCarrera.clear();

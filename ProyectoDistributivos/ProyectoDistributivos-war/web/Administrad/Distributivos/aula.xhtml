@@ -23,9 +23,8 @@
                             <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
                                 <p:outputLabel value="Edificio:" for="edificio" />
                                 <p:selectOneMenu styleClass="t-6" id="edificio" value="#{auladistController.edificio}" >
-                                    <p:ajax listener="#{auladistController.onEdificioChange}" update="datos" />
                                     <f:selectItem itemLabel="Seleccione un elemento..."/>
-                                    <f:selectItems value="#{auladistController.getedificios()}"
+                                    <f:selectItems value="#{distributivoaulaController.edificios}"
                                                    var="item" itemValue="#{item}" 
                                                    itemLabel="#{item}"/>
                                 </p:selectOneMenu>

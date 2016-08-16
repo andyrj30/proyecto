@@ -6,7 +6,13 @@ import com.proyecto.model.SemestreFacade;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 @javax.faces.bean.ManagedBean(name = "semestreController")
 @javax.faces.bean.SessionScoped
@@ -79,4 +85,46 @@ public class SemestreController extends AbstractController implements Serializab
     public Semestre getSemestre(Object id) {
         return getFacade().find(id);
     }
+
+    @FacesConverter(forClass = Semestre.class)
+    public static class SemestreControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            SemestreController controller = (SemestreController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "semestreController");
+            return controller.getSemestre(getKey(value));
+        }
+
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
+            return key;
+        }
+
+        String getStringKey(java.lang.Integer value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Semestre) {
+                Semestre o = (Semestre) object;
+                return getStringKey(o.getIdsemestre());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Semestre.class.getName()});
+                return null;
+            }
+        }
+
+    }
+
 }

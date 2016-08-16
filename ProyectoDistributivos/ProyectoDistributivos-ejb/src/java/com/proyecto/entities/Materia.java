@@ -56,9 +56,7 @@ public class Materia implements Serializable {
     @NotNull
     @Column(name = "cargatutorial")
     private int cargatutorial;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @Column(name = "color")
     private String color;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
@@ -79,12 +77,11 @@ public class Materia implements Serializable {
         this.codmateria = codmateria;
     }
 
-    public Materia(String codmateria, String materia, int cargahoraria, int cargatutorial, String color) {
+    public Materia(String codmateria, String materia, int cargahoraria, int cargatutorial) {
         this.codmateria = codmateria;
         this.materia = materia;
         this.cargahoraria = cargahoraria;
         this.cargatutorial = cargatutorial;
-        this.color = color;
     }
 
     public String getCodmateria() {

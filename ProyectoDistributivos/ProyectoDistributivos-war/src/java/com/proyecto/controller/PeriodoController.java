@@ -6,7 +6,13 @@ import com.proyecto.model.PeriodoFacade;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 @javax.faces.bean.ManagedBean(name = "periodoController")
 @javax.faces.bean.SessionScoped
@@ -79,4 +85,46 @@ public class PeriodoController extends AbstractController implements Serializabl
     public Periodo getPeriodo(Object id) {
         return getFacade().find(id);
     }
+
+    @FacesConverter(forClass = Periodo.class)
+    public static class PeriodoControllerConverter implements Converter {
+
+        @Override
+        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+            if (value == null || value.length() == 0) {
+                return null;
+            }
+            PeriodoController controller = (PeriodoController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "periodoController");
+            return controller.getPeriodo(getKey(value));
+        }
+
+        java.lang.String getKey(String value) {
+            java.lang.String key;
+            key = value;
+            return key;
+        }
+
+        String getStringKey(java.lang.String value) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(value);
+            return sb.toString();
+        }
+
+        @Override
+        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+            if (object == null) {
+                return null;
+            }
+            if (object instanceof Periodo) {
+                Periodo o = (Periodo) object;
+                return getStringKey(o.getIdperiodo());
+            } else {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Periodo.class.getName()});
+                return null;
+            }
+        }
+
+    }
+
 }
