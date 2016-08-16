@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditSemestreLabel_idcarrera}" for="idcarrera" />
                         <p:selectOneMenu id="idcarrera" value="#{semestreController.selected.idcarrera}" required="true" requiredMessage="#{bundle.EditSemestreRequiredMessage_idcarrera}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{carreraController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{carreraController.items}"
                                            var="idcarreraItem"
                                            itemValue="#{idcarreraItem}"/>
                         </p:selectOneMenu>

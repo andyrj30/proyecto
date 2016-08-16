@@ -16,19 +16,19 @@
                         <p:inputText id="iddistributivoaula" value="#{distributivoaulaController.selected.iddistributivoaula}" title="#{bundle.CreateDistributivoaulaTitle_iddistributivoaula}" required="true" requiredMessage="#{bundle.CreateDistributivoaulaRequiredMessage_iddistributivoaula}"/>
                         <p:outputLabel value="#{bundle.CreateDistributivoaulaLabel_codaula}" for="codaula" />
                         <p:selectOneMenu id="codaula" value="#{distributivoaulaController.selected.codaula}" required="true" requiredMessage="#{bundle.EditDistributivoaulaRequiredMessage_codaula}">
-                            <f:selectItems value="#{aulaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{aulaController.items}"
                                            var="codaulaItem"
                                            itemValue="#{codaulaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateDistributivoaulaLabel_codmateria}" for="codmateria" />
                         <p:selectOneMenu id="codmateria" value="#{distributivoaulaController.selected.codmateria}" required="true" requiredMessage="#{bundle.EditDistributivoaulaRequiredMessage_codmateria}">
-                            <f:selectItems value="#{materiaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{materiaController.items}"
                                            var="codmateriaItem"
                                            itemValue="#{codmateriaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateDistributivoaulaLabel_idperiodo}" for="idperiodo" />
                         <p:selectOneMenu id="idperiodo" value="#{distributivoaulaController.selected.idperiodo}" required="true" requiredMessage="#{bundle.EditDistributivoaulaRequiredMessage_idperiodo}">
-                            <f:selectItems value="#{periodoController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{periodoController.items}"
                                            var="idperiodoItem"
                                            itemValue="#{idperiodoItem}"/>
                         </p:selectOneMenu>

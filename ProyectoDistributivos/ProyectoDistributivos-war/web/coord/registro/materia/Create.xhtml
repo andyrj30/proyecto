@@ -24,13 +24,13 @@
                         <p:inputText id="color" value="#{materiaController.selected.color}" title="#{bundle.CreateMateriaTitle_color}" required="true" requiredMessage="#{bundle.CreateMateriaRequiredMessage_color}"/>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_idarea}" for="idarea" />
                         <p:selectOneMenu id="idarea" value="#{materiaController.selected.idarea}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idarea}">
-                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{areaController.items}"
                                            var="idareaItem"
                                            itemValue="#{idareaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateMateriaLabel_idsemestre}" for="idsemestre" />
                         <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsemestre}">
-                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{semestreController.items}"
                                            var="idsemestreItem"
                                            itemValue="#{idsemestreItem}"/>
                         </p:selectOneMenu>

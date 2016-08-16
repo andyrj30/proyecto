@@ -19,14 +19,14 @@
                         <p:outputLabel value="#{bundle.EditParaleloLabel_idperiodo}" for="idperiodo" />
                         <p:selectOneMenu id="idperiodo" value="#{paraleloController.selected.idperiodo}" required="true" requiredMessage="#{bundle.EditParaleloRequiredMessage_idperiodo}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{periodoController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{periodoController.items}"
                                            var="idperiodoItem"
                                            itemValue="#{idperiodoItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditParaleloLabel_idsemestre}" for="idsemestre" />
                         <p:selectOneMenu id="idsemestre" value="#{paraleloController.selected.idsemestre}" required="true" requiredMessage="#{bundle.EditParaleloRequiredMessage_idsemestre}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{semestreController.items}"
                                            var="idsemestreItem"
                                            itemValue="#{idsemestreItem}"/>
                         </p:selectOneMenu>

@@ -16,13 +16,13 @@
                         <p:inputText id="iddistributivoclase" value="#{distributivoclaseController.selected.iddistributivoclase}" title="#{bundle.CreateDistributivoclaseTitle_iddistributivoclase}" required="true" requiredMessage="#{bundle.CreateDistributivoclaseRequiredMessage_iddistributivoclase}"/>
                         <p:outputLabel value="#{bundle.CreateDistributivoclaseLabel_codmateria}" for="codmateria" />
                         <p:selectOneMenu id="codmateria" value="#{distributivoclaseController.selected.codmateria}" required="true" requiredMessage="#{bundle.EditDistributivoclaseRequiredMessage_codmateria}">
-                            <f:selectItems value="#{materiaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{materiaController.items}"
                                            var="codmateriaItem"
                                            itemValue="#{codmateriaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateDistributivoclaseLabel_idparalelo}" for="idparalelo" />
                         <p:selectOneMenu id="idparalelo" value="#{distributivoclaseController.selected.idparalelo}" required="true" requiredMessage="#{bundle.EditDistributivoclaseRequiredMessage_idparalelo}">
-                            <f:selectItems value="#{paraleloController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{paraleloController.items}"
                                            var="idparaleloItem"
                                            itemValue="#{idparaleloItem}"/>
                         </p:selectOneMenu>

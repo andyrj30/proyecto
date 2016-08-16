@@ -17,14 +17,14 @@
                         <p:outputLabel value="#{bundle.EditConocimientoLabel_idarea}" for="idarea" />
                         <p:selectOneMenu id="idarea" value="#{conocimientoController.selected.idarea}" required="true" requiredMessage="#{bundle.EditConocimientoRequiredMessage_idarea}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{areaController.items}"
                                            var="idareaItem"
                                            itemValue="#{idareaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditConocimientoLabel_cedula}" for="cedula" />
                         <p:selectOneMenu id="cedula" value="#{conocimientoController.selected.cedula}" required="true" requiredMessage="#{bundle.EditConocimientoRequiredMessage_cedula}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{docenteController.items}"
                                            var="cedulaItem"
                                            itemValue="#{cedulaItem}"/>
                         </p:selectOneMenu>

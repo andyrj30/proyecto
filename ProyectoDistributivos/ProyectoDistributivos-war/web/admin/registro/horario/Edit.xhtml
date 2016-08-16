@@ -21,7 +21,7 @@
                         <p:outputLabel value="#{bundle.EditHorarioLabel_iddistributivoclase}" for="iddistributivoclase" />
                         <p:selectOneMenu id="iddistributivoclase" value="#{horarioController.selected.iddistributivoclase}" required="true" requiredMessage="#{bundle.EditHorarioRequiredMessage_iddistributivoclase}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{distributivoclaseController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{distributivoclaseController.items}"
                                            var="iddistributivoclaseItem"
                                            itemValue="#{iddistributivoclaseItem}"/>
                         </p:selectOneMenu>

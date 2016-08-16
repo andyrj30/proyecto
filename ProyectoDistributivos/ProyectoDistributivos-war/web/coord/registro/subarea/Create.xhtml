@@ -16,7 +16,7 @@
                         <p:inputText id="subarea" value="#{subareaController.selected.subarea}" title="#{bundle.CreateSubareaTitle_subarea}" required="true" requiredMessage="#{bundle.CreateSubareaRequiredMessage_subarea}"/>
                         <p:outputLabel value="#{bundle.CreateSubareaLabel_idarea}" for="idarea" />
                         <p:selectOneMenu id="idarea" value="#{subareaController.selected.idarea}" required="true" requiredMessage="#{bundle.EditSubareaRequiredMessage_idarea}">
-                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{areaController.items}"
                                            var="idareaItem"
                                            itemValue="#{idareaItem}"
                                            itemLabel="#{idareaItem.area}"/>

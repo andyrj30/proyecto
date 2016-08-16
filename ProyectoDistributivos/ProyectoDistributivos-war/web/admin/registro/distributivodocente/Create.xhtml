@@ -16,19 +16,19 @@
                         <p:inputText id="iddistributivodoc" value="#{distributivodocenteController.selected.iddistributivodoc}" title="#{bundle.CreateDistributivodocenteTitle_iddistributivodoc}" required="true" requiredMessage="#{bundle.CreateDistributivodocenteRequiredMessage_iddistributivodoc}"/>
                         <p:outputLabel value="#{bundle.CreateDistributivodocenteLabel_cedula}" for="cedula" />
                         <p:selectOneMenu id="cedula" value="#{distributivodocenteController.selected.cedula}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_cedula}">
-                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{docenteController.items}"
                                            var="cedulaItem"
                                            itemValue="#{cedulaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateDistributivodocenteLabel_codmateria}" for="codmateria" />
                         <p:selectOneMenu id="codmateria" value="#{distributivodocenteController.selected.codmateria}" required="true" requiredMessage="#{bundle.EditDistributivodocenteRequiredMessage_codmateria}">
-                            <f:selectItems value="#{materiaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{materiaController.items}"
                                            var="codmateriaItem"
                                            itemValue="#{codmateriaItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Paralelo" for="idparalelo" />
                         <p:selectOneMenu id="idparalelo" value="#{distributivodocenteController.selected.idparalelo}" required="true" requiredMessage="El campo paralelo es requerido">
-                            <f:selectItems value="#{paraleloController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{paraleloController.items}"
                                            var="idparaleloItem"
                                            itemValue="#{idparaleloItem}"/>
                         </p:selectOneMenu>

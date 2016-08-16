@@ -22,7 +22,7 @@
                         <p:inputText id="detalle" value="#{contratoController.selected.detalle}" title="#{bundle.CreateContratoTitle_detalle}" required="true" requiredMessage="#{bundle.CreateContratoRequiredMessage_detalle}"/>
                         <p:outputLabel value="#{bundle.CreateContratoLabel_cedula}" for="cedula" />
                         <p:selectOneMenu id="cedula" value="#{contratoController.selected.cedula}" required="true" requiredMessage="#{bundle.EditContratoRequiredMessage_cedula}">
-                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{docenteController.items}"
                                            var="cedulaItem"
                                            itemValue="#{cedulaItem}"/>
                         </p:selectOneMenu>

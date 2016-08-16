@@ -18,7 +18,7 @@
                         <p:inputText id="semestre" value="#{semestreController.selected.semestre}" title="#{bundle.CreateSemestreTitle_semestre}" required="true" requiredMessage="#{bundle.CreateSemestreRequiredMessage_semestre}"/>
                         <p:outputLabel value="#{bundle.CreateSemestreLabel_idcarrera}" for="idcarrera" />
                         <p:selectOneMenu id="idcarrera" value="#{semestreController.selected.idcarrera}" required="true" requiredMessage="#{bundle.EditSemestreRequiredMessage_idcarrera}">
-                            <f:selectItems value="#{carreraController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{carreraController.items}"
                                            var="idcarreraItem"
                                            itemValue="#{idcarreraItem}"/>
                         </p:selectOneMenu>

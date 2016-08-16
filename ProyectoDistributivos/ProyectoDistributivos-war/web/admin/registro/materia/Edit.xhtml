@@ -25,14 +25,14 @@
                         <p:outputLabel value="#{bundle.EditMateriaLabel_idsemestre}" for="idsemestre" />
                         <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{semestreController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{semestreController.items}"
                                            var="idsemestreItem"
                                            itemValue="#{idsemestreItem}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.EditMateriaLabel_idsubarea}" for="idsubarea" />
                         <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="#{bundle.EditMateriaRequiredMessage_idsubarea}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{subareaController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{subareaController.items}"
                                            var="idsubareaItem"
                                            itemValue="#{idsubareaItem}"/>
                         </p:selectOneMenu>

@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.EditTituloLabel_cedula}" for="cedula" />
                         <p:selectOneMenu id="cedula" value="#{tituloController.selected.cedula}" required="true" requiredMessage="#{bundle.EditTituloRequiredMessage_cedula}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{docenteController.items}"
                                            var="cedulaItem"
                                            itemValue="#{cedulaItem}"/>
                         </p:selectOneMenu>

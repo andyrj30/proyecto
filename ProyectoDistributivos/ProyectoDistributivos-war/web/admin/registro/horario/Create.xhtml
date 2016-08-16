@@ -20,7 +20,7 @@
                         <p:inputText id="hora" value="#{horarioController.selected.hora}" title="#{bundle.CreateHorarioTitle_hora}" required="true" requiredMessage="#{bundle.CreateHorarioRequiredMessage_hora}"/>
                         <p:outputLabel value="#{bundle.CreateHorarioLabel_iddistributivoclase}" for="iddistributivoclase" />
                         <p:selectOneMenu id="iddistributivoclase" value="#{horarioController.selected.iddistributivoclase}" required="true" requiredMessage="#{bundle.EditHorarioRequiredMessage_iddistributivoclase}">
-                            <f:selectItems value="#{distributivoclaseController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{distributivoclaseController.items}"
                                            var="iddistributivoclaseItem"
                                            itemValue="#{iddistributivoclaseItem}"/>
                         </p:selectOneMenu>

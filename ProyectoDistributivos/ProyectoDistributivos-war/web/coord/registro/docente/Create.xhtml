@@ -26,7 +26,7 @@
                         <p:inputText id="fechanacimeinto" value="#{docenteController.selected.fechanacimeinto}" title="#{bundle.CreateDocenteTitle_fechanacimeinto}" />
                         <p:outputLabel value="#{bundle.CreateDocenteLabel_idusuario}" for="idusuario" />
                         <p:selectOneMenu id="idusuario" value="#{docenteController.selected.idusuario}" required="true" requiredMessage="#{bundle.EditDocenteRequiredMessage_idusuario}">
-                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{usuarioController.items}"
                                            var="idusuarioItem"
                                            itemValue="#{idusuarioItem}"
                                            itemLabel="#{idusuarioItem.usuario}"/>

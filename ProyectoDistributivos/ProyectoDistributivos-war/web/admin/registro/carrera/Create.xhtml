@@ -19,7 +19,7 @@
                         <p:outputLabel value="#{bundle.CreateCarreraLabel_idfacultad}" for="idfacultad" />
                         <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.idfacultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}" noSelectionOption="true" itemDisabled="true"/>
-                            <f:selectItems value="#{facultadController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{facultadController.items}"
                                            var="idfacultadItem"
                                            itemValue="#{idfacultadItem}"
                                            itemLabel="#{idfacultadItem.facultad}"/>

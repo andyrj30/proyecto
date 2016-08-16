@@ -18,7 +18,7 @@
                         <p:inputText id="detalle" value="#{tituloController.selected.detalle}" title="#{bundle.CreateTituloTitle_detalle}" required="true" requiredMessage="#{bundle.CreateTituloRequiredMessage_detalle}"/>
                         <p:outputLabel value="#{bundle.CreateTituloLabel_cedula}" for="cedula" />
                         <p:selectOneMenu id="cedula" value="#{tituloController.selected.cedula}" required="true" requiredMessage="#{bundle.EditTituloRequiredMessage_cedula}">
-                            <f:selectItems value="#{docenteController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{docenteController.items}"
                                            var="cedulaItem"
                                            itemValue="#{cedulaItem}"/>
                         </p:selectOneMenu>
