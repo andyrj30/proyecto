@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/Administrad/template.xhtml">
+
+        <ui:define name="body">
+            <h:form id="AreaListForm">
+                <p:panel header="Lista de Areas">
+                    <p:dataTable id="datalist" tableStyleClass="tabla" value="#{areaController.items}" var="item"
+                                 selectionMode="single" selection="#{areaController.selected}"
+                                 rowKey="#{item.idarea}"                                 
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Codigo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idarea}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Area"/>
+                            </f:facet>
+                            <h:outputText value="#{item.area}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{areaController.prepareCreate}" update=":AreaCreateForm" oncomplete="PF('AreaCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":AreaViewForm" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":AreaEditForm" oncomplete="PF('AreaEditDialog').show()" disabled="#{empty areaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{areaController.destroy}" update=":growl,datalist" disabled="#{empty areaController.selected}"  oncomplete=" $('.tabla').DataTable();"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="AreaCreateDlg" widgetVar="AreaCreateDialog" resizable="false" appendTo="@(body)" header="Nueva Area:">
+                <h:form id="AreaCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
+                            <p:outputLabel value="Area:" for="area" />
+                            <p:inputText id="area" value="#{areaController.selected.area}" title="Escriba el nombre del Area" required="true" requiredMessage="El campo Area es requerido."/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{areaController.create}" value="Guardar" update="display,:AreaListForm:datalist,:growl" oncomplete="handleSubmit(args,'AreaCreateDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" onclick="PF('AreaCreateDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="AreaEditDlg" widgetVar="AreaEditDialog" resizable="false" appendTo="@(body)" header="Editar Area">
+                <h:form id="AreaEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
+                            <p:outputLabel value="Area:" for="area" />
+                            <p:inputText id="area" value="#{areaController.selected.area}" title="Escriba el nombre del Area" required="true" requiredMessage="El campo Area es requerido."/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{areaController.update}" value="Guardar" update="display,:AreaListForm:datalist,:SubareaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AreaEditDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" onclick="PF('AreaEditDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="AreaViewDlg" widgetVar="AreaViewDialog" resizable="false" appendTo="@(body)" header="Datos del registro:">
+                <h:form id="AreaViewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{areaController.selected != null}">
+                            <h:outputText value="Codigo:"/>
+                            <h:outputText value="#{areaController.selected.idarea}" title="Codigo del Area"/>
+                            <h:outputText value="Area:"/>
+                            <h:outputText value="#{areaController.selected.area}" title="Nombre del Area"/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton value="Cancelar" onclick="PF('AreaViewDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <h:form id="SubareaListForm">
+                <p:panel header="Lista de SubAreas">
+                    <p:dataTable tableStyleClass="tabla" id="datalist" value="#{subareaController.items}" var="item"
+                                 selectionMode="single" selection="#{subareaController.selected}"
+                                 rowKey="#{item.idsubarea}"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Codigo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idsubarea}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Area"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idarea.area}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="SubArea"/>
+                            </f:facet>
+                            <h:outputText value="#{item.subarea}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{subareaController.prepareCreate}" update=":SubareaCreateForm" oncomplete="PF('SubareaCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":SubareaViewForm" oncomplete="PF('SubareaViewDialog').show()" disabled="#{empty subareaController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":SubareaEditForm" oncomplete="PF('SubareaEditDialog').show()" disabled="#{empty subareaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{subareaController.destroy}" update=":growl,datalist" disabled="#{empty subareaController.selected}" oncomplete=" $('.tabla').DataTable();"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="SubareaCreateDlg" widgetVar="SubareaCreateDialog" resizable="false" appendTo="@(body)" header="Nueva SubArea">
+                <h:form id="SubareaCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{subareaController.selected != null}">
+                            <p:outputLabel value="Area:" for="idarea" />
+                            <p:selectOneMenu id="idarea" value="#{subareaController.selected.idarea}" required="true" requiredMessage="El campo Area es requerido.">
+                                <f:selectItems value="#{areaController.items}"
+                                               var="idareaItem"
+                                               itemValue="#{idareaItem}"
+                                               itemLabel="#{idareaItem.area}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="SubArea" for="subarea" />
+                            <p:inputText id="subarea" value="#{subareaController.selected.subarea}" title="Escriba el nombre de la SubArea" required="true" requiredMessage="El campo Subarea es requerido."/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{subareaController.create}" value="Guardar" update="display,:SubareaListForm:datalist,:growl" oncomplete="handleSubmit(args,'SubareaCreateDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" onclick="PF('SubareaCreateDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="SubareaEditDlg" widgetVar="SubareaEditDialog" resizable="false" appendTo="@(body)" header="Editar datos:">
+                <h:form id="SubareaEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{subareaController.selected != null}">
+                            <p:outputLabel value="Area:" for="idarea" />
+                            <p:selectOneMenu id="idarea" value="#{subareaController.selected.idarea}" required="true" requiredMessage="El campo Area es requerido.">
+                                <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                <f:selectItems value="#{areaController.items}"
+                                               var="idareaItem"
+                                               itemValue="#{idareaItem}"
+                                               itemLabel="#{idareaItem.area}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="SubArea:" for="subarea" />
+                            <p:inputText id="subarea" value="#{subareaController.selected.subarea}" title="SubArea" required="true" requiredMessage="El campo SubArea es requerido"/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{subareaController.update}" value="Guardar" update="display,:SubareaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SubareaEditDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" onclick="PF('SubareaEditDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="SubareaViewDlg" widgetVar="SubareaViewDialog" resizable="false" appendTo="@(body)" header="Datos del registro:">
+                <h:form id="SubareaViewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{subareaController.selected != null}">
+                            <h:outputText value="Codigo:"/>
+                            <h:outputText value="#{subareaController.selected.idsubarea}" title="Codigo"/>
+                            <h:outputText value="Subarea:"/>
+                            <h:outputText value="#{subareaController.selected.subarea}" title="Subarea"/>
+                            <h:outputText value="#Area:"/>
+                            <h:outputText value="#{subareaController.selected.idarea.area}" title="Area"/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton value="Cancelar" onclick="PF('SubareaViewDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

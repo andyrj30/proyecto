@@ -29,9 +29,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c"),
     @NamedQuery(name = "Contrato.findByIdcontrato", query = "SELECT c FROM Contrato c WHERE c.idcontrato = :idcontrato"),
-    @NamedQuery(name = "Contrato.findByTipo", query = "SELECT c FROM Contrato c WHERE c.tipo = :tipo"),
-    @NamedQuery(name = "Contrato.findByHoras", query = "SELECT c FROM Contrato c WHERE c.horas = :horas"),
-    @NamedQuery(name = "Contrato.findByDetalle", query = "SELECT c FROM Contrato c WHERE c.detalle = :detalle")})
+    @NamedQuery(name = "Contrato.findByFuncion", query = "SELECT c FROM Contrato c WHERE c.funcion = :funcion"),
+    @NamedQuery(name = "Contrato.findByDedicacion", query = "SELECT c FROM Contrato c WHERE c.dedicacion = :dedicacion"),
+    @NamedQuery(name = "Contrato.findByTotalhoras", query = "SELECT c FROM Contrato c WHERE c.totalhoras = :totalhoras")})
 public class Contrato implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,17 +43,13 @@ public class Contrato implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "tipo")
-    private String tipo;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "horas")
-    private int horas;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "detalle")
-    private String detalle;
+    @Column(name = "funcion")
+    private String funcion;
+    @Size(max = 50)
+    @Column(name = "dedicacion")
+    private String dedicacion;
+    @Column(name = "totalhoras")
+    private Integer totalhoras;
     @JoinColumn(name = "cedula", referencedColumnName = "cedula")
     @ManyToOne(optional = false)
     private Docente cedula;
@@ -65,11 +61,9 @@ public class Contrato implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public Contrato(Integer idcontrato, String tipo, int horas, String detalle) {
+    public Contrato(Integer idcontrato, String funcion) {
         this.idcontrato = idcontrato;
-        this.tipo = tipo;
-        this.horas = horas;
-        this.detalle = detalle;
+        this.funcion = funcion;
     }
 
     public Integer getIdcontrato() {
@@ -80,28 +74,28 @@ public class Contrato implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getFuncion() {
+        return funcion;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setFuncion(String funcion) {
+        this.funcion = funcion;
     }
 
-    public int getHoras() {
-        return horas;
+    public String getDedicacion() {
+        return dedicacion;
     }
 
-    public void setHoras(int horas) {
-        this.horas = horas;
+    public void setDedicacion(String dedicacion) {
+        this.dedicacion = dedicacion;
     }
 
-    public String getDetalle() {
-        return detalle;
+    public Integer getTotalhoras() {
+        return totalhoras;
     }
 
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
+    public void setTotalhoras(Integer totalhoras) {
+        this.totalhoras = totalhoras;
     }
 
     public Docente getCedula() {

@@ -30,7 +30,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Paralelo.findAll", query = "SELECT p FROM Paralelo p"),
     @NamedQuery(name = "Paralelo.findByIdparalelo", query = "SELECT p FROM Paralelo p WHERE p.idparalelo = :idparalelo"),
-    @NamedQuery(name = "Paralelo.findByParalelo", query = "SELECT p FROM Paralelo p WHERE p.paralelo = :paralelo")})
+    @NamedQuery(name = "Paralelo.findByParalelo", query = "SELECT p FROM Paralelo p WHERE p.paralelo = :paralelo"),
+    @NamedQuery(name = "Paralelo.findBySeccion", query = "SELECT p FROM Paralelo p WHERE p.seccion = :seccion")})
 public class Paralelo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,9 @@ public class Paralelo implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "paralelo")
     private String paralelo;
+    @Size(max = 2147483647)
+    @Column(name = "seccion")
+    private String seccion;
     @JoinColumn(name = "idperiodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
     private Periodo idperiodo;
@@ -82,6 +86,14 @@ public class Paralelo implements Serializable {
 
     public void setParalelo(String paralelo) {
         this.paralelo = paralelo;
+    }
+
+    public String getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
     }
 
     public Periodo getIdperiodo() {

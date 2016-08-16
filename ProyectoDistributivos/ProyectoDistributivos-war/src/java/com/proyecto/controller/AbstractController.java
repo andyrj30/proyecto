@@ -83,10 +83,8 @@ public abstract class AbstractController {
     protected String defaultMsg = "Ha ocurrido un error en la transacción";
 
     public void filtrarCarrerasPor(Facultad facultad) {
-        if (listCarrera == null) {
-            listCarrera = ejbCarrera.findAll();
-        }
-        for (Carrera next : listCarrera) {
+        listCarrera.clear();
+        for (Carrera next : ejbCarrera.findAll()) {
             if (next.getIdfacultad().getIdfacultad() == null ? facultad.getIdfacultad() == null : next.getIdfacultad().getIdfacultad().equals(facultad.getIdfacultad())) {
                 listCarrera.add(next);
             }
@@ -94,10 +92,8 @@ public abstract class AbstractController {
     }
 
     public void FiltrarSemestresPor(Carrera carrera) {
-        if (listSemestre == null) {
-            listSemestre = ejbSemestre.findAll();
-        }
-        for (Semestre next : listSemestre) {
+        listSemestre.clear();
+        for (Semestre next : ejbSemestre.findAll()) {
             if (next.getIdcarrera().getIdcarrera() == null ? carrera.getIdcarrera() == null : next.getIdcarrera().getIdcarrera().equals(carrera.getIdcarrera())) {
                 listSemestre.add(next);
             }
@@ -105,8 +101,8 @@ public abstract class AbstractController {
     }
 
     public void FiltrarParalelosPor(Semestre semestre) {
-        listParalelo = ejbParalelo.findAll();
-        for (Paralelo next : listParalelo) {
+        listParalelo.clear();
+        for (Paralelo next : ejbParalelo.findAll()) {
             if (next.getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())) {
                 listParalelo.add(next);
             }
@@ -114,8 +110,8 @@ public abstract class AbstractController {
     }
 
     public void FiltrarParalelosPor(Periodo periodo) {
-        listParalelo = ejbParalelo.findAll();
-        for (Paralelo next : listParalelo) {
+        listParalelo.clear();
+        for (Paralelo next : ejbParalelo.findAll()) {
             if (next.getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())) {
                 listParalelo.add(next);
             }
@@ -124,17 +120,16 @@ public abstract class AbstractController {
 
     public void FiltrarParalelosPor(Periodo periodo, Semestre semestre) {
         listParalelo.clear();
-        for (Paralelo next : ejbParalelo.findAll())
-        {
+        for (Paralelo next : ejbParalelo.findAll()) {
             if (next.getIdperiodo().getIdperiodo() == null ? periodo.getIdperiodo() == null : next.getIdperiodo().getIdperiodo().equals(periodo.getIdperiodo())
-                    &&next.getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())) {
+                    && next.getIdsemestre().getIdsemestre() == null ? semestre.getIdsemestre() == null : next.getIdsemestre().getIdsemestre().equals(semestre.getIdsemestre())) {
                 listParalelo.add(next);
             }
         }
     }
 
     public void FiltrarDistClasePor(Paralelo paralelo) {
-        listDistributivoclase = ejbDistributivoclase.findAll();
+        listDistributivoclase.clear();
         for (Distributivoclase next : listDistributivoclase) {
             if (next.getIdparalelo().getIdparalelo() == null ? paralelo.getIdparalelo() == null : next.getIdparalelo().getIdparalelo().equals(paralelo.getIdparalelo())) {
                 listDistributivoclase.add(next);

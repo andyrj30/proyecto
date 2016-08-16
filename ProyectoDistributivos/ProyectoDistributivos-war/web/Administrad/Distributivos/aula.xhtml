@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/Administrad/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="body">
+        <div class="clearfix"></div>
+        <div class="row">
+            <h:form>
+
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse in">
+
+                            <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
+                                <p:outputLabel value="Edificio:" for="edificio" />
+                                <p:selectOneMenu styleClass="t-6" id="edificio" value="#{auladistController.edificio}" >
+                                    <p:ajax listener="#{auladistController.onEdificioChange}" update="datos" />
+                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                    <f:selectItems value="#{auladistController.getedificios()}"
+                                                   var="item" itemValue="#{item}" 
+                                                   itemLabel="#{item}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Periodo:" for="periodo" />
+                                <p:selectOneMenu styleClass="t-6" id="periodo" value="#{auladistController.periodo}" >
+                                    <p:ajax listener="#{clasedistController.onPeriodoChange()}" update="datos" />
+                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                    <f:selectItems value="#{clasedistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
+                                                   itemLabel="#{periodo.peridodo}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>   
+                             <p:dataTable id="datalist" tableStyleClass="tabla col-md-6" value="#{areaController.items}" var="item"
+                                     selectionMode="single" selection="#{areaController.selected}"
+                                     rowKey="#{item.idarea}"                                 
+                                     >
+
+                            <p:ajax event="rowSelect"   update="viewButton"/>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Codigo de aula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idarea}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre del aula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Paralelo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Sección"/>
+                                </f:facet>
+                                <h:outputText value="#{item.area}"/>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
+                            </f:facet>
+                        </p:dataTable>     
+                        </div>
+                    </div>
+                </div>
+                <p:panel id="basic">
+                    <p:panelGrid id="datos" columns="1" style="width: 50%">      
+                                                        
+                    </p:panelGrid>
+                </p:panel>
+            </h:form> 
+        </div>
+    </ui:define>
+</ui:composition>

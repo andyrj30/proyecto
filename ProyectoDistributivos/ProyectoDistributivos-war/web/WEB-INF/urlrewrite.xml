@@ -1,25 +1,37 @@
 <urlrewrite>
 
     <rule>
+        <from>/administrador/otros/([a-z]+)</from>
+        <to>/faces/Administrad/Otras/$1.xhtml</to>
+    </rule>
+    <rule>
         <from>/administrador/registro/([a-z]+)</from>
-        <to>/faces/admin/registro/$1/List.xhtml</to>
+        <to>/faces/Administrad/Registro/$1.xhtml</to>
     </rule>
     <rule>
         <from>/administrador/distributivo/([a-z]+)</from>
-        <to>/faces/admin/dist/$1.xhtml</to>
+        <to>/faces/Administrad/Distributivos/$1.xhtml</to>
     </rule>
     <rule>
         <from>/administrador</from>
-        <to>/faces/admin/index.xhtml</to>
+        <to>/faces/Administrad/index.xhtml</to>
     </rule>
     
     <rule>
+        <from>/coordinador/otros/([a-z]+)</from>
+        <to>/faces/Coordinad/Otras/$1.xhtml</to>
+    </rule>
+    <rule>
         <from>/coordinador/registro/([a-z]+)</from>
-        <to>/faces/coord/registro/$1/List.xhtml</to>
+        <to>/faces/Coordinad/Registro/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/coordinador/distributivo/([a-z]+)</from>
+        <to>/faces/Coordinad/Distributivos/$1.xhtml</to>
     </rule>
     <rule>
         <from>/coordinador</from>
-        <to>/faces/coord/index.xhtml</to>
+        <to>/faces/Coordinad/index.xhtml</to>
     </rule>
     
     <rule>

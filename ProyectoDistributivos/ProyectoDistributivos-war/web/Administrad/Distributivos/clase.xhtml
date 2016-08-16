@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/Administrad/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="body">
+        <div class="clearfix"></div>
+        <div class="row">
+            <h:form>
+                <p:panel id="toggleable" header="Distributivo docente" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+
+                    <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
+                        <p:outputLabel value="Facultad:" for="facultad" />
+                        <p:selectOneMenu styleClass="t-6" id="facultad" value="#{clasedistController.facultad}" >
+                            <p:ajax listener="#{clasedistController.onFacultadChange}" update="carrera" />
+                            <f:selectItem itemLabel="Seleccione un elemento..."/>
+                            <f:selectItems value="#{clasedistController.getfacultades()}"
+                                           var="item" itemValue="#{item}" 
+                                           itemLabel="#{item.facultad}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Carrera:" for="carrera" />
+                        <p:selectOneMenu styleClass="t-6" id="carrera" value="#{clasedistController.carrera}" >
+                            <p:ajax listener="#{clasedistController.onCarreraChange}" update="semestre" />
+                            <f:selectItem itemLabel="Seleccione un elemento..."/>
+                            <f:selectItems value="#{clasedistController.getcarreras()}" var="item" itemValue="#{item}"
+                                           itemLabel="#{item.carrera}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Semestre:" for="semestre" />
+                        <p:selectOneMenu styleClass="t-6" id="semestre" value="#{clasedistController.semestre}" >
+                            <p:ajax listener="#{clasedistController.onSemestreChange()}" update="periodo,paralelo" />
+                            <f:selectItem itemLabel="Seleccione un elemento..."/>
+                            <f:selectItems value="#{clasedistController.getsemestres()}" var="item" itemValue="#{item}"
+                                           itemLabel="#{item.semestre}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Periodo:" for="periodo" />
+                        <p:selectOneMenu styleClass="t-6" id="periodo" value="#{clasedistController.periodo}" >
+                            <p:ajax listener="#{clasedistController.onPeriodoChange()}" update="paralelo" />
+                            <f:selectItem itemLabel="Seleccione un elemento..."/>
+                            <f:selectItems value="#{clasedistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
+                                           itemLabel="#{periodo.peridodo}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Paralelo:" for="paralelo" />
+                        <p:selectOneMenu styleClass="t-6" id="paralelo" value="#{clasedistController.paralelo}" >
+                            <p:ajax listener="#{clasedistController.buscar()}" update="datos" />
+                            <f:selectItem itemLabel="Seleccione un elemento..."/>
+                            <f:selectItems value="#{clasedistController.getparalelos()}" var="paralelo" itemValue="#{paralelo}"
+                                           itemLabel="#{paralelo.paralelo}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>   
+                </p:panel>
+                <p:panel id="basic">
+                    <p:panelGrid id="datos" columns="1" style="width: 100%">      
+                        <div class=" col-xs-5 col-md-4 center"><h3>Materia</h3></div>
+                        <div class="col-xs-1 hidden-xs col-middle h1 center"> </div>
+                        <div class=" col-xs-6 col-md-4 center"><h3>Docente encargado</h3></div>
+                        <c:forEach items="#{clasedistController.getdist()}" var="item">
+                            <div class="well col-xs-5 col-md-4">#{item.codmateria.materia}</div>
+                            <div class="col-xs-1 hidden-xs col-middle h1 center"> <span class="fa fa-angle-double-right"></span></div>
+                            <div class="well col-xs-6 col-md-4">#{item.cedula.apellido} #{item.cedula.nombre}</div>
+                        </c:forEach>                                         
+                    </p:panelGrid>
+                </p:panel>
+            </h:form> 
+        </div>
+    </ui:define>
+</ui:composition>

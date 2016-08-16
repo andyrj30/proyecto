@@ -62,8 +62,6 @@ public class Materia implements Serializable {
     @Column(name = "color")
     private String color;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
-    private List<Distributivoaula> distributivoaulaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
     private List<Distributivodocente> distributivodocenteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
     private List<Distributivoclase> distributivoclaseList;
@@ -127,14 +125,6 @@ public class Materia implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public List<Distributivoaula> getDistributivoaulaList() {
-        return distributivoaulaList;
-    }
-
-    public void setDistributivoaulaList(List<Distributivoaula> distributivoaulaList) {
-        this.distributivoaulaList = distributivoaulaList;
     }
 
     public List<Distributivodocente> getDistributivodocenteList() {

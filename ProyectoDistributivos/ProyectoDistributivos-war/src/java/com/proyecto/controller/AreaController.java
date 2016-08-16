@@ -43,6 +43,7 @@ public class AreaController extends AbstractController implements Serializable {
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listArea = null;
+            listSubarea =null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -53,6 +54,7 @@ public class AreaController extends AbstractController implements Serializable {
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listArea = null;
+            listSubarea =null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -64,6 +66,7 @@ public class AreaController extends AbstractController implements Serializable {
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listArea = null;
+            listSubarea =null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
