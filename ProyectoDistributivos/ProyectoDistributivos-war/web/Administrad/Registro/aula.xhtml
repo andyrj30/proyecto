@@ -43,7 +43,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListAulaTitle_edificio}"/>
                             </f:facet>
-                            <h:outputText value="#{item.edificio}"/>
+                            <h:outputText value="#{item.idedificio.edificio}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{aulaController.prepareCreate}" update=":AulaCreateForm" oncomplete="PF('AulaCreateDialog').show()"/>
@@ -64,9 +64,12 @@
                             <p:outputLabel value="#{bundle.CreateAulaLabel_aula}" for="aula" />
                             <p:inputText styleClass="t-5" id="aula" value="#{aulaController.selected.aula}" title="#{bundle.CreateAulaTitle_aula}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_aula}"/>
                             <p:outputLabel value="#{bundle.CreateAulaLabel_edificio}" for="edificio" />
-                            <p:selectOneMenu styleClass="t-5" id="edificio" value="#{aulaController.selected.edificio}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_edificio}">
+                            <p:selectOneMenu styleClass="t-5" id="edificio" value="#{aulaController.selected.idedificio}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_edificio}">
                                 <f:selectItem itemLabel="Seleccione un elemento..."  noSelectionOption="true" itemDisabled="true"/>
-                                <f:selectItems value="#{aulaController.edificios}" />
+                                <f:selectItems value="#{aulaController.listEdificio}" var="edificio"
+                                               itemLabel="#{edificio.edificio}"
+                                               itemValue="#{edificio}"
+                                                />
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <div class="pull-right">
@@ -85,9 +88,12 @@
                             <p:outputLabel value="#{bundle.CreateAulaLabel_aula}" for="aula" />
                             <p:inputText styleClass="t-5" id="aula" value="#{aulaController.selected.aula}" title="#{bundle.CreateAulaTitle_aula}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_aula}"/>
                             <p:outputLabel value="#{bundle.CreateAulaLabel_edificio}" for="edificio" />
-                            <p:selectOneMenu styleClass="t-5" id="edificio" value="#{aulaController.selected.edificio}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_edificio}">
+                            <p:selectOneMenu styleClass="t-5" id="edificio" value="#{aulaController.selected.idedificio}" required="true" requiredMessage="#{bundle.CreateAulaRequiredMessage_edificio}">
                                 <f:selectItem itemLabel="Seleccione un elemento..."  noSelectionOption="true" itemDisabled="true"/>
-                                <f:selectItems value="#{aulaController.edificios}" />
+                                <f:selectItems value="#{aulaController.listEdificio}" var="edificio"
+                                               itemLabel="#{edificio.edificio}"
+                                               itemValue="#{edificio}"
+                                                />
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <div class="pull-right">
@@ -106,7 +112,7 @@
                             <h:outputText value="#{bundle.ViewAulaLabel_aula}"/>
                             <h:outputText value="#{aulaController.selected.aula}" title="#{bundle.ViewAulaTitle_aula}"/>
                             <h:outputText value="#{bundle.ViewAulaLabel_edificio}"/>
-                            <h:outputText value="#{aulaController.selected.edificio}" title="#{bundle.ViewAulaTitle_edificio}"/>
+                            <h:outputText value="#{aulaController.selected.idedificio.edificio}" title="#{bundle.ViewAulaTitle_edificio}"/>
                         </p:panelGrid>
                         <div class="pull-right">
                             <p:commandButton value="Cancelar" onclick="PF('AulaViewDialog').hide()"/></div>

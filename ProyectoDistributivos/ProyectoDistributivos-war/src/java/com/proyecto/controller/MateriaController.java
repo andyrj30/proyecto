@@ -3,6 +3,7 @@ package com.proyecto.controller;
 import com.proyecto.entities.Materia;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Semestre;
+import com.proyecto.entities.Subarea;
 import com.proyecto.model.MateriaFacade;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class MateriaController extends AbstractController implements Serializabl
 
     private Materia selected;
     private Semestre semestre;
+    private Subarea subarea;
 
     public MateriaController() {
     }
@@ -31,6 +33,14 @@ public class MateriaController extends AbstractController implements Serializabl
 
     public void setSemestre(Semestre semestre) {
         this.semestre = semestre;
+    }
+
+    public Subarea getSubarea() {
+        return subarea;
+    }
+
+    public void setSubarea(Subarea subarea) {
+        this.subarea = subarea;
     }
 
     private MateriaFacade getFacade() {
@@ -57,6 +67,7 @@ public class MateriaController extends AbstractController implements Serializabl
     public void create() {
         try {
             selected.setIdsemestre(semestre);
+            selected.setIdsubarea(subarea);
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listMateria = null;

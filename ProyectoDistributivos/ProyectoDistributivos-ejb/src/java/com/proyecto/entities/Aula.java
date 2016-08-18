@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,8 +30,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Aula.findAll", query = "SELECT a FROM Aula a"),
     @NamedQuery(name = "Aula.findByCodaula", query = "SELECT a FROM Aula a WHERE a.codaula = :codaula"),
-    @NamedQuery(name = "Aula.findByAula", query = "SELECT a FROM Aula a WHERE a.aula = :aula"),
-    @NamedQuery(name = "Aula.findByEdificio", query = "SELECT a FROM Aula a WHERE a.edificio = :edificio")})
+    @NamedQuery(name = "Aula.findByAula", query = "SELECT a FROM Aula a WHERE a.aula = :aula")})
 public class Aula implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +45,9 @@ public class Aula implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "aula")
     private String aula;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "edificio")
-    private String edificio;
+    @JoinColumn(name = "idedificio", referencedColumnName = "idedificio")
+    @ManyToOne(optional = false)
+    private Edificio idedificio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codaula")
     private List<Distributivoaula> distributivoaulaList;
 
@@ -59,10 +58,9 @@ public class Aula implements Serializable {
         this.codaula = codaula;
     }
 
-    public Aula(String codaula, String aula, String edificio) {
+    public Aula(String codaula, String aula) {
         this.codaula = codaula;
         this.aula = aula;
-        this.edificio = edificio;
     }
 
     public String getCodaula() {
@@ -81,12 +79,12 @@ public class Aula implements Serializable {
         this.aula = aula;
     }
 
-    public String getEdificio() {
-        return edificio;
+    public Edificio getIdedificio() {
+        return idedificio;
     }
 
-    public void setEdificio(String edificio) {
-        this.edificio = edificio;
+    public void setIdedificio(Edificio idedificio) {
+        this.idedificio = idedificio;
     }
 
     public List<Distributivoaula> getDistributivoaulaList() {

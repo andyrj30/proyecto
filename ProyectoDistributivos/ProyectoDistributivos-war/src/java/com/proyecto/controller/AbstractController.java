@@ -36,6 +36,9 @@ public abstract class AbstractController {
     protected DocenteFacade ejbDocente;
 
     @EJB
+    protected EdificioFacade ejbEdificio;
+
+    @EJB
     protected FacultadFacade ejbFacultad;
 
     @EJB
@@ -80,15 +83,9 @@ public abstract class AbstractController {
     protected List<Subarea> listSubarea;
     protected List<Titulo> listTitulo;
     protected List<Usuario> listUsuario;
-    protected List<String> listEdificio;
+    protected List<Edificio> listEdificio;
 
     protected String defaultMsg = "Ha ocurrido un error en la transacción";
-
-    public AbstractController() {
-        this.listEdificio = new ArrayList<>();
-        listEdificio.add("Instituto de Informatica");
-        listEdificio.add("Facultad de Ciencias de la Ingenieria");
-    }
 
     public void filtrarCarrerasPor(Facultad facultad) {
         listCarrera.clear();

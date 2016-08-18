@@ -1,10 +1,9 @@
 package com.proyecto.controller;
 
-import com.proyecto.entities.Distributivoaula;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Edificio;
-import com.proyecto.entities.Periodo;
-import com.proyecto.model.DistributivoaulaFacade;
+import com.proyecto.entities.Edificio;
+import com.proyecto.model.EdificioFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,51 +15,33 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@javax.faces.bean.ManagedBean(name = "distributivoaulaController")
+@javax.faces.bean.ManagedBean(name = "edificioController")
 @javax.faces.bean.SessionScoped
-public class DistributivoaulaController extends AbstractController implements Serializable {
+public class EdificioController extends AbstractController implements Serializable {
 
-    private Distributivoaula selected;
-    private Edificio edificio;
-    private Periodo periodo;
+    private Edificio selected;
 
-    public DistributivoaulaController() {
+    public EdificioController() {
     }
 
-    private DistributivoaulaFacade getFacade() {
-        return ejbDistributivoaula;
+    private EdificioFacade getFacade() {
+        return ejbEdificio;
     }
 
-    public Distributivoaula getSelected() {
+    public Edificio getSelected() {
         return selected;
     }
 
-    public void setSelected(Distributivoaula selected) {
+    public void setSelected(Edificio selected) {
         this.selected = selected;
-    }
-
-    public Edificio getEdificio() {
-        return edificio;
-    }
-
-    public void setEdificio(Edificio edificio) {
-        this.edificio = edificio;
-    }
-
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
     }
 
     public int count() {
         return getFacade().count();
     }
 
-    public Distributivoaula prepareCreate() {
-        selected = new Distributivoaula();
+    public Edificio prepareCreate() {
+        selected = new Edificio();
         return selected;
     }
 
@@ -68,7 +49,7 @@ public class DistributivoaulaController extends AbstractController implements Se
         try {
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
-            listDistributivoaula = null;
+            listEdificio = null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -78,7 +59,7 @@ public class DistributivoaulaController extends AbstractController implements Se
         try {
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
-            listDistributivoaula = null;
+            listEdificio = null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -89,38 +70,34 @@ public class DistributivoaulaController extends AbstractController implements Se
             getFacade().remove(selected);
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
-            listDistributivoaula = null;
+            listEdificio = null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
-    public List<Distributivoaula> getItems() {
-        if (listDistributivoaula == null) {
-            listDistributivoaula = getFacade().findAll();
+    public List<Edificio> getItems() {
+        if (listEdificio == null) {
+            listEdificio = getFacade().findAll();
         }
-        return listDistributivoaula;
-    }
-
-    public List<Edificio> getEdificios() {
         return listEdificio;
     }
 
-    public Distributivoaula getDistributivoaula(Object id) {
+    public Edificio getEdificio(Object id) {
         return getFacade().find(id);
     }
 
-    @FacesConverter(forClass = Distributivoaula.class)
-    public static class DistributivoaulaControllerConverter implements Converter {
+    @FacesConverter(forClass = Edificio.class)
+    public static class EdificioControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            DistributivoaulaController controller = (DistributivoaulaController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "distributivoaulaController");
-            return controller.getDistributivoaula(getKey(value));
+            EdificioController controller = (EdificioController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "edificioController");
+            return controller.getEdificio(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -140,11 +117,11 @@ public class DistributivoaulaController extends AbstractController implements Se
             if (object == null) {
                 return null;
             }
-            if (object instanceof Distributivoaula) {
-                Distributivoaula o = (Distributivoaula) object;
-                return getStringKey(o.getIddistributivoaula());
+            if (object instanceof Edificio) {
+                Edificio o = (Edificio) object;
+                return getStringKey(o.getIdedificio());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Distributivoaula.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Edificio.class.getName()});
                 return null;
             }
         }

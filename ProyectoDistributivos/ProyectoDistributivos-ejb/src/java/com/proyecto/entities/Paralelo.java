@@ -49,6 +49,8 @@ public class Paralelo implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "seccion")
     private String seccion;
+    @OneToMany(mappedBy = "idparalelo")
+    private List<Distributivoaula> distributivoaulaList;
     @JoinColumn(name = "idperiodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
     private Periodo idperiodo;
@@ -94,6 +96,14 @@ public class Paralelo implements Serializable {
 
     public void setSeccion(String seccion) {
         this.seccion = seccion;
+    }
+
+    public List<Distributivoaula> getDistributivoaulaList() {
+        return distributivoaulaList;
+    }
+
+    public void setDistributivoaulaList(List<Distributivoaula> distributivoaulaList) {
+        this.distributivoaulaList = distributivoaulaList;
     }
 
     public Periodo getIdperiodo() {

@@ -22,23 +22,24 @@
 
                             <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
                                 <p:outputLabel value="Edificio:" for="edificio" />
-                                <p:selectOneMenu styleClass="t-6" id="edificio" value="#{auladistController.edificio}" >
+                                <p:selectOneMenu styleClass="t-6" id="edificio" value="#{distributivoaulaController.edificio}" >
+                                    <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
                                     <f:selectItem itemLabel="Seleccione un elemento..."/>
                                     <f:selectItems value="#{distributivoaulaController.edificios}"
                                                    var="item" itemValue="#{item}" 
-                                                   itemLabel="#{item}"/>
+                                                   itemLabel="#{item.edificio}"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="Periodo:" for="periodo" />
-                                <p:selectOneMenu styleClass="t-6" id="periodo" value="#{auladistController.periodo}" >
-                                    <p:ajax listener="#{clasedistController.onPeriodoChange()}" update="datos" />
+                                <p:selectOneMenu styleClass="t-6" id="periodo" value="#{distributivoaulaController.periodo}" >
+                                    <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
                                     <f:selectItem itemLabel="Seleccione un elemento..."/>
-                                    <f:selectItems value="#{clasedistController.getperiodos()}" var="periodo" itemValue="#{periodo}"
+                                    <f:selectItems value="#{distributivoaulaController.periodo}" var="periodo" itemValue="#{periodo}"
                                                    itemLabel="#{periodo.peridodo}"/>
                                 </p:selectOneMenu>
                             </p:panelGrid>   
-                             <p:dataTable id="datalist" tableStyleClass="tabla col-md-6" value="#{areaController.items}" var="item"
-                                     selectionMode="single" selection="#{areaController.selected}"
-                                     rowKey="#{item.idarea}"                                 
+                             <p:dataTable id="datalist" tableStyleClass="tabla col-md-6" value="#{distributivoaulaController.items}" var="item"
+                                     selectionMode="single" selection="#{distributivoaulaController.selected}"
+                                     rowKey="#{item.codaula}"                                 
                                      >
 
                             <p:ajax event="rowSelect"   update="viewButton"/>
@@ -46,25 +47,25 @@
                                 <f:facet name="header">
                                     <h:outputText value="Codigo de aula"/>
                                 </f:facet>
-                                <h:outputText value="#{item.idarea}"/>
+                                <h:outputText value="#{item.codaula.codaula}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Nombre del aula"/>
                                 </f:facet>
-                                <h:outputText value="#{item.area}"/>
+                                <h:outputText value="#{item.codaula.aula}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Paralelo"/>
                                 </f:facet>
-                                <h:outputText value="#{item.area}"/>
+                                <h:outputText value="#{item.idparalelo.paralelo}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="Sección"/>
                                 </f:facet>
-                                <h:outputText value="#{item.area}"/>
+                                <h:outputText value="#{item.idparalelo.seccion}"/>
                             </p:column>
                             <f:facet name="footer">
                                 <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>

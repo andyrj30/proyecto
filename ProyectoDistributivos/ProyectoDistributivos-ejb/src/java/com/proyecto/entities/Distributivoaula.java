@@ -38,6 +38,9 @@ public class Distributivoaula implements Serializable {
     @JoinColumn(name = "codaula", referencedColumnName = "codaula")
     @ManyToOne(optional = false)
     private Aula codaula;
+    @JoinColumn(name = "idparalelo", referencedColumnName = "idparalelo")
+    @ManyToOne
+    private Paralelo idparalelo;
     @JoinColumn(name = "idperiodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
     private Periodo idperiodo;
@@ -63,6 +66,14 @@ public class Distributivoaula implements Serializable {
 
     public void setCodaula(Aula codaula) {
         this.codaula = codaula;
+    }
+
+    public Paralelo getIdparalelo() {
+        return idparalelo;
+    }
+
+    public void setIdparalelo(Paralelo idparalelo) {
+        this.idparalelo = idparalelo;
     }
 
     public Periodo getIdperiodo() {

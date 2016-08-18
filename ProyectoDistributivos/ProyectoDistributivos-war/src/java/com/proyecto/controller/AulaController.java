@@ -2,6 +2,7 @@ package com.proyecto.controller;
 
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Aula;
+import com.proyecto.entities.Edificio;
 import com.proyecto.model.AulaFacade;
 
 import java.io.Serializable;
@@ -20,24 +21,19 @@ import javax.faces.convert.FacesConverter;
 public class AulaController extends AbstractController implements Serializable {
 
     private Aula selected;
-    private List<String> edificios = null;
 
     public AulaController() {
-        edificios = new ArrayList<>();
-        edificios.add("Instituto de Informtica");
-        edificios.add("Facultad de Ciencias de la Ingenieria");
     }
 
     private AulaFacade getFacade() {
         return ejbAula;
     }
 
-    public List<String> getEdificios() {
-        return edificios;
-    }
-
-    public void setEdificios(List<String> edificios) {
-        this.edificios = edificios;
+    public List<Edificio> getListEdificio() {
+        if (listEdificio==null) {
+            listEdificio = ejbEdificio.findAll();
+        }
+        return listEdificio;
     }
 
     public Aula getSelected() {
