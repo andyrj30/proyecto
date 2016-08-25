@@ -6,14 +6,16 @@
 package com.proyecto.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,16 +31,18 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByUsuario", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario"),
     @NamedQuery(name = "Usuario.findByContasena", query = "SELECT u FROM Usuario u WHERE u.contasena = :contasena"),
-    @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo")})
+    @NamedQuery(name = "Usuario.findByUsuarioContasena", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario AND u.contasena = :contasena"),
+    @NamedQuery(name = "Usuario.findByTipo", query = "SELECT u FROM Usuario u WHERE u.tipo = :tipo"),
+    @NamedQuery(name = "Usuario.findByDocente", query = "SELECT u FROM Usuario u WHERE u.docente = :docente"),
+    @NamedQuery(name = "Usuario.findByFoto", query = "SELECT u FROM Usuario u WHERE u.foto = :foto")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "idusuario")
-    private String idusuario;
+    private Integer idusuario;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -51,31 +55,35 @@ public class Usuario implements Serializable {
     private String contasena;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 50)
     @Column(name = "tipo")
     private String tipo;
-    @OneToMany(mappedBy = "idusuario")
-    private List<Docente> docenteList;
+    @Size(max = 254)
+    @Column(name = "foto")
+    private String foto;
+    @JoinColumn(name = "docente", referencedColumnName = "iddocente")
+    @ManyToOne(optional = false)
+    private Docente docente;
 
     public Usuario() {
     }
 
-    public Usuario(String idusuario) {
+    public Usuario(Integer idusuario) {
         this.idusuario = idusuario;
     }
 
-    public Usuario(String idusuario, String usuario, String contasena, String tipo) {
+    public Usuario(Integer idusuario, String usuario, String contasena, String tipo) {
         this.idusuario = idusuario;
         this.usuario = usuario;
         this.contasena = contasena;
         this.tipo = tipo;
     }
 
-    public String getIdusuario() {
+    public Integer getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(String idusuario) {
+    public void setIdusuario(Integer idusuario) {
         this.idusuario = idusuario;
     }
 
@@ -103,12 +111,20 @@ public class Usuario implements Serializable {
         this.tipo = tipo;
     }
 
-    public List<Docente> getDocenteList() {
-        return docenteList;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setDocenteList(List<Docente> docenteList) {
-        this.docenteList = docenteList;
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Carrera;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.CarreraFacade;
+import com.proyecto.entities.Semestre;
+import com.proyecto.model.CarreraFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,12 +21,21 @@ import javax.faces.convert.FacesConverter;
 public class CarreraController extends AbstractController implements Serializable {
 
     private Carrera selected;
+    private int semestres = 10;
 
     public CarreraController() {
     }
 
-    private CarreraFacade getFacade() {
+    private CarreraFacadeLocal getFacade() {
         return ejbCarrera;
+    }
+
+    public int getSemestres() {
+        return semestres;
+    }
+
+    public void setSemestres(int semestres) {
+        this.semestres = semestres;
     }
 
     public Carrera getSelected() {
@@ -47,8 +58,79 @@ public class CarreraController extends AbstractController implements Serializabl
     public void create() {
         try {
             getFacade().create(selected);
+            if (semestres>=0) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Primer semestre");
+                semestre.setAbreviatura("I");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=1) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Segundo semestre");
+                semestre.setAbreviatura("II");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=3) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Tercero semestre");
+                semestre.setAbreviatura("III");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=4) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Cuarto semestre");
+                semestre.setAbreviatura("IV");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=5) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Quinto semestre");
+                semestre.setAbreviatura("V");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=6) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Sexto semestre");
+                semestre.setAbreviatura("VI");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=7) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Septimo semestre");
+                semestre.setAbreviatura("VII");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=8) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Octavo semestre");
+                semestre.setAbreviatura("VIII");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=9) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Noveno semestre");
+                semestre.setAbreviatura("IX");
+                ejbSemestre.create(semestre);
+            }
+            if (semestres>=10) {
+                Semestre semestre = new Semestre();
+                semestre.setCarrera(selected);
+                semestre.setSemestre("Decimo semestre");
+                semestre.setAbreviatura("x");
+                ejbSemestre.create(semestre);
+            }
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listCarrera = null;
+            WSEndpoint.notificar("carrera");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -59,6 +141,7 @@ public class CarreraController extends AbstractController implements Serializabl
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listCarrera = null;
+            WSEndpoint.notificar("carrera");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -70,22 +153,21 @@ public class CarreraController extends AbstractController implements Serializabl
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listCarrera = null;
+            WSEndpoint.notificar("carrera");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Carrera> getItems() {
-        if (listCarrera == null) {
-            listCarrera = getFacade().findAll();
-        }
+        listCarrera = getFacade().findAll();
         return listCarrera;
     }
 
     public Carrera getCarrera(Object id) {
         return getFacade().find(id);
     }
-    
+
     @FacesConverter(forClass = Carrera.class)
     public static class CarreraControllerConverter implements Converter {
 
@@ -118,7 +200,7 @@ public class CarreraController extends AbstractController implements Serializabl
             }
             if (object instanceof Carrera) {
                 Carrera o = (Carrera) object;
-                return getStringKey(o.getIdcarrera());
+                return getStringKey(o.getCodcarrera());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Carrera.class.getName()});
                 return null;

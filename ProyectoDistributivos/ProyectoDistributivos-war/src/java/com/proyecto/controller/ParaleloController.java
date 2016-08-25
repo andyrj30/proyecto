@@ -3,6 +3,7 @@ package com.proyecto.controller;
 import com.proyecto.entities.Paralelo;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.model.ParaleloFacade;
+import com.proyecto.model.ParaleloFacadeLocal;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ParaleloController extends AbstractController implements Serializab
     public ParaleloController() {
     }
 
-    private ParaleloFacade getFacade() {
+    private ParaleloFacadeLocal getFacade() {
         return ejbParalelo;
     }
 
@@ -76,9 +77,7 @@ public class ParaleloController extends AbstractController implements Serializab
     }
 
     public List<Paralelo> getItems() {
-        if (listParalelo == null) {
-            listParalelo = getFacade().findAll();
-        }
+        listParalelo = getFacade().findAll();
         return listParalelo;
     }
 
@@ -118,7 +117,7 @@ public class ParaleloController extends AbstractController implements Serializab
             }
             if (object instanceof Paralelo) {
                 Paralelo o = (Paralelo) object;
-                return getStringKey(o.getIdparalelo());
+                return getStringKey(o.getCodparalelo());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Paralelo.class.getName()});
                 return null;

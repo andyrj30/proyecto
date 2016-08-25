@@ -8,18 +8,17 @@
 
     <ui:composition template="/Administrad/template.xhtml">
 
-
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListCarreraTitle}"></h:outputText>
-        </ui:define>
-
+        <ui:define name="title">Lista de Carreras</ui:define>      
         <ui:define name="body">
+            <h:form>                
+                <p:remoteCommand name="carrera" update=":CarreraListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
             <h:form id="CarreraListForm">
-                <p:panel header="#{bundle.ListCarreraTitle}">
+                <p:panel>
                     <p:dataTable id="datalist" tableStyleClass="tabla" value="#{carreraController.items}" var="item"
                                  selectionMode="single" selection="#{carreraController.selected}"
 
-                                 rowKey="#{item.idcarrera}"
+                                 rowKey="#{item.codcarrera}"
 
 
                                  >
@@ -31,7 +30,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCarreraTitle_idcarrera}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idcarrera}"/>
+                            <h:outputText value="#{item.codcarrera}"/>
                         </p:column>
                         <p:column styleClass="t-2">
                             <f:facet name="header">
@@ -43,7 +42,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCarreraTitle_idfacultad}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idfacultad.facultad}"/>
+                            <h:outputText value="#{item.facultad.facultad}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{carreraController.prepareCreate}" update=":CarreraCreateForm" oncomplete="PF('CarreraCreateDialog').show()"/>
@@ -60,11 +59,16 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
                             <p:outputLabel value="#{bundle.CreateCarreraLabel_idcarrera}" for="idcarrera" />
-                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.idcarrera}" title="#{bundle.CreateCarreraTitle_idcarrera}" required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_idcarrera}"/>
+                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.codcarrera}" title="#{bundle.CreateCarreraTitle_idcarrera}" required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_idcarrera}"/>
                             <p:outputLabel value="#{bundle.CreateCarreraLabel_carrera}" for="carrera" />
                             <p:inputText styleClass="t-5" id="carrera" value="#{carreraController.selected.carrera}" title="#{bundle.CreateCarreraTitle_carrera}" required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_carrera}"/>
+                            <p:outputLabel value="N° de semestres" for="ns" />
+                            <p:outputPanel>
+                                <p:inputText styleClass="t-1" id="ns" value="#{carreraController.semestres}" title="Numero de semestres" required="true" requiredMessage="El campo N° de semestres es requerido"/>
+                                <p:slider for="ns" maxValue="10"/>
+                            </p:outputPanel>
                             <p:outputLabel value="#{bundle.CreateCarreraLabel_idfacultad}" for="idfacultad" />
-                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.idfacultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
+                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.facultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
                                 <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
                                 <f:selectItems value="#{facultadController.items}"
                                                var="idfacultadItem"
@@ -85,11 +89,11 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
                             <p:outputLabel value="#{bundle.EditCarreraLabel_idcarrera}" for="idcarrera" />
-                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.idcarrera}" title="#{bundle.EditCarreraTitle_idcarrera}" disabled="true" required="true" requiredMessage="#{bundle.EditCarreraRequiredMessage_idcarrera}"/>
+                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.codcarrera}" title="#{bundle.EditCarreraTitle_idcarrera}" disabled="true" required="true" requiredMessage="#{bundle.EditCarreraRequiredMessage_idcarrera}"/>
                             <p:outputLabel value="#{bundle.EditCarreraLabel_carrera}" for="carrera" />
                             <p:inputText styleClass="t-5" id="carrera" value="#{carreraController.selected.carrera}" title="#{bundle.EditCarreraTitle_carrera}" required="true" requiredMessage="#{bundle.EditCarreraRequiredMessage_carrera}"/>
                             <p:outputLabel value="#{bundle.EditCarreraLabel_idfacultad}" for="idfacultad" />
-                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.idfacultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
+                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.facultad}"  required="true" requiredMessage="#{bundle.CreateCarreraRequiredMessage_facultad}">
                                 <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
                                 <f:selectItems value="#{facultadController.items}"
                                                var="idfacultadItem"
@@ -110,11 +114,11 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
                             <h:outputText value="#{bundle.ViewCarreraLabel_idcarrera}"/>
-                            <h:outputText value="#{carreraController.selected.idcarrera}" title="#{bundle.ViewCarreraTitle_idcarrera}"/>
+                            <h:outputText value="#{carreraController.selected.codcarrera}" title="#{bundle.ViewCarreraTitle_idcarrera}"/>
                             <h:outputText value="#{bundle.ViewCarreraLabel_carrera}"/>
                             <h:outputText value="#{carreraController.selected.carrera}" title="#{bundle.ViewCarreraTitle_carrera}"/>
                             <h:outputText value="#{bundle.ViewCarreraLabel_idfacultad}"/>
-                            <h:outputText value="#{carreraController.selected.idfacultad.facultad}" title="#{bundle.ViewCarreraTitle_idfacultad}"/>
+                            <h:outputText value="#{carreraController.selected.facultad.facultad}" title="#{bundle.ViewCarreraTitle_idfacultad}"/>
                         </p:panelGrid>
                         <div class="pull-right">
                             <p:commandButton value="Cancelar" onclick="PF('CarreraViewDialog').hide()"/>

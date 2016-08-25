@@ -2,7 +2,10 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Docente;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.DocenteFacade;
+import com.proyecto.entities.Usuario;
+import com.proyecto.model.DocenteFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +26,7 @@ public class DocenteController extends AbstractController implements Serializabl
     public DocenteController() {
     }
 
-    private DocenteFacade getFacade() {
+    private DocenteFacadeLocal getFacade() {
         return ejbDocente;
     }
 
@@ -44,11 +47,27 @@ public class DocenteController extends AbstractController implements Serializabl
         return selected;
     }
 
+    public void view() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/administrador/vista/docente");
+    }
+
     public void create() {
         try {
-            getFacade().create(selected);
-            JsfUtil.addSuccessMessage("Registro agregado correctamente");
-            listDocente = null;
+            listDocente = getFacade().FindByDocente(selected.getCedula());
+            if (listDocente == null || listDocente.size() < 1) {
+                getFacade().create(selected);
+                Usuario usuario;
+                usuario = new Usuario();
+                usuario.setDocente(selected);
+                usuario.setUsuario(selected.getCedula());
+                usuario.setContasena(selected.getCedula());
+                usuario.setTipo("doc");
+                ejbUsuario.create(usuario);
+                JsfUtil.addSuccessMessage("Registro agregado correctamente");
+                WSEndpoint.notificar("docente");
+            } else if (listDocente.size() > 0) {
+                JsfUtil.addErrorMessage("El docente ya existe");
+            }
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -59,6 +78,7 @@ public class DocenteController extends AbstractController implements Serializabl
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listDocente = null;
+            WSEndpoint.notificar("docente");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -66,19 +86,24 @@ public class DocenteController extends AbstractController implements Serializabl
 
     public void destroy() {
         try {
+            int id = selected.getIddocente();
+            List<Usuario> users;
+            users = ejbUsuario.FindByDocente(selected);
+            for (Usuario next : users) {
+                ejbUsuario.remove(next);
+            }
             getFacade().remove(selected);
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listDocente = null;
-        } catch (EJBException e) {
+            WSEndpoint.notificar("docente");
+        } catch (Exception e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Docente> getItems() {
-        if (listDocente == null) {
-            listDocente = getFacade().findAll();
-        }
+        listDocente = getFacade().findAll();
         return listDocente;
     }
 

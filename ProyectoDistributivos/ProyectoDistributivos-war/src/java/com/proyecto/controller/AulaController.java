@@ -2,11 +2,10 @@ package com.proyecto.controller;
 
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Aula;
-import com.proyecto.entities.Edificio;
-import com.proyecto.model.AulaFacade;
+import com.proyecto.model.AulaFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,15 +24,8 @@ public class AulaController extends AbstractController implements Serializable {
     public AulaController() {
     }
 
-    private AulaFacade getFacade() {
+    private AulaFacadeLocal getFacade() {
         return ejbAula;
-    }
-
-    public List<Edificio> getListEdificio() {
-        if (listEdificio==null) {
-            listEdificio = ejbEdificio.findAll();
-        }
-        return listEdificio;
     }
 
     public Aula getSelected() {
@@ -58,6 +50,7 @@ public class AulaController extends AbstractController implements Serializable {
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listAula = null;
+            WSEndpoint.notificar("aula");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -68,6 +61,7 @@ public class AulaController extends AbstractController implements Serializable {
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listAula = null;
+            WSEndpoint.notificar("aula");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -79,15 +73,14 @@ public class AulaController extends AbstractController implements Serializable {
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listAula = null;
+            WSEndpoint.notificar("aula");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Aula> getItems() {
-        if (listAula == null) {
-            listAula = getFacade().findAll();
-        }
+        listAula = getFacade().findAll();
         return listAula;
     }
 

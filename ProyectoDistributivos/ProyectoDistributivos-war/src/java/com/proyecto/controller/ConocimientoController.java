@@ -2,7 +2,7 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Conocimiento;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.ConocimientoFacade;
+import com.proyecto.model.ConocimientoFacadeLocal;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +25,7 @@ public class ConocimientoController extends AbstractController implements Serial
     public ConocimientoController() {
     }
 
-    private ConocimientoFacade getFacade() {
+    private ConocimientoFacadeLocal getFacade() {
         return ejbConocimiento;
     }
 
@@ -78,9 +78,7 @@ public class ConocimientoController extends AbstractController implements Serial
     }
 
     public List<Conocimiento> getItems() {
-        if (listConocimiento == null) {
-            listConocimiento = getFacade().findAll();
-        }
+        listConocimiento = getFacade().findAll();
         return listConocimiento;
     }
 

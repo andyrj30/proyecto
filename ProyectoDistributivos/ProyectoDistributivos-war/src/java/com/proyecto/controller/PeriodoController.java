@@ -2,9 +2,10 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Periodo;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.PeriodoFacade;
+import com.proyecto.model.PeriodoFacadeLocal;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class PeriodoController extends AbstractController implements Serializabl
     public PeriodoController() {
     }
 
-    private PeriodoFacade getFacade() {
+    private PeriodoFacadeLocal getFacade() {
         return ejbPeriodo;
     }
 
@@ -46,8 +47,10 @@ public class PeriodoController extends AbstractController implements Serializabl
 
     public void create() {
         try {
+            selected.setInicio(new Date());
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
+            JsfUtil.addSuccessMessage(new Date().toString());
             listPeriodo = null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
@@ -66,19 +69,17 @@ public class PeriodoController extends AbstractController implements Serializabl
 
     public void destroy() {
         try {
-            getFacade().remove(selected);
-            JsfUtil.addSuccessMessage("Registro eliminado correctamente");
-            selected = null;
-            listPeriodo = null;
+            selected.setFin(new Date());
+            selected.setEstado("Finalizado");
+            getFacade().edit(selected);
+            JsfUtil.addSuccessMessage("Periodo terminado");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Periodo> getItems() {
-        if (listPeriodo == null) {
-            listPeriodo = getFacade().findAll();
-        }
+        listPeriodo = getFacade().findAll();
         return listPeriodo;
     }
 
@@ -118,7 +119,7 @@ public class PeriodoController extends AbstractController implements Serializabl
             }
             if (object instanceof Periodo) {
                 Periodo o = (Periodo) object;
-                return getStringKey(o.getIdperiodo());
+                return getStringKey(o.getIdperiodo().toString());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Periodo.class.getName()});
                 return null;

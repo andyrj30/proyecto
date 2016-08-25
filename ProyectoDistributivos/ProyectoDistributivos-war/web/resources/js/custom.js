@@ -14,13 +14,10 @@ var CURRENT_URL = window.location.href.split('?')[0],
 $(document).ready(function () {
 
     var setContentHeight = function () {
-        // reset height
-        $RIGHT_COL.css('min-height', $(window).height() - 30);
-
         var bodyHeight = $BODY.outerHeight(),
-                footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
-                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
-                contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+                footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height() - 10,
+                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height() - 10,
+                contentHeight = leftColHeight - 45;
 
         // normalize content
         contentHeight -= $NAV_MENU.height() + footerHeight;
@@ -78,7 +75,7 @@ $(document).ready(function () {
     }).parent().addClass('active');
 
 });
-// /Sidebar
+
 function handleSubmit(args, dialog) {
     var jqDialog = jQuery('#' + dialog);
     if (args.validationFailed) {
@@ -113,3 +110,35 @@ PrimeFaces.locales['es'] = {
     day: 'Día',
     allDayText: 'Todo el día'
 };
+
+//notar el protocolo.. es 'ws' y no 'http'
+var wsUri = "ws://localhost:8080/ProyectoDistributivos-war/endpoint";
+var websocket = new WebSocket(wsUri); //creamos el socket
+websocket.onopen = function (evt) { //manejamos los eventos...
+    console.log("conectado");
+};
+websocket.onmessage = function (evt) { // cuando se recibe un mensaje
+    if (evt.data=="area") {
+        area();
+    }
+    if (evt.data=="aula") {
+        aula();
+    }
+    if (evt.data=="carrera") {
+        carrera();
+    }
+    if (evt.data=="docente") {
+        docente();
+    }
+    if (evt.data=="facultad") {
+        facultad();
+    }
+    if (evt.data=="materia") {
+        materia();
+    }
+};
+websocket.onerror = function (evt) {
+    console.log("Error");
+    
+};
+

@@ -1,85 +1,90 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
-                template="/Administrad/template.xhtml"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:define name="body">
-        <div class="clearfix"></div>
-        <div class="row">
-            <h:form>
+    <ui:composition template="/Administrad/template.xhtml">
 
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
-                            </h4>
-                        </div>
-                        <div id="collapse1" class="panel-collapse in">
+        <ui:define name="title">.</ui:define>   
+        <ui:define name="body">
+            <div class="clearfix"></div>
+            <div class="row">
+                <h:form>
 
-                            <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
-                                <p:outputLabel value="Edificio:" for="edificio" />
-                                <p:selectOneMenu styleClass="t-6" id="edificio" value="#{distributivoaulaController.edificio}" >
-                                    <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
-                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
-                                    <f:selectItems value="#{distributivoaulaController.edificios}"
-                                                   var="item" itemValue="#{item}" 
-                                                   itemLabel="#{item.edificio}"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Periodo:" for="periodo" />
-                                <p:selectOneMenu styleClass="t-6" id="periodo" value="#{distributivoaulaController.periodo}" >
-                                    <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
-                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
-                                    <f:selectItems value="#{distributivoaulaController.periodo}" var="periodo" itemValue="#{periodo}"
-                                                   itemLabel="#{periodo.peridodo}"/>
-                                </p:selectOneMenu>
-                            </p:panelGrid>   
-                             <p:dataTable id="datalist" tableStyleClass="tabla col-md-6" value="#{distributivoaulaController.items}" var="item"
-                                     selectionMode="single" selection="#{distributivoaulaController.selected}"
-                                     rowKey="#{item.codaula}"                                 
-                                     >
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" href="#collapse1">
+                                <h4 class="panel-title">
+                                    <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Filtros</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse in">
 
-                            <p:ajax event="rowSelect"   update="viewButton"/>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Codigo de aula"/>
-                                </f:facet>
-                                <h:outputText value="#{item.codaula.codaula}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Nombre del aula"/>
-                                </f:facet>
-                                <h:outputText value="#{item.codaula.aula}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Paralelo"/>
-                                </f:facet>
-                                <h:outputText value="#{item.idparalelo.paralelo}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Sección"/>
-                                </f:facet>
-                                <h:outputText value="#{item.idparalelo.seccion}"/>
-                            </p:column>
-                            <f:facet name="footer">
-                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
-                            </f:facet>
-                        </p:dataTable>     
+                                <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
+                                    <p:outputLabel value="Edificio:" for="edificio" />
+                                    <p:selectOneMenu styleClass="t-6" id="edificio" value="#{distaulaController.edificio}" >
+                                        <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
+                                        <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                        <f:selectItems value="#{edificioController.items}"
+                                                       var="item" itemValue="#{item}" 
+                                                       itemLabel="#{item.edificio}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Periodo:" for="periodo" />
+                                    <p:selectOneMenu styleClass="t-6" id="periodo" value="#{distaulaController.periodo}" >
+                                        <p:ajax listener="#{distributivoaulaController.filtrar}" update="datos" />
+                                        <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                        <f:selectItems value="#{periodoController.items}" var="periodo" 
+                                                       itemValue="#{periodo}"
+                                                       itemLabel="#{periodo.peridodo}"/>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>    
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p:panel id="basic">
-                    <p:panelGrid id="datos" columns="1" style="width: 50%">      
-                                                        
-                    </p:panelGrid>
-                </p:panel>
-            </h:form> 
-        </div>
-    </ui:define>
-</ui:composition>
+                    <p:panel id="basic">
+                        <p:panelGrid id="datos" columns="1" style="width: 100%">    
+                            <p:dataTable id="datalist" tableStyleClass="tabla" value="#{distributivoaulaController.items}" var="item"
+                                         selectionMode="single" selection="#{distributivoaulaController.selected}"
+                                         rowKey="#{item.codaula}"                                 
+                                         >
+
+                                <p:ajax event="rowSelect"   update="viewButton"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Codigo de aula"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.codaula.codaula}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre del aula"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.codaula.aula}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Paralelo"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idparalelo.paralelo}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Sección"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idparalelo.seccion}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" oncomplete="PF('AreaViewDialog').show()" disabled="#{empty areaController.selected}"/>
+                                </f:facet>
+                            </p:dataTable>                                                        
+                        </p:panelGrid>
+                    </p:panel>
+                </h:form> 
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -6,8 +5,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="shortcut icon" type="image/png" href="/ProyectoDistributivos-war/faces/javax.faces.resource/img/logo.png"/>
@@ -33,10 +30,10 @@
                     <h2>Universidad Tecnica Estatal de Quevedo</h2>
                     <h4>La primera universidad agropecuaria del Ecuador</h4>
                 </div>
-                <div class="col-md-2 right">
-                    <h3><a target="_blank" href="https://www.facebook.com/uteq.ecuador/"><i class="fa fa-facebook"></i> </a>
+                <div class="col-md-2 right" style="font-size: 30px">
+                        <a target="_blank" href="https://www.facebook.com/uteq.ecuador/"><i class="fa fa-facebook"></i> </a>
                         <a target="_blank" href="https://twitter.com/NoticiasUTEQ"><i class="fa fa-twitter"></i> </a>
-                        <a target="_blank" href="https://www.youtube.com/user/UTEQCHANNEL/videos"><i class="fa fa-youtube"></i> </a></h3>
+                        <a target="_blank" href="https://www.youtube.com/user/UTEQCHANNEL/videos"><i class="fa fa-youtube"></i> </a>
                 </div>
             </div>
             <div class="navbar navbar-default row">
@@ -58,10 +55,10 @@
                             <li class="menuitem"><a href="#"><i class="fa fa-envelope-o icon" aria-hidden="true"></i>Contactos</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="menuitem" role="button"><a  data-toggle="modal" data-target=".loginModal"><i class="fa fa-user icon" aria-hidden="true"></i>Iniciar Sesión</a></li>
+                            <li class="menuitem"><a  data-toggle="modal" data-target=".loginModal"><i class="fa fa-user icon" aria-hidden="true"></i>Iniciar Sesión</a></li>
                         </ul>
                         <div class="login_content">
-                            <div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+                            <div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -103,7 +100,7 @@
             <div class="navbar navbar-default row">
                 <div class="pull-right alert">
                     <strong> 
-                        <script language="javascript">document.write(new Date().getFullYear());</script>
+                        <script>document.write(new Date().getFullYear());</script>
                         Universidad Técnica Estatal de Quevedo. 
                     </strong> 
                     Todos los derechos reservados.<br/>
@@ -113,7 +110,7 @@
         </div>
         <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
             <f:facet name="start">
-                <p:graphicImage name="img/loader.gif" />
+                <p:graphicImage name="img/loader.gif" alt="" />
             </f:facet>
 
             <f:facet name="complete">
@@ -130,7 +127,6 @@
         <script>
             $('.tabla').DataTable();
         </script>
-
     </h:body>
 
 </html>

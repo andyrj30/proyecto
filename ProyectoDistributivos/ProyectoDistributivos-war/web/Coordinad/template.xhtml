@@ -44,7 +44,7 @@
                             </div>
                             <div class="profile_info">
                                 <span>Bienvenido,</span>
-                                <h2><ui:insert name="user"/></h2>
+                                <h2>#{usuarioController.activo.docente.nombres}</h2>
                             </div>
                         </div>
                         <!-- /menu profile quick info -->
@@ -106,18 +106,20 @@
                 </div>
 
                 <!-- top navigation -->
-                <div class="top_nav">
+                <div class="top_nav hidden-print navbar-fixed-top" style="z-index: 100">
                     <div class="nav_menu">
                         <nav>
                             <div class="nav toggle">
                                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                             </div>
+                            <ul class="nav navbar-nav navbar-left">
+                                <h2><ui:insert name="title"/>.</h2>
+                            </ul>
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="/ProyectoDistributivos-war/faces/javax.faces.resource/img/profile.png" alt=""/><ui:insert name="user"/>
-                                        <span class=" fa fa-angle-down"></span>
+                                        <img src="/ProyectoDistributivos-war/faces/javax.faces.resource/img/profile.png" alt=""/>                                        <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                                         <li><a href="javascript:;"> Perfil</a></li>
@@ -134,7 +136,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
@@ -167,16 +168,15 @@
                     </div>
                 </div>
                 <!-- /top navigation -->
-
+                <br/><br/>
                 <!-- page content -->
-                <div class="right_col">
-                    <div class="clearfix"></div>
+                <div class="right_col" style="margin-top: 15px">
                     <ui:insert name="body"/>
                 </div>
                 <!-- /page content -->
 
                 <!-- footer content -->
-                <footer>
+                <footer class=" hidden-print">
                     <div class="pull-right">
                         <strong> 
                             <script language="javascript">document.write(new Date().getFullYear());</script>
@@ -192,14 +192,9 @@
             <f:facet name="start">
                 <p:graphicImage name="img/loader.gif" />
             </f:facet>
-
-            <f:facet name="complete">
-                <h:outputText value="" />
-            </f:facet>
         </p:ajaxStatus>
         <!-- jquery  -->
         <h:outputScript name="vendors/jquery/jquery.dataTables.min.js" />
-        <h:outputScript name="vendors/jquery/jquery.simplecolorpicker.js" />
         <!-- Bootstrap -->
         <h:outputScript name="vendors/bootstrap/js/bootstrap.js" />
         <h:outputScript name="vendors/bootstrap/js/dataTables.bootstrap.min.js" />
@@ -207,7 +202,6 @@
         <h:outputScript name="js/custom.js" />
         <script>
             $('.tabla').DataTable();
-            $('select[name="colorpicker"]').simplecolorpicker();
         </script>
 
     </h:body>

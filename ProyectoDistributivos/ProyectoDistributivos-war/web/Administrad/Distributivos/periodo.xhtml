@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/Administrad/template.xhtml">
+
+        <ui:define name="title">Periodos</ui:define>
+        <ui:define name="body">
+            <div class="row">
+                <h:form  id="PeriodoListForm">
+                    <p:panel id="toggleable" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+                        <p:dataTable id="datalist" tableStyleClass="tabla" value="#{periodoController.items}" var="item"
+                                     selectionMode="single" selection="#{periodoController.selected}"
+                                     rowKey="#{item.idperiodo}">
+
+                            <p:ajax event="rowSelect" update=":PeriodoListForm" oncomplete="$('.tabla').DataTable();"/>
+
+                            <p:column styleClass="t-1">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPeriodoTitle_idperiodo}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idperiodo}"/>
+                            </p:column>
+                            <p:column styleClass="t-5">
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPeriodoTitle_peridodo}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.peridodo}"/>
+                            </p:column>
+                            <p:column styleClass="t-2">
+                                <f:facet name="header">
+                                    <h:outputText value="Inicio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.inicio}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column styleClass="t-2">
+                                <f:facet name="header">
+                                    <h:outputText value="Fin"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fin}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column styleClass="t-2">
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{item.estado}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear periodo" 
+                                                 actionListener="#{periodoController.prepareCreate}" update=":PeriodoCreateForm" 
+                                                 oncomplete="PF('PeriodoCreateDialog').show()"/>
+                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Terminar periodo" 
+                                                 actionListener="#{periodoController.destroy}" oncomplete="$('.tabla').DataTable();" 
+                                                 update=":growl,datalist" disabled="#{empty periodoController.selected}"/>
+                            </f:facet>
+                        </p:dataTable> 
+
+                    </p:panel>
+                </h:form> 
+                <p:dialog id="PeriodoCreateDlg" widgetVar="PeriodoCreateDialog" resizable="false" appendTo="@(body)" 
+                          header="#{bundle.CreatePeriodoTitle}">
+                    <h:form id="PeriodoCreateForm">
+                        <h:panelGroup id="display">
+                            <p:panelGrid columns="2" rendered="#{periodoController.selected != null}" style="min-width: 400px">
+                                <p:outputLabel value="Periodo" for="peridodo" />
+                                <p:inputText id="peridodo" value="#{periodoController.selected.peridodo}" 
+                                             title="Detalle del periodo" required="true" 
+                                             requiredMessage="El campo Periodo es requerido"/>
+                            </p:panelGrid>
+                            <div class="pull-right">
+                                <p:commandButton actionListener="#{periodoController.create}" value="Crear" 
+                                                 update="display,:PeriodoListForm:datalist,:growl" 
+                                                 oncomplete="handleSubmit(args,'PeriodoCreateDialog'); $('.tabla').DataTable();"/>
+                                <p:commandButton value="Cancelar" onclick="PF('PeriodoCreateDialog').hide()"/>
+                            </div>
+                        </h:panelGroup>
+                    </h:form>
+                </p:dialog>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+</html>

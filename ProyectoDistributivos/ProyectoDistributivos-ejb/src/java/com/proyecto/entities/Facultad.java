@@ -8,6 +8,7 @@ package com.proyecto.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ import javax.validation.constraints.Size;
 @Table(name = "facultad")
 @NamedQueries({
     @NamedQuery(name = "Facultad.findAll", query = "SELECT f FROM Facultad f"),
-    @NamedQuery(name = "Facultad.findByIdfacultad", query = "SELECT f FROM Facultad f WHERE f.idfacultad = :idfacultad"),
+    @NamedQuery(name = "Facultad.findByCodfacultad", query = "SELECT f FROM Facultad f WHERE f.codfacultad = :codfacultad"),
     @NamedQuery(name = "Facultad.findByFacultad", query = "SELECT f FROM Facultad f WHERE f.facultad = :facultad")})
 public class Facultad implements Serializable {
 
@@ -35,34 +36,34 @@ public class Facultad implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "idfacultad")
-    private String idfacultad;
+    @Column(name = "codfacultad")
+    private String codfacultad;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "facultad")
     private String facultad;
-    @OneToMany(mappedBy = "idfacultad")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultad")
     private List<Carrera> carreraList;
 
     public Facultad() {
     }
 
-    public Facultad(String idfacultad) {
-        this.idfacultad = idfacultad;
+    public Facultad(String codfacultad) {
+        this.codfacultad = codfacultad;
     }
 
-    public Facultad(String idfacultad, String facultad) {
-        this.idfacultad = idfacultad;
+    public Facultad(String codfacultad, String facultad) {
+        this.codfacultad = codfacultad;
         this.facultad = facultad;
     }
 
-    public String getIdfacultad() {
-        return idfacultad;
+    public String getCodfacultad() {
+        return codfacultad;
     }
 
-    public void setIdfacultad(String idfacultad) {
-        this.idfacultad = idfacultad;
+    public void setCodfacultad(String codfacultad) {
+        this.codfacultad = codfacultad;
     }
 
     public String getFacultad() {
@@ -84,7 +85,7 @@ public class Facultad implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idfacultad != null ? idfacultad.hashCode() : 0);
+        hash += (codfacultad != null ? codfacultad.hashCode() : 0);
         return hash;
     }
 
@@ -95,7 +96,7 @@ public class Facultad implements Serializable {
             return false;
         }
         Facultad other = (Facultad) object;
-        if ((this.idfacultad == null && other.idfacultad != null) || (this.idfacultad != null && !this.idfacultad.equals(other.idfacultad))) {
+        if ((this.codfacultad == null && other.codfacultad != null) || (this.codfacultad != null && !this.codfacultad.equals(other.codfacultad))) {
             return false;
         }
         return true;
@@ -103,7 +104,7 @@ public class Facultad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyecto.entities.Facultad[ idfacultad=" + idfacultad + " ]";
+        return "com.proyecto.entities.Facultad[ codfacultad=" + codfacultad + " ]";
     }
     
 }

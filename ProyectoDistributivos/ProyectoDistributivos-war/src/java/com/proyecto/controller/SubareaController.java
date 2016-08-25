@@ -2,7 +2,8 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Subarea;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.SubareaFacade;
+import com.proyecto.model.SubareaFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,7 @@ public class SubareaController extends AbstractController implements Serializabl
     public SubareaController() {
     }
 
-    private SubareaFacade getFacade() {
+    private SubareaFacadeLocal getFacade() {
         return ejbSubarea;
     }
 
@@ -49,6 +50,7 @@ public class SubareaController extends AbstractController implements Serializabl
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -59,6 +61,7 @@ public class SubareaController extends AbstractController implements Serializabl
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -70,15 +73,14 @@ public class SubareaController extends AbstractController implements Serializabl
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Subarea> getItems() {
-        if (listSubarea == null) {
-            listSubarea = getFacade().findAll();
-        }
+        listSubarea = getFacade().findAll();
         return listSubarea;
     }
 

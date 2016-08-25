@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,16 +31,20 @@ import javax.validation.constraints.Size;
 @Table(name = "docente")
 @NamedQueries({
     @NamedQuery(name = "Docente.findAll", query = "SELECT d FROM Docente d"),
+    @NamedQuery(name = "Docente.findByIddocente", query = "SELECT d FROM Docente d WHERE d.iddocente = :iddocente"),
     @NamedQuery(name = "Docente.findByCedula", query = "SELECT d FROM Docente d WHERE d.cedula = :cedula"),
-    @NamedQuery(name = "Docente.findByNombre", query = "SELECT d FROM Docente d WHERE d.nombre = :nombre"),
-    @NamedQuery(name = "Docente.findByApellido", query = "SELECT d FROM Docente d WHERE d.apellido = :apellido"),
+    @NamedQuery(name = "Docente.findByNombres", query = "SELECT d FROM Docente d WHERE d.nombres = :nombres"),
+    @NamedQuery(name = "Docente.findByApellidos", query = "SELECT d FROM Docente d WHERE d.apellidos = :apellidos"),
     @NamedQuery(name = "Docente.findByCorreo", query = "SELECT d FROM Docente d WHERE d.correo = :correo"),
-    @NamedQuery(name = "Docente.findByTelefono", query = "SELECT d FROM Docente d WHERE d.telefono = :telefono"),
-    @NamedQuery(name = "Docente.findByFechanacimeinto", query = "SELECT d FROM Docente d WHERE d.fechanacimeinto = :fechanacimeinto")})
+    @NamedQuery(name = "Docente.findByTelefono", query = "SELECT d FROM Docente d WHERE d.telefono = :telefono")})
 public class Docente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "iddocente")
+    private Integer iddocente;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 11)
@@ -46,46 +52,54 @@ public class Docente implements Serializable {
     private String cedula;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nombre")
-    private String nombre;
+    @Size(min = 1, max = 100)
+    @Column(name = "nombres")
+    private String nombres;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "apellido")
-    private String apellido;
+    @Column(name = "apellidos")
+    private String apellidos;
     @Size(max = 100)
     @Column(name = "correo")
     private String correo;
     @Size(max = 25)
     @Column(name = "telefono")
     private String telefono;
-    @Size(max = 20)
-    @Column(name = "fechanacimeinto")
-    private String fechanacimeinto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cedula")
+    @OneToMany(mappedBy = "docente")
     private List<Conocimiento> conocimientoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cedula")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "docente")
+    private List<Distributivo> distributivoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "docente")
+    private List<Estudio> estudioList;
+    @OneToMany(mappedBy = "docente")
     private List<Contrato> contratoList;
-    @JoinColumn(name = "idusuario", referencedColumnName = "idusuario")
+    @JoinColumn(name = "idpais", referencedColumnName = "idpais")
     @ManyToOne
-    private Usuario idusuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cedula")
-    private List<Titulo> tituloList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cedula")
-    private List<Distributivodocente> distributivodocenteList;
+    private Pais idpais;
+    @OneToMany(mappedBy = "docente")
+    private List<Usuario> usuarioList;
 
     public Docente() {
     }
 
-    public Docente(String cedula) {
-        this.cedula = cedula;
+    public Docente(Integer iddocente) {
+        this.iddocente = iddocente;
     }
 
-    public Docente(String cedula, String nombre, String apellido) {
+    public Docente(Integer iddocente, String cedula, String nombres, String apellidos) {
+        this.iddocente = iddocente;
         this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+    }
+
+    public Integer getIddocente() {
+        return iddocente;
+    }
+
+    public void setIddocente(Integer iddocente) {
+        this.iddocente = iddocente;
     }
 
     public String getCedula() {
@@ -96,20 +110,20 @@ public class Docente implements Serializable {
         this.cedula = cedula;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getCorreo() {
@@ -128,20 +142,28 @@ public class Docente implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getFechanacimeinto() {
-        return fechanacimeinto;
-    }
-
-    public void setFechanacimeinto(String fechanacimeinto) {
-        this.fechanacimeinto = fechanacimeinto;
-    }
-
     public List<Conocimiento> getConocimientoList() {
         return conocimientoList;
     }
 
     public void setConocimientoList(List<Conocimiento> conocimientoList) {
         this.conocimientoList = conocimientoList;
+    }
+
+    public List<Distributivo> getDistributivoList() {
+        return distributivoList;
+    }
+
+    public void setDistributivoList(List<Distributivo> distributivoList) {
+        this.distributivoList = distributivoList;
+    }
+
+    public List<Estudio> getEstudioList() {
+        return estudioList;
+    }
+
+    public void setEstudioList(List<Estudio> estudioList) {
+        this.estudioList = estudioList;
     }
 
     public List<Contrato> getContratoList() {
@@ -152,34 +174,26 @@ public class Docente implements Serializable {
         this.contratoList = contratoList;
     }
 
-    public Usuario getIdusuario() {
-        return idusuario;
+    public Pais getIdpais() {
+        return idpais;
     }
 
-    public void setIdusuario(Usuario idusuario) {
-        this.idusuario = idusuario;
+    public void setIdpais(Pais idpais) {
+        this.idpais = idpais;
     }
 
-    public List<Titulo> getTituloList() {
-        return tituloList;
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
     }
 
-    public void setTituloList(List<Titulo> tituloList) {
-        this.tituloList = tituloList;
-    }
-
-    public List<Distributivodocente> getDistributivodocenteList() {
-        return distributivodocenteList;
-    }
-
-    public void setDistributivodocenteList(List<Distributivodocente> distributivodocenteList) {
-        this.distributivodocenteList = distributivodocenteList;
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (cedula != null ? cedula.hashCode() : 0);
+        hash += (iddocente != null ? iddocente.hashCode() : 0);
         return hash;
     }
 
@@ -190,7 +204,7 @@ public class Docente implements Serializable {
             return false;
         }
         Docente other = (Docente) object;
-        if ((this.cedula == null && other.cedula != null) || (this.cedula != null && !this.cedula.equals(other.cedula))) {
+        if ((this.iddocente == null && other.iddocente != null) || (this.iddocente != null && !this.iddocente.equals(other.iddocente))) {
             return false;
         }
         return true;
@@ -198,7 +212,7 @@ public class Docente implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyecto.entities.Docente[ cedula=" + cedula + " ]";
+        return "com.proyecto.entities.Docente[ iddocente=" + iddocente + " ]";
     }
     
 }

@@ -32,7 +32,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Semestre.findAll", query = "SELECT s FROM Semestre s"),
     @NamedQuery(name = "Semestre.findByIdsemestre", query = "SELECT s FROM Semestre s WHERE s.idsemestre = :idsemestre"),
-    @NamedQuery(name = "Semestre.findBySemestre", query = "SELECT s FROM Semestre s WHERE s.semestre = :semestre")})
+    @NamedQuery(name = "Semestre.findBySemestre", query = "SELECT s FROM Semestre s WHERE s.semestre = :semestre"),
+    @NamedQuery(name = "Semestre.findByAbreviatura", query = "SELECT s FROM Semestre s WHERE s.abreviatura = :abreviatura")})
 public class Semestre implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,13 +47,16 @@ public class Semestre implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "semestre")
     private String semestre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsemestre")
+    @Size(max = 5)
+    @Column(name = "abreviatura")
+    private String abreviatura;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semestre")
     private List<Paralelo> paraleloList;
-    @OneToMany(mappedBy = "idsemestre")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semestre")
     private List<Materia> materiaList;
-    @JoinColumn(name = "idcarrera", referencedColumnName = "idcarrera")
+    @JoinColumn(name = "carrera", referencedColumnName = "codcarrera")
     @ManyToOne(optional = false)
-    private Carrera idcarrera;
+    private Carrera carrera;
 
     public Semestre() {
     }
@@ -82,6 +86,14 @@ public class Semestre implements Serializable {
         this.semestre = semestre;
     }
 
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+
     public List<Paralelo> getParaleloList() {
         return paraleloList;
     }
@@ -98,12 +110,12 @@ public class Semestre implements Serializable {
         this.materiaList = materiaList;
     }
 
-    public Carrera getIdcarrera() {
-        return idcarrera;
+    public Carrera getCarrera() {
+        return carrera;
     }
 
-    public void setIdcarrera(Carrera idcarrera) {
-        this.idcarrera = idcarrera;
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
     }
 
     @Override

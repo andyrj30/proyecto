@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Andy
  */
 @Stateless
-public class EdificioFacade extends AbstractFacade<Edificio> {
+public class EdificioFacade extends AbstractFacade<Edificio> implements EdificioFacadeLocal {
 
     @PersistenceContext(unitName = "ProyectoDistributivos-ejbPU")
     private EntityManager em;

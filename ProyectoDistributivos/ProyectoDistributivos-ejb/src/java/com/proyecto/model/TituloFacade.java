@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Andy
  */
 @Stateless
-public class TituloFacade extends AbstractFacade<Titulo> {
+public class TituloFacade extends AbstractFacade<Titulo> implements TituloFacadeLocal {
 
     @PersistenceContext(unitName = "ProyectoDistributivos-ejbPU")
     private EntityManager em;

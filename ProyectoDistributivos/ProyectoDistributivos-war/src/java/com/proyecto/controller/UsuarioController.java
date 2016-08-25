@@ -2,7 +2,7 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Usuario;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.UsuarioFacade;
+import com.proyecto.model.UsuarioFacadeLocal;
 import java.io.IOException;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public class UsuarioController extends AbstractController implements Serializabl
         this.activo = new Usuario();
     }
 
-    private UsuarioFacade getFacade() {
+    private UsuarioFacadeLocal getFacade() {
         return ejbUsuario;
     }
 
@@ -87,9 +87,7 @@ public class UsuarioController extends AbstractController implements Serializabl
     }
 
     public List<Usuario> getItems() {
-        if (listUsuario == null) {
-            listUsuario = getFacade().findAll();
-        }
+        listUsuario = getFacade().findAll();
         return listUsuario;
     }
 
@@ -97,35 +95,25 @@ public class UsuarioController extends AbstractController implements Serializabl
         return getFacade().find(id);
     }
 
-    public String getUsuario(String username, String password) {
-        List<Usuario> list = getItems();
-        String tipo = "";
-        for (Usuario next : list) {
-            if (next.getUsuario().equals(username) && next.getContasena().equals(password)) {
-                tipo = tipo + next.getTipo();
-            }
-        }
-        return tipo;
-    }
-
     public void login() throws IOException {
-        List<Usuario> list = getItems();
-        String tipo = "";
-        for (Usuario next : list) {
-            if (next.getUsuario().equals(activo.getUsuario()) && next.getContasena().equals(activo.getContasena())) {
-                tipo = tipo + next.getTipo();
+        List<Usuario> list = getFacade().FindByUsuarioContasena(activo.getUsuario(), activo.getContasena());
+        if (list != null && list.size() == 1) {
+            String tipo = list.get(0).getTipo();
+            if (tipo.equals("adm")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/administrador");
             }
+            if (tipo.equals("coo")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/coordinador");
+            }
+            if (tipo.equals("doc")) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/docentes");
+            } else {
+                JsfUtil.addErrorMessage("Usuario o contraseña incorrecta");
+            }
+            activo = list.get(0);
+        } else {
+            JsfUtil.addErrorMessage("Usuario o contraseña incorrecta");
         }
-        if (tipo.equals("adm")) {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/administrador");
-        }
-        if (tipo.equals("coo")) {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/coordinador");
-        }
-        if (tipo.equals("doc")) {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/ProyectoDistributivos-war/docentes");
-        }
-        JsfUtil.addErrorMessage("Usuario o contraseña incorrecta" + tipo);
     }
 
     @FacesConverter(forClass = Usuario.class)
@@ -160,7 +148,7 @@ public class UsuarioController extends AbstractController implements Serializabl
             }
             if (object instanceof Usuario) {
                 Usuario o = (Usuario) object;
-                return getStringKey(o.getIdusuario());
+                return getStringKey(o.getIdusuario().toString());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Usuario.class.getName()});
                 return null;

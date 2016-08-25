@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,49 +35,58 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Periodo.findByIdperiodo", query = "SELECT p FROM Periodo p WHERE p.idperiodo = :idperiodo"),
     @NamedQuery(name = "Periodo.findByPeridodo", query = "SELECT p FROM Periodo p WHERE p.peridodo = :peridodo"),
     @NamedQuery(name = "Periodo.findByInicio", query = "SELECT p FROM Periodo p WHERE p.inicio = :inicio"),
-    @NamedQuery(name = "Periodo.findByFin", query = "SELECT p FROM Periodo p WHERE p.fin = :fin")})
+    @NamedQuery(name = "Periodo.findByFin", query = "SELECT p FROM Periodo p WHERE p.fin = :fin"),
+    @NamedQuery(name = "Periodo.findByEstado", query = "SELECT p FROM Periodo p WHERE p.estado = :estado")})
 public class Periodo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "idperiodo")
-    private String idperiodo;
+    private Integer idperiodo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 100)
     @Column(name = "peridodo")
     private String peridodo;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "inicio")
     @Temporal(TemporalType.DATE)
     private Date inicio;
     @Column(name = "fin")
     @Temporal(TemporalType.DATE)
     private Date fin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idperiodo")
-    private List<Distributivoaula> distributivoaulaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idperiodo")
+    @Size(max = 30)
+    @Column(name = "estado")
+    private String estado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodo")
     private List<Paralelo> paraleloList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodo")
+    private List<Distributivo> distributivoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "periodo")
+    private List<Distaula> distaulaList;
 
     public Periodo() {
     }
 
-    public Periodo(String idperiodo) {
+    public Periodo(Integer idperiodo) {
         this.idperiodo = idperiodo;
     }
 
-    public Periodo(String idperiodo, String peridodo) {
+    public Periodo(Integer idperiodo, String peridodo, Date inicio, Date fin) {
         this.idperiodo = idperiodo;
         this.peridodo = peridodo;
+        this.inicio = inicio;
+        this.fin = fin;
     }
 
-    public String getIdperiodo() {
+    public Integer getIdperiodo() {
         return idperiodo;
     }
 
-    public void setIdperiodo(String idperiodo) {
+    public void setIdperiodo(Integer idperiodo) {
         this.idperiodo = idperiodo;
     }
 
@@ -103,12 +114,12 @@ public class Periodo implements Serializable {
         this.fin = fin;
     }
 
-    public List<Distributivoaula> getDistributivoaulaList() {
-        return distributivoaulaList;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setDistributivoaulaList(List<Distributivoaula> distributivoaulaList) {
-        this.distributivoaulaList = distributivoaulaList;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public List<Paralelo> getParaleloList() {
@@ -117,6 +128,22 @@ public class Periodo implements Serializable {
 
     public void setParaleloList(List<Paralelo> paraleloList) {
         this.paraleloList = paraleloList;
+    }
+
+    public List<Distributivo> getDistributivoList() {
+        return distributivoList;
+    }
+
+    public void setDistributivoList(List<Distributivo> distributivoList) {
+        this.distributivoList = distributivoList;
+    }
+
+    public List<Distaula> getDistaulaList() {
+        return distaulaList;
+    }
+
+    public void setDistaulaList(List<Distaula> distaulaList) {
+        this.distaulaList = distaulaList;
     }
 
     @Override

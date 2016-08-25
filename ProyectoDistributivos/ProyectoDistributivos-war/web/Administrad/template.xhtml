@@ -1,13 +1,11 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html >
+<html lang="es" xml:lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="shortcut icon" type="image/png" href="/ProyectoDistributivos-war/faces/javax.faces.resource/img/logo.png"/>
@@ -24,9 +22,8 @@
         <h:outputStylesheet name="css/custom.css"/>
 
     </h:head>
-    <h:body  class="nav-md">
+    <h:body class="nav-md">
         <p:growl id="growl" life="5000" />
-
         <div class="container body">
             <div class="main_container">
                 <div class="col-md-3 left_col">
@@ -38,7 +35,7 @@
                         <div class="clearfix"></div>
 
                         <!-- menu profile quick info -->
-                        <div class="profile">
+                        <div class="profile hidden-print">
                             <div class="profile_pic">
                                 <img src="/ProyectoDistributivos-war/faces/javax.faces.resource/img/profile.png" alt="..." class="img-circle profile_img"/>
                             </div>
@@ -67,8 +64,7 @@
                                     </li>
                                     <li><a><i class="fa fa-calendar-plus-o"></i> Distributivos <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="/ProyectoDistributivos-war/administrador/distributivo/docente">Docentes</a></li>
-                                            <li><a href="/ProyectoDistributivos-war/administrador/distributivo/clase">Clases</a></li>
+                                            <li><a href="/ProyectoDistributivos-war/administrador/distributivo/periodo">Periodo</a></li>
                                             <li><a href="/ProyectoDistributivos-war/administrador/distributivo/aula">Aulas</a></li>
                                             <li><a href="/ProyectoDistributivos-war/administrador/distributivo/horario">Horarios</a></li>
 
@@ -88,7 +84,7 @@
                         <!-- /sidebar menu -->
 
                         <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
+                        <div class="sidebar-footer hidden-small hidden-print">
                             <h:form>
                                 <a data-toggle="tooltip" data-placement="top" title="Settings">
                                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -108,14 +104,18 @@
                         <!-- /menu footer buttons -->
                     </div>
                 </div>
+                <!-- top navigation -->
 
                 <!-- top navigation -->
-                <div class="top_nav">
+                <div class="top_nav hidden-print navbar-fixed-top" style="z-index: 100">
                     <div class="nav_menu">
                         <nav>
                             <div class="nav toggle">
                                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                             </div>
+                            <ul class="nav navbar-nav navbar-left">
+                                <h2><ui:insert name="title"/>.</h2>
+                            </ul>
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
@@ -137,7 +137,6 @@
                                         </li>
                                     </ul>
                                 </li>
-
                                 <li role="presentation" class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
@@ -170,16 +169,15 @@
                     </div>
                 </div>
                 <!-- /top navigation -->
-
+                <br/><br/>
                 <!-- page content -->
-                <div class="right_col">
-                    <div class="clearfix"></div>
+                <div class="right_col" style="margin-top: 15px">
                     <ui:insert name="body"/>
                 </div>
                 <!-- /page content -->
 
                 <!-- footer content -->
-                <footer>
+                <footer class=" hidden-print">
                     <div class="pull-right">
                         <strong> 
                             <script language="javascript">document.write(new Date().getFullYear());</script>
@@ -195,14 +193,9 @@
             <f:facet name="start">
                 <p:graphicImage name="img/loader.gif" />
             </f:facet>
-
-            <f:facet name="complete">
-                <h:outputText value="" />
-            </f:facet>
         </p:ajaxStatus>
         <!-- jquery  -->
         <h:outputScript name="vendors/jquery/jquery.dataTables.min.js" />
-        <h:outputScript name="vendors/jquery/jquery.simplecolorpicker.js" />
         <!-- Bootstrap -->
         <h:outputScript name="vendors/bootstrap/js/bootstrap.js" />
         <h:outputScript name="vendors/bootstrap/js/dataTables.bootstrap.min.js" />
@@ -210,7 +203,6 @@
         <h:outputScript name="js/custom.js" />
         <script>
             $('.tabla').DataTable();
-            $('select[name="colorpicker"]').simplecolorpicker();
         </script>
 
     </h:body>

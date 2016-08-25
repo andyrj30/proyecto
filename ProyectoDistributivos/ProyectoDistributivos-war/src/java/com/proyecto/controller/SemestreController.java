@@ -2,7 +2,7 @@ package com.proyecto.controller;
 
 import com.proyecto.entities.Semestre;
 import com.proyecto.controller.util.JsfUtil;
-import com.proyecto.model.SemestreFacade;
+import com.proyecto.model.SemestreFacadeLocal;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +23,7 @@ public class SemestreController extends AbstractController implements Serializab
     public SemestreController() {
     }
 
-    private SemestreFacade getFacade() {
+    private SemestreFacadeLocal getFacade() {
         return ejbSemestre;
     }
 
@@ -76,9 +76,7 @@ public class SemestreController extends AbstractController implements Serializab
     }
 
     public List<Semestre> getItems() {
-        if (listSemestre == null) {
-            listSemestre = getFacade().findAll();
-        }
+        listSemestre = getFacade().findAll();
         return listSemestre;
     }
 

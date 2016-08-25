@@ -31,9 +31,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Materia.findAll", query = "SELECT m FROM Materia m"),
     @NamedQuery(name = "Materia.findByCodmateria", query = "SELECT m FROM Materia m WHERE m.codmateria = :codmateria"),
     @NamedQuery(name = "Materia.findByMateria", query = "SELECT m FROM Materia m WHERE m.materia = :materia"),
-    @NamedQuery(name = "Materia.findByCargahoraria", query = "SELECT m FROM Materia m WHERE m.cargahoraria = :cargahoraria"),
-    @NamedQuery(name = "Materia.findByCargatutorial", query = "SELECT m FROM Materia m WHERE m.cargatutorial = :cargatutorial"),
-    @NamedQuery(name = "Materia.findByColor", query = "SELECT m FROM Materia m WHERE m.color = :color")})
+    @NamedQuery(name = "Materia.findByTipo", query = "SELECT m FROM Materia m WHERE m.tipo = :tipo"),
+    @NamedQuery(name = "Materia.findByHorasclase", query = "SELECT m FROM Materia m WHERE m.horasclase = :horasclase"),
+    @NamedQuery(name = "Materia.findByHoraspracticas", query = "SELECT m FROM Materia m WHERE m.horaspracticas = :horaspracticas"),
+    @NamedQuery(name = "Materia.findByAprendizajecolaborativo", query = "SELECT m FROM Materia m WHERE m.aprendizajecolaborativo = :aprendizajecolaborativo")})
 public class Materia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,25 +51,33 @@ public class Materia implements Serializable {
     private String materia;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cargahoraria")
-    private int cargahoraria;
+    @Size(min = 1, max = 50)
+    @Column(name = "tipo")
+    private String tipo;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cargatutorial")
-    private int cargatutorial;
-    @Size(max = 10)
-    @Column(name = "color")
-    private String color;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
-    private List<Distributivodocente> distributivodocenteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codmateria")
-    private List<Distributivoclase> distributivoclaseList;
-    @JoinColumn(name = "idsemestre", referencedColumnName = "idsemestre")
-    @ManyToOne
-    private Semestre idsemestre;
-    @JoinColumn(name = "idsubarea", referencedColumnName = "idsubarea")
+    @Column(name = "horasclase")
+    private int horasclase;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "horaspracticas")
+    private int horaspracticas;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "aprendizajecolaborativo")
+    private int aprendizajecolaborativo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "creditos")
+    private int creditos;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "materia")
+    private List<Detalledistributivoclase> detalledistributivoclaseList;
+    @JoinColumn(name = "semestre", referencedColumnName = "idsemestre")
     @ManyToOne(optional = false)
-    private Subarea idsubarea;
+    private Semestre semestre;
+    @JoinColumn(name = "subarea", referencedColumnName = "idsubarea")
+    @ManyToOne(optional = false)
+    private Subarea subarea;
 
     public Materia() {
     }
@@ -77,11 +86,13 @@ public class Materia implements Serializable {
         this.codmateria = codmateria;
     }
 
-    public Materia(String codmateria, String materia, int cargahoraria, int cargatutorial) {
+    public Materia(String codmateria, String materia, String tipo, int horasclase, int horaspracticas, int aprendizajecolaborativo) {
         this.codmateria = codmateria;
         this.materia = materia;
-        this.cargahoraria = cargahoraria;
-        this.cargatutorial = cargatutorial;
+        this.tipo = tipo;
+        this.horasclase = horasclase;
+        this.horaspracticas = horaspracticas;
+        this.aprendizajecolaborativo = aprendizajecolaborativo;
     }
 
     public String getCodmateria() {
@@ -100,60 +111,68 @@ public class Materia implements Serializable {
         this.materia = materia;
     }
 
-    public int getCargahoraria() {
-        return cargahoraria;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setCargahoraria(int cargahoraria) {
-        this.cargahoraria = cargahoraria;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public int getCargatutorial() {
-        return cargatutorial;
+    public int getHorasclase() {
+        return horasclase;
     }
 
-    public void setCargatutorial(int cargatutorial) {
-        this.cargatutorial = cargatutorial;
+    public void setHorasclase(int horasclase) {
+        this.horasclase = horasclase;
     }
 
-    public String getColor() {
-        return color;
+    public int getHoraspracticas() {
+        return horaspracticas;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setHoraspracticas(int horaspracticas) {
+        this.horaspracticas = horaspracticas;
     }
 
-    public List<Distributivodocente> getDistributivodocenteList() {
-        return distributivodocenteList;
+    public int getAprendizajecolaborativo() {
+        return aprendizajecolaborativo;
     }
 
-    public void setDistributivodocenteList(List<Distributivodocente> distributivodocenteList) {
-        this.distributivodocenteList = distributivodocenteList;
+    public void setAprendizajecolaborativo(int aprendizajecolaborativo) {
+        this.aprendizajecolaborativo = aprendizajecolaborativo;
     }
 
-    public List<Distributivoclase> getDistributivoclaseList() {
-        return distributivoclaseList;
+    public List<Detalledistributivoclase> getDetalledistributivoclaseList() {
+        return detalledistributivoclaseList;
     }
 
-    public void setDistributivoclaseList(List<Distributivoclase> distributivoclaseList) {
-        this.distributivoclaseList = distributivoclaseList;
+    public void setDetalledistributivoclaseList(List<Detalledistributivoclase> detalledistributivoclaseList) {
+        this.detalledistributivoclaseList = detalledistributivoclaseList;
     }
 
-    public Semestre getIdsemestre() {
-        return idsemestre;
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
     }
 
-    public void setIdsemestre(Semestre idsemestre) {
-        this.idsemestre = idsemestre;
+    public int getCreditos() {
+        return creditos;
     }
 
-    public Subarea getIdsubarea() {
-        return idsubarea;
+    public Semestre getSemestre() {
+        return semestre;
     }
 
-    public void setIdsubarea(Subarea idsubarea) {
-        this.idsubarea = idsubarea;
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
+    }
+
+    public Subarea getSubarea() {
+        return subarea;
+    }
+
+    public void setSubarea(Subarea subarea) {
+        this.subarea = subarea;
     }
 
     @Override
@@ -180,5 +199,5 @@ public class Materia implements Serializable {
     public String toString() {
         return "com.proyecto.entities.Materia[ codmateria=" + codmateria + " ]";
     }
-    
+
 }

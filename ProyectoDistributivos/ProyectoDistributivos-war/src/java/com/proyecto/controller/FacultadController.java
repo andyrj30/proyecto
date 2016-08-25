@@ -3,6 +3,8 @@ package com.proyecto.controller;
 import com.proyecto.entities.Facultad;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.model.FacultadFacade;
+import com.proyecto.model.FacultadFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +25,7 @@ public class FacultadController extends AbstractController implements Serializab
     public FacultadController() {
     }
 
-    private FacultadFacade getFacade() {
+    private FacultadFacadeLocal getFacade() {
         return ejbFacultad;
     }
 
@@ -49,6 +51,7 @@ public class FacultadController extends AbstractController implements Serializab
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente.");
             listFacultad = null;
+            WSEndpoint.notificar("facultad");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -59,6 +62,7 @@ public class FacultadController extends AbstractController implements Serializab
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados.");
             listFacultad = null;
+            WSEndpoint.notificar("facultad");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -70,15 +74,14 @@ public class FacultadController extends AbstractController implements Serializab
             JsfUtil.addSuccessMessage("Registro eliminado correctamente.");
             selected = null;
             listFacultad = null;
+            WSEndpoint.notificar("facultad");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Facultad> getItems() {
-        if (listFacultad == null) {
-            listFacultad = getFacade().findAll();
-        }
+        listFacultad = getFacade().findAll();
         return listFacultad;
     }
 
@@ -118,7 +121,7 @@ public class FacultadController extends AbstractController implements Serializab
             }
             if (object instanceof Facultad) {
                 Facultad o = (Facultad) object;
-                return getStringKey(o.getIdfacultad());
+                return getStringKey(o.getCodfacultad());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Facultad.class.getName()});
                 return null;

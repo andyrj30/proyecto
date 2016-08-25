@@ -1,275 +1,280 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
-                template="/Administrad/template.xhtml"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="body">
-        <div class="clearfix"></div>
+    <ui:composition template="/Administrad/template.xhtml">
 
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse in">
-                    <h:form id="DocenteListForm">
-                        <p:dataTable id="datalist" tableStyleClass="tabla" value="#{distributivodocenteController.docentes}" var="item"
-                                     selectionMode="single" selection="#{distributivodocenteController.docente}"
-                                     rowKey="#{item.cedula}"
-                                     >
+        <ui:define name="title">.</ui:define>  
+        <ui:define name="body">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Lista de docente</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" class="panel-collapse in">
+                        <h:form id="DocenteListForm">
+                            <p:dataTable id="datalist" tableStyleClass="tabla" value="#{distributivodocenteController.docentes}" var="item"
+                                         selectionMode="single" selection="#{distributivodocenteController.docente}"
+                                         rowKey="#{item.cedula}"
+                                         >
 
-                            <p:ajax event="rowSelect"   update="viewButton"/>
+                                <p:ajax event="rowSelect"   update="viewButton"/>
 
-                            <p:column styleClass="t-2">
-                                <f:facet name="header">
-                                    <h:outputText value="Cedula"/>
+                                <p:column styleClass="t-2">
+                                    <f:facet name="header">
+                                        <h:outputText value="Cedula"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cedula}"/>
+                                </p:column>
+                                <p:column styleClass="t-3">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombres"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nombre}"/>
+                                </p:column>
+                                <p:column  styleClass="t-3">
+                                    <f:facet name="header">
+                                        <h:outputText value="Apellidos"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.apellido}"/>
+                                </p:column>
+
+                                <f:facet name="footer">
+                                    <p:commandButton id="viewButton" icon="ui-icon-search" value="Ver distributivo" update=":DocenteViewForm" disabled="#{empty distributivodocenteController.docente}"/>
+                                    <p:commandButton id="viewButtonAll" icon="ui-icon-search" value="Ver todos los distributivos" actionListener="#{distributivodocenteController.todos()}" update=":DocenteViewForm2"/>
                                 </f:facet>
-                                <h:outputText value="#{item.cedula}"/>
-                            </p:column>
-                            <p:column styleClass="t-3">
-                                <f:facet name="header">
-                                    <h:outputText value="Nombres"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nombre}"/>
-                            </p:column>
-                            <p:column  styleClass="t-3">
-                                <f:facet name="header">
-                                    <h:outputText value="Apellidos"/>
-                                </f:facet>
-                                <h:outputText value="#{item.apellido}"/>
-                            </p:column>
+                            </p:dataTable>
 
-                            <f:facet name="footer">
-                                <p:commandButton id="viewButton" icon="ui-icon-search" value="Ver distributivo" update=":DocenteViewForm" disabled="#{empty distributivodocenteController.docente}"/>
-                                <p:commandButton id="viewButtonAll" icon="ui-icon-search" value="Ver todos los distributivos" actionListener="#{distributivodocenteController.todos()}" update=":DocenteViewForm2"/>
-                            </f:facet>
-                        </p:dataTable>
-
-                    </h:form>
-                </div>
-            </div>
-        </div>
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div id="collapse1" class="panel-collapse panel">
-                    <p:panelGrid id="DocenteViewForm" columns="1" style="width: 100%">
-                        <div class="row border border-dark">
-                            <div class="col-md-12 border border-dark">
-                                <h3>Docente: <small> #{distributivodocenteController.docente.nombre} #{distributivodocenteController.docente.apellido}; #{distributivodocenteController.docente.cedula};</small></h3>
-                            </div>
-                            <div class="col-xs-5 border border-dark">
-                                <h3>Titulo: <small> Ing. Sistemas</small></h3>
-                            </div>
-                            <div class="col-xs-3 border border-dark">
-                                <h3>Contrato: <small> Docente Titular</small></h3>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h3>Ocupación: <small> Tiempo completo(40 horas)</small></h3>
-                            </div>                            
-                            <div class="col-xs-1 border border-dark">
-                                <h4>No.</h4>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h4>Materia.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Fac.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Carr.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Sem.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Paralelo.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H C.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H Tut.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H Tot.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h5>Multimedia</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>FCI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>IS</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>VI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>A</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>3</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>4</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>2</h5>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h5>Multimedia</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>FCI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>IT</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>VI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>A</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>4</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>5</h5>
-                            </div>
-                            <div class="col-xs-offset-10 col-xs-1 border border-dark">
-                                <h4>Total</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>9 horas</h5>
-                            </div>
-                        </div>
-                      
-                    </p:panelGrid>
-                    <p:panelGrid id="DocenteViewForm2" columns="#{distributivodocenteController.b}" style="width: 100%">
-                        <c:forEach var="docente" items="#{distributivodocenteController.docentes}">
-                        <br/>
-                        <div class="row border border-dark">
-                            <div class="col-md-12 border border-dark">
-                                <h3>Docente: <small> #{docente.nombre} #{docente.apellido}; #{docente.cedula};</small></h3>
-                            </div>
-                            <div class="col-xs-5 border border-dark">
-                                <h3>Titulo: <small> Ing. Sistemas</small></h3>
-                            </div>
-                            <div class="col-xs-3 border border-dark">
-                                <h3>Contrato: <small> Docente Titular</small></h3>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h3>Ocupación: <small> Tiempo completo(40 horas)</small></h3>
-                            </div>                            
-                            <div class="col-xs-1 border border-dark">
-                                <h4>No.</h4>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h4>Materia.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Fac.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Carr.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Sem.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>Paralelo.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H C.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H Tut.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h4>H Tot.</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h5>Multimedia</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>FCI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>IS</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>VI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>A</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>3</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>4</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>2</h5>
-                            </div>
-                            <div class="col-xs-4 border border-dark">
-                                <h5>Multimedia</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>FCI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>IT</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>VI</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>A</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>4</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>1</h5>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>5</h5>
-                            </div>
-                            <div class="col-xs-offset-10 col-xs-1 border border-dark">
-                                <h4>Total</h4>
-                            </div>
-                            <div class="col-xs-1 border border-dark">
-                                <h5>9 horas</h5>
-                            </div>
-                        </div>
-                        </c:forEach>
-
-                    </p:panelGrid>
+                        </h:form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </ui:define>
-</ui:composition>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div id="collapse1" class="panel-collapse panel">
+                        <p:panelGrid id="DocenteViewForm" columns="1" style="width: 100%">
+                            <div class="row border border-dark">
+                                <div class="col-md-12 border border-dark">
+                                    <h3>Docente: <small> #{distributivodocenteController.docente.nombre} #{distributivodocenteController.docente.apellido}; #{distributivodocenteController.docente.cedula};</small></h3>
+                                </div>
+                                <div class="col-xs-5 border border-dark">
+                                    <h3>Titulo: <small> Ing. Sistemas</small></h3>
+                                </div>
+                                <div class="col-xs-3 border border-dark">
+                                    <h3>Contrato: <small> Docente Titular</small></h3>
+                                </div>
+                                <div class="col-xs-4 border border-dark">
+                                    <h3>Ocupación: <small> Tiempo completo(40 horas)</small></h3>
+                                </div>                            
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>No.</h4>
+                                </div>
+                                <div class="col-xs-4 border border-dark">
+                                    <h4>Materia.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>Fac.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>Carr.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>Sem.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>Paralelo.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>H C.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>H Tut.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h4>H Tot.</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>1</h5>
+                                </div>
+                                <div class="col-xs-4 border border-dark">
+                                    <h5>Multimedia</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>FCI</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>IS</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>VI</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>A</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>3</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>1</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>4</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>2</h5>
+                                </div>
+                                <div class="col-xs-4 border border-dark">
+                                    <h5>Multimedia</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>FCI</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>IT</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>VI</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>A</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>4</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>1</h5>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>5</h5>
+                                </div>
+                                <div class="col-xs-offset-10 col-xs-1 border border-dark">
+                                    <h4>Total</h4>
+                                </div>
+                                <div class="col-xs-1 border border-dark">
+                                    <h5>9 horas</h5>
+                                </div>
+                            </div>
+
+                        </p:panelGrid>
+                        <p:panelGrid id="DocenteViewForm2" columns="#{distributivodocenteController.b}" style="width: 100%">
+                            <c:forEach var="docente" items="#{distributivodocenteController.docentes}">
+                                <br/>
+                                <div class="row border border-dark">
+                                    <div class="col-md-12 border border-dark">
+                                        <h3>Docente: <small> #{docente.nombre} #{docente.apellido}; #{docente.cedula};</small></h3>
+                                    </div>
+                                    <div class="col-xs-5 border border-dark">
+                                        <h3>Titulo: <small> Ing. Sistemas</small></h3>
+                                    </div>
+                                    <div class="col-xs-3 border border-dark">
+                                        <h3>Contrato: <small> Docente Titular</small></h3>
+                                    </div>
+                                    <div class="col-xs-4 border border-dark">
+                                        <h3>Ocupación: <small> Tiempo completo(40 horas)</small></h3>
+                                    </div>                            
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>No.</h4>
+                                    </div>
+                                    <div class="col-xs-4 border border-dark">
+                                        <h4>Materia.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>Fac.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>Carr.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>Sem.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>Paralelo.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>H C.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>H Tut.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h4>H Tot.</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>1</h5>
+                                    </div>
+                                    <div class="col-xs-4 border border-dark">
+                                        <h5>Multimedia</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>FCI</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>IS</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>VI</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>A</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>3</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>1</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>4</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>2</h5>
+                                    </div>
+                                    <div class="col-xs-4 border border-dark">
+                                        <h5>Multimedia</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>FCI</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>IT</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>VI</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>A</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>4</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>1</h5>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>5</h5>
+                                    </div>
+                                    <div class="col-xs-offset-10 col-xs-1 border border-dark">
+                                        <h4>Total</h4>
+                                    </div>
+                                    <div class="col-xs-1 border border-dark">
+                                        <h5>9 horas</h5>
+                                    </div>
+                                </div>
+                            </c:forEach>
+
+                        </p:panelGrid>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -2,10 +2,11 @@ package com.proyecto.controller;
 
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Edificio;
-import com.proyecto.entities.Edificio;
-import com.proyecto.model.EdificioFacade;
+import com.proyecto.model.EdificioFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class EdificioController extends AbstractController implements Serializab
     public EdificioController() {
     }
 
-    private EdificioFacade getFacade() {
+    private EdificioFacadeLocal getFacade() {
         return ejbEdificio;
     }
 
@@ -50,6 +51,7 @@ public class EdificioController extends AbstractController implements Serializab
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listEdificio = null;
+            WSEndpoint.notificar("aula");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -60,6 +62,7 @@ public class EdificioController extends AbstractController implements Serializab
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listEdificio = null;
+            WSEndpoint.notificar("aula");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -77,10 +80,20 @@ public class EdificioController extends AbstractController implements Serializab
     }
 
     public List<Edificio> getItems() {
-        if (listEdificio == null) {
-            listEdificio = getFacade().findAll();
-        }
+        listEdificio = getFacade().findAll();
         return listEdificio;
+    }
+
+    public List<String> getPisos() {
+        List<String> listPisos = new ArrayList<>();
+        listPisos.add("Planta baja");
+        listPisos.add("Primer piso");
+        listPisos.add("Segundo piso");
+        listPisos.add("Tercer piso");
+        listPisos.add("Cuarto piso");
+        listPisos.add("Quinto piso");
+        listPisos.add("Otro");
+        return listPisos;
     }
 
     public Edificio getEdificio(Object id) {

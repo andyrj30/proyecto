@@ -5,6 +5,8 @@ import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Semestre;
 import com.proyecto.entities.Subarea;
 import com.proyecto.model.MateriaFacade;
+import com.proyecto.model.MateriaFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,7 +45,7 @@ public class MateriaController extends AbstractController implements Serializabl
         this.subarea = subarea;
     }
 
-    private MateriaFacade getFacade() {
+    private MateriaFacadeLocal getFacade() {
         return ejbMateria;
     }
 
@@ -66,10 +68,16 @@ public class MateriaController extends AbstractController implements Serializabl
 
     public void create() {
         try {
-            selected.setIdsemestre(semestre);
-            selected.setIdsubarea(subarea);
+            selected.setSemestre(semestre);
+            selected.setSubarea(subarea);
+            if (selected.getCodmateria().substring(0,3).equals("CPI")) {
+                selected.setTipo("pi");
+            } else {
+                selected.setTipo("materia");
+            }
             getFacade().create(selected);
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
+            WSEndpoint.notificar("materia");
             listMateria = null;
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
@@ -81,6 +89,7 @@ public class MateriaController extends AbstractController implements Serializabl
             getFacade().edit(selected);
             JsfUtil.addSuccessMessage("Datos editados");
             listMateria = null;
+            WSEndpoint.notificar("materia");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -92,15 +101,14 @@ public class MateriaController extends AbstractController implements Serializabl
             JsfUtil.addSuccessMessage("Registro eliminado correctamente");
             selected = null;
             listMateria = null;
+            WSEndpoint.notificar("materia");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Materia> getItems() {
-        if (listMateria == null) {
-            listMateria = getFacade().findAll();
-        }
+        listMateria = getFacade().findAll();
         return listMateria;
     }
 

@@ -46,12 +46,12 @@ public class Subarea implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "subarea")
     private String subarea;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsubarea")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subarea")
     private List<Conocimiento> conocimientoList;
-    @JoinColumn(name = "idarea", referencedColumnName = "idarea")
+    @JoinColumn(name = "area", referencedColumnName = "idarea")
     @ManyToOne(optional = false)
-    private Area idarea;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idsubarea")
+    private Area area;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subarea")
     private List<Materia> materiaList;
 
     public Subarea() {
@@ -90,12 +90,12 @@ public class Subarea implements Serializable {
         this.conocimientoList = conocimientoList;
     }
 
-    public Area getIdarea() {
-        return idarea;
+    public Area getArea() {
+        return area;
     }
 
-    public void setIdarea(Area idarea) {
-        this.idarea = idarea;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     public List<Materia> getMateriaList() {

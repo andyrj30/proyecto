@@ -35,12 +35,12 @@ public class Conocimiento implements Serializable {
     @Basic(optional = false)
     @Column(name = "idconocimiento")
     private Integer idconocimiento;
-    @JoinColumn(name = "cedula", referencedColumnName = "cedula")
+    @JoinColumn(name = "docente", referencedColumnName = "iddocente")
+    @ManyToOne
+    private Docente docente;
+    @JoinColumn(name = "subarea", referencedColumnName = "idsubarea")
     @ManyToOne(optional = false)
-    private Docente cedula;
-    @JoinColumn(name = "idsubarea", referencedColumnName = "idsubarea")
-    @ManyToOne(optional = false)
-    private Subarea idsubarea;
+    private Subarea subarea;
 
     public Conocimiento() {
     }
@@ -57,20 +57,20 @@ public class Conocimiento implements Serializable {
         this.idconocimiento = idconocimiento;
     }
 
-    public Docente getCedula() {
-        return cedula;
+    public Docente getDocente() {
+        return docente;
     }
 
-    public void setCedula(Docente cedula) {
-        this.cedula = cedula;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 
-    public Subarea getIdsubarea() {
-        return idsubarea;
+    public Subarea getSubarea() {
+        return subarea;
     }
 
-    public void setIdsubarea(Subarea idsubarea) {
-        this.idsubarea = idsubarea;
+    public void setSubarea(Subarea subarea) {
+        this.subarea = subarea;
     }
 
     @Override

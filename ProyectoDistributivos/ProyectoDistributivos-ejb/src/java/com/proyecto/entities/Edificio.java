@@ -8,7 +8,6 @@ package com.proyecto.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +43,7 @@ public class Edificio implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "edificio")
     private String edificio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idedificio")
+    @OneToMany(mappedBy = "edificio")
     private List<Aula> aulaList;
 
     public Edificio() {

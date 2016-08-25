@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Andy
  */
 @Stateless
-public class SemestreFacade extends AbstractFacade<Semestre> {
+public class SemestreFacade extends AbstractFacade<Semestre> implements SemestreFacadeLocal {
 
     @PersistenceContext(unitName = "ProyectoDistributivos-ejbPU")
     private EntityManager em;

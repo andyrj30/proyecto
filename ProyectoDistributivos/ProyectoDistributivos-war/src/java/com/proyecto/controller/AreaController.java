@@ -3,6 +3,8 @@ package com.proyecto.controller;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.entities.Area;
 import com.proyecto.model.AreaFacade;
+import com.proyecto.model.AreaFacadeLocal;
+import com.proyecto.websocket.WSEndpoint;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +25,7 @@ public class AreaController extends AbstractController implements Serializable {
     public AreaController() {
     }
 
-    private AreaFacade getFacade() {
+    private AreaFacadeLocal getFacade() {
         return ejbArea;
     }
 
@@ -50,6 +52,7 @@ public class AreaController extends AbstractController implements Serializable {
             JsfUtil.addSuccessMessage("Registro agregado correctamente");
             listArea = null;
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -61,6 +64,7 @@ public class AreaController extends AbstractController implements Serializable {
             JsfUtil.addSuccessMessage("Datos editados");
             listArea = null;
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
@@ -73,15 +77,14 @@ public class AreaController extends AbstractController implements Serializable {
             selected = null;
             listArea = null;
             listSubarea = null;
+            WSEndpoint.notificar("area");
         } catch (EJBException e) {
             JsfUtil.addErrorMessage(e, defaultMsg);
         }
     }
 
     public List<Area> getItems() {
-        if (listArea == null) {
-            listArea = getFacade().findAll();
-        }
+        listArea = getFacade().findAll();
         return listArea;
     }
 

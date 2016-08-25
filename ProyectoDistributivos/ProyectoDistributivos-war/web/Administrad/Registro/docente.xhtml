@@ -7,10 +7,13 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/Administrad/template.xhtml">
-        <ui:define name="body">
-            
+        <ui:define name="title">Lista de Docentes</ui:define>      
+        <ui:define name="body">   
+            <h:form>                
+                <p:remoteCommand name="docente" update=":DocenteListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
             <h:form id="DocenteListForm">
-                <p:panel header="#{bundle.ListDocenteTitle}">
+                <p:panel>
                     <p:dataTable id="datalist" tableStyleClass="tabla" value="#{docenteController.items}" var="item"
                                  selectionMode="single" selection="#{docenteController.selected}"
                                  rowKey="#{item.cedula}"
@@ -19,7 +22,7 @@
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column styleClass="t-2">
+                        <p:column styleClass="t-1">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListDocenteTitle_cedula}"/>
                             </f:facet>
@@ -29,13 +32,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListDocenteTitle_nombre}"/>
                             </f:facet>
-                            <h:outputText value="#{item.nombre}"/>
+                            <h:outputText value="#{item.nombres}"/>
                         </p:column>
                         <p:column  styleClass="t-3">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListDocenteTitle_apellido}"/>
                             </f:facet>
-                            <h:outputText value="#{item.apellido}"/>
+                            <h:outputText value="#{item.apellidos}"/>
                         </p:column>
                         <p:column styleClass="t-4">
                             <f:facet name="header">
@@ -52,7 +55,7 @@
 
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{docenteController.prepareCreate}" update=":DocenteCreateForm" oncomplete="PF('DocenteCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":DocenteViewForm" oncomplete="PF('DocenteViewDialog').show()" disabled="#{empty docenteController.selected}"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" actionListener="#{docenteController.view}" disabled="#{empty docenteController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":DocenteEditForm" oncomplete="PF('DocenteEditDialog').show()" disabled="#{empty docenteController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{docenteController.destroy}" oncomplete="$('.tabla').DataTable();" update=":growl,datalist" disabled="#{empty docenteController.selected}"/>
                         </f:facet>
@@ -69,9 +72,9 @@
                                 <f:validateLength maximum="10" minimum="5" />
                             </p:inputText>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_nombre}" for="nombre" />
-                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombre}" title="#{bundle.CreateDocenteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_nombre}"/>
+                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombres}" title="#{bundle.CreateDocenteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_nombre}"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_apellido}" for="apellido" />
-                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellido}" title="#{bundle.CreateDocenteTitle_apellido}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_apellido}"/>
+                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellidos}" title="#{bundle.CreateDocenteTitle_apellido}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_apellido}"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_correo}" for="correo" />
                             <p:inputText styleClass="t-4" id="correo" value="#{docenteController.selected.correo}" title="#{bundle.CreateDocenteTitle_correo}" required="false"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_telefono}" for="telefono" />
@@ -94,9 +97,9 @@
                                 <f:validateLength maximum="10" minimum="5" />
                             </p:inputText>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_nombre}" for="nombre" />
-                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombre}" title="#{bundle.CreateDocenteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_nombre}"/>
+                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombres}" title="#{bundle.CreateDocenteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_nombre}"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_apellido}" for="apellido" />
-                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellido}" title="#{bundle.CreateDocenteTitle_apellido}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_apellido}"/>
+                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellidos}" title="#{bundle.CreateDocenteTitle_apellido}" required="true" requiredMessage="#{bundle.CreateDocenteRequiredMessage_apellido}"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_correo}" for="correo" />
                             <p:inputText styleClass="t-4" id="correo" value="#{docenteController.selected.correo}" title="#{bundle.CreateDocenteTitle_correo}"/>
                             <p:outputLabel styleClass="t-2" value="#{bundle.CreateDocenteLabel_telefono}" for="telefono" />
@@ -117,9 +120,9 @@
                             <h:outputText value="#{bundle.ViewDocenteLabel_cedula}"/>
                             <h:outputText value="#{docenteController.selected.cedula}" title="#{bundle.ViewDocenteTitle_cedula}"/>
                             <h:outputText value="#{bundle.ViewDocenteLabel_nombre}"/>
-                            <h:outputText value="#{docenteController.selected.nombre}" title="#{bundle.ViewDocenteTitle_nombre}"/>
+                            <h:outputText value="#{docenteController.selected.nombres}" title="#{bundle.ViewDocenteTitle_nombre}"/>
                             <h:outputText value="#{bundle.ViewDocenteLabel_apellido}"/>
-                            <h:outputText value="#{docenteController.selected.apellido}" title="#{bundle.ViewDocenteTitle_apellido}"/>
+                            <h:outputText value="#{docenteController.selected.apellidos}" title="#{bundle.ViewDocenteTitle_apellido}"/>
                             <h:outputText value="#{bundle.ViewDocenteLabel_correo}"/>
                             <h:outputText value="#{docenteController.selected.correo}" title="#{bundle.ViewDocenteTitle_correo}"/>
                             <h:outputText value="#{bundle.ViewDocenteLabel_telefono}"/>

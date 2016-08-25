@@ -6,7 +6,9 @@
 package com.proyecto.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,7 +32,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Titulo.findAll", query = "SELECT t FROM Titulo t"),
     @NamedQuery(name = "Titulo.findByIdtitulo", query = "SELECT t FROM Titulo t WHERE t.idtitulo = :idtitulo"),
-    @NamedQuery(name = "Titulo.findByDetalle", query = "SELECT t FROM Titulo t WHERE t.detalle = :detalle")})
+    @NamedQuery(name = "Titulo.findByDetalle", query = "SELECT t FROM Titulo t WHERE t.detalle = :detalle"),
+    @NamedQuery(name = "Titulo.findByAbreviatura", query = "SELECT t FROM Titulo t WHERE t.abreviatura = :abreviatura")})
 public class Titulo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,12 +44,17 @@ public class Titulo implements Serializable {
     private Integer idtitulo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 500)
     @Column(name = "detalle")
     private String detalle;
-    @JoinColumn(name = "cedula", referencedColumnName = "cedula")
+    @Size(max = 50)
+    @Column(name = "abreviatura")
+    private String abreviatura;
+    @JoinColumn(name = "nivel", referencedColumnName = "idnivel")
     @ManyToOne(optional = false)
-    private Docente cedula;
+    private Nivel nivel;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "titulo")
+    private List<Estudio> estudioList;
 
     public Titulo() {
     }
@@ -75,12 +84,28 @@ public class Titulo implements Serializable {
         this.detalle = detalle;
     }
 
-    public Docente getCedula() {
-        return cedula;
+    public String getAbreviatura() {
+        return abreviatura;
     }
 
-    public void setCedula(Docente cedula) {
-        this.cedula = cedula;
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
+    }
+
+    public Nivel getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
+    }
+
+    public List<Estudio> getEstudioList() {
+        return estudioList;
+    }
+
+    public void setEstudioList(List<Estudio> estudioList) {
+        this.estudioList = estudioList;
     }
 
     @Override

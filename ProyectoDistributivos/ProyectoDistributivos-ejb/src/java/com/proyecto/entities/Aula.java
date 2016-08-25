@@ -30,7 +30,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Aula.findAll", query = "SELECT a FROM Aula a"),
     @NamedQuery(name = "Aula.findByCodaula", query = "SELECT a FROM Aula a WHERE a.codaula = :codaula"),
-    @NamedQuery(name = "Aula.findByAula", query = "SELECT a FROM Aula a WHERE a.aula = :aula")})
+    @NamedQuery(name = "Aula.findByPiso", query = "SELECT a FROM Aula a WHERE a.piso = :piso"),
+    @NamedQuery(name = "Aula.findByAula", query = "SELECT a FROM Aula a WHERE a.aula = :aula"),
+    @NamedQuery(name = "Aula.findByNumeroestudiantesmax", query = "SELECT a FROM Aula a WHERE a.numeroestudiantesmax = :numeroestudiantesmax")})
 public class Aula implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,14 +44,21 @@ public class Aula implements Serializable {
     private String codaula;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 200)
+    @Column(name = "piso")
+    private String piso;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "aula")
     private String aula;
-    @JoinColumn(name = "idedificio", referencedColumnName = "idedificio")
-    @ManyToOne(optional = false)
-    private Edificio idedificio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codaula")
-    private List<Distributivoaula> distributivoaulaList;
+    @Column(name = "numeroestudiantesmax")
+    private Integer numeroestudiantesmax;
+    @JoinColumn(name = "edificio", referencedColumnName = "idedificio")
+    @ManyToOne
+    private Edificio edificio;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aula")
+    private List<Distaula> distaulaList;
 
     public Aula() {
     }
@@ -58,8 +67,9 @@ public class Aula implements Serializable {
         this.codaula = codaula;
     }
 
-    public Aula(String codaula, String aula) {
+    public Aula(String codaula, String piso, String aula) {
         this.codaula = codaula;
+        this.piso = piso;
         this.aula = aula;
     }
 
@@ -71,6 +81,14 @@ public class Aula implements Serializable {
         this.codaula = codaula;
     }
 
+    public String getPiso() {
+        return piso;
+    }
+
+    public void setPiso(String piso) {
+        this.piso = piso;
+    }
+
     public String getAula() {
         return aula;
     }
@@ -79,20 +97,28 @@ public class Aula implements Serializable {
         this.aula = aula;
     }
 
-    public Edificio getIdedificio() {
-        return idedificio;
+    public Integer getNumeroestudiantesmax() {
+        return numeroestudiantesmax;
     }
 
-    public void setIdedificio(Edificio idedificio) {
-        this.idedificio = idedificio;
+    public void setNumeroestudiantesmax(Integer numeroestudiantesmax) {
+        this.numeroestudiantesmax = numeroestudiantesmax;
     }
 
-    public List<Distributivoaula> getDistributivoaulaList() {
-        return distributivoaulaList;
+    public Edificio getEdificio() {
+        return edificio;
     }
 
-    public void setDistributivoaulaList(List<Distributivoaula> distributivoaulaList) {
-        this.distributivoaulaList = distributivoaulaList;
+    public void setEdificio(Edificio edificio) {
+        this.edificio = edificio;
+    }
+
+    public List<Distaula> getDistaulaList() {
+        return distaulaList;
+    }
+
+    public void setDistaulaList(List<Distaula> distaulaList) {
+        this.distaulaList = distaulaList;
     }
 
     @Override

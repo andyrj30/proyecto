@@ -9,6 +9,10 @@
         <to>/faces/Administrad/Registro/$1.xhtml</to>
     </rule>
     <rule>
+        <from>/administrador/vista/([a-z]+)</from>
+        <to>/faces/Administrad/Vista/$1.xhtml</to>
+    </rule>
+    <rule>
         <from>/administrador/distributivo/([a-z]+)</from>
         <to>/faces/Administrad/Distributivos/$1.xhtml</to>
     </rule>

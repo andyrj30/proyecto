@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Andy
  */
 @Stateless
-public class SubareaFacade extends AbstractFacade<Subarea> {
+public class SubareaFacade extends AbstractFacade<Subarea> implements SubareaFacadeLocal {
 
     @PersistenceContext(unitName = "ProyectoDistributivos-ejbPU")
     private EntityManager em;

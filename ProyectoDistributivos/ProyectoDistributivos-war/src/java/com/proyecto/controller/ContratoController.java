@@ -3,6 +3,7 @@ package com.proyecto.controller;
 import com.proyecto.entities.Contrato;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.model.ContratoFacade;
+import com.proyecto.model.ContratoFacadeLocal;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,7 @@ public class ContratoController extends AbstractController implements Serializab
     public ContratoController() {
     }
 
-    private ContratoFacade getFacade() {
+    private ContratoFacadeLocal getFacade() {
         return ejbContrato;
     }
 
@@ -76,9 +77,7 @@ public class ContratoController extends AbstractController implements Serializab
     }
 
     public List<Contrato> getItems() {
-        if (listContrato == null) {
             listContrato = getFacade().findAll();
-        }
         return listContrato;
     }
 

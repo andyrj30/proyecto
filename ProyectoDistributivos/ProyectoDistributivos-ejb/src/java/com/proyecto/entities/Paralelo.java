@@ -29,9 +29,8 @@ import javax.validation.constraints.Size;
 @Table(name = "paralelo")
 @NamedQueries({
     @NamedQuery(name = "Paralelo.findAll", query = "SELECT p FROM Paralelo p"),
-    @NamedQuery(name = "Paralelo.findByIdparalelo", query = "SELECT p FROM Paralelo p WHERE p.idparalelo = :idparalelo"),
-    @NamedQuery(name = "Paralelo.findByParalelo", query = "SELECT p FROM Paralelo p WHERE p.paralelo = :paralelo"),
-    @NamedQuery(name = "Paralelo.findBySeccion", query = "SELECT p FROM Paralelo p WHERE p.seccion = :seccion")})
+    @NamedQuery(name = "Paralelo.findByCodparalelo", query = "SELECT p FROM Paralelo p WHERE p.codparalelo = :codparalelo"),
+    @NamedQuery(name = "Paralelo.findByParalelo", query = "SELECT p FROM Paralelo p WHERE p.paralelo = :paralelo")})
 public class Paralelo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,47 +38,43 @@ public class Paralelo implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "idparalelo")
-    private String idparalelo;
+    @Column(name = "codparalelo")
+    private String codparalelo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "paralelo")
     private String paralelo;
-    @Size(max = 2147483647)
-    @Column(name = "seccion")
-    private String seccion;
-    @OneToMany(mappedBy = "idparalelo")
-    private List<Distributivoaula> distributivoaulaList;
-    @JoinColumn(name = "idperiodo", referencedColumnName = "idperiodo")
+    @JoinColumn(name = "periodo", referencedColumnName = "idperiodo")
     @ManyToOne(optional = false)
-    private Periodo idperiodo;
-    @JoinColumn(name = "idsemestre", referencedColumnName = "idsemestre")
+    private Periodo periodo;
+    @JoinColumn(name = "seccion", referencedColumnName = "idseccion")
+    @ManyToOne
+    private Seccion seccion;
+    @JoinColumn(name = "semestre", referencedColumnName = "idsemestre")
     @ManyToOne(optional = false)
-    private Semestre idsemestre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idparalelo")
-    private List<Distributivodocente> distributivodocenteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idparalelo")
-    private List<Distributivoclase> distributivoclaseList;
+    private Semestre semestre;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paralelo")
+    private List<Distaula> distaulaList;
 
     public Paralelo() {
     }
 
-    public Paralelo(String idparalelo) {
-        this.idparalelo = idparalelo;
+    public Paralelo(String codparalelo) {
+        this.codparalelo = codparalelo;
     }
 
-    public Paralelo(String idparalelo, String paralelo) {
-        this.idparalelo = idparalelo;
+    public Paralelo(String codparalelo, String paralelo) {
+        this.codparalelo = codparalelo;
         this.paralelo = paralelo;
     }
 
-    public String getIdparalelo() {
-        return idparalelo;
+    public String getCodparalelo() {
+        return codparalelo;
     }
 
-    public void setIdparalelo(String idparalelo) {
-        this.idparalelo = idparalelo;
+    public void setCodparalelo(String codparalelo) {
+        this.codparalelo = codparalelo;
     }
 
     public String getParalelo() {
@@ -90,58 +85,42 @@ public class Paralelo implements Serializable {
         this.paralelo = paralelo;
     }
 
-    public String getSeccion() {
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+
+    public Seccion getSeccion() {
         return seccion;
     }
 
-    public void setSeccion(String seccion) {
+    public void setSeccion(Seccion seccion) {
         this.seccion = seccion;
     }
 
-    public List<Distributivoaula> getDistributivoaulaList() {
-        return distributivoaulaList;
+    public Semestre getSemestre() {
+        return semestre;
     }
 
-    public void setDistributivoaulaList(List<Distributivoaula> distributivoaulaList) {
-        this.distributivoaulaList = distributivoaulaList;
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
 
-    public Periodo getIdperiodo() {
-        return idperiodo;
+    public List<Distaula> getDistaulaList() {
+        return distaulaList;
     }
 
-    public void setIdperiodo(Periodo idperiodo) {
-        this.idperiodo = idperiodo;
-    }
-
-    public Semestre getIdsemestre() {
-        return idsemestre;
-    }
-
-    public void setIdsemestre(Semestre idsemestre) {
-        this.idsemestre = idsemestre;
-    }
-
-    public List<Distributivodocente> getDistributivodocenteList() {
-        return distributivodocenteList;
-    }
-
-    public void setDistributivodocenteList(List<Distributivodocente> distributivodocenteList) {
-        this.distributivodocenteList = distributivodocenteList;
-    }
-
-    public List<Distributivoclase> getDistributivoclaseList() {
-        return distributivoclaseList;
-    }
-
-    public void setDistributivoclaseList(List<Distributivoclase> distributivoclaseList) {
-        this.distributivoclaseList = distributivoclaseList;
+    public void setDistaulaList(List<Distaula> distaulaList) {
+        this.distaulaList = distaulaList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idparalelo != null ? idparalelo.hashCode() : 0);
+        hash += (codparalelo != null ? codparalelo.hashCode() : 0);
         return hash;
     }
 
@@ -152,7 +131,7 @@ public class Paralelo implements Serializable {
             return false;
         }
         Paralelo other = (Paralelo) object;
-        if ((this.idparalelo == null && other.idparalelo != null) || (this.idparalelo != null && !this.idparalelo.equals(other.idparalelo))) {
+        if ((this.codparalelo == null && other.codparalelo != null) || (this.codparalelo != null && !this.codparalelo.equals(other.codparalelo))) {
             return false;
         }
         return true;
@@ -160,7 +139,7 @@ public class Paralelo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyecto.entities.Paralelo[ idparalelo=" + idparalelo + " ]";
+        return "com.proyecto.entities.Paralelo[ codparalelo=" + codparalelo + " ]";
     }
     
 }

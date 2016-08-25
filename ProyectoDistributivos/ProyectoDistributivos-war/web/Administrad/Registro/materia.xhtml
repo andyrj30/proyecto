@@ -7,11 +7,14 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/Administrad/template.xhtml">
+        <ui:define name="title">Lista de Materias</ui:define>      
 
         <ui:define name="body">
-            
+            <h:form>                
+                <p:remoteCommand name="materia" update=":MateriaListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
             <h:form id="MateriaListForm">
-                <p:panel header="Lista de materias">
+                <p:panel>
                     <p:dataTable id="datalist" tableStyleClass="tabla" value="#{materiaController.items}" var="item"
                                  selectionMode="single" selection="#{materiaController.selected}"
 
@@ -29,29 +32,29 @@
                             </f:facet>
                             <h:outputText value="#{item.codmateria}"/>
                         </p:column>
-                        <p:column styleClass="t-2">
+                        <p:column styleClass="t-4">
                             <f:facet name="header">
-                                <h:outputText value="Materia"/>
+                                <h:outputText value="Nombre"/>
                             </f:facet>
                             <h:outputText value="#{item.materia}"/>
                         </p:column>
                         <p:column styleClass="t-1">
                             <f:facet name="header">
-                                <h:outputText value="Carga Horaria"/>
+                                <h:outputText value="Creditos"/>
                             </f:facet>
-                            <h:outputText value="#{item.cargahoraria}"/>
+                            <h:outputText value="#{item.creditos}"/>
                         </p:column>
-                        <p:column styleClass="t-2">
+                        <p:column styleClass="t-3">
                             <f:facet name="header">
                                 <h:outputText value="Area"/>
                             </f:facet>
-                            <h:outputText value="#{item.idsubarea.idarea.area} / #{item.idsubarea.subarea}"/>
+                            <h:outputText value="#{item.subarea.area.area} / #{item.subarea.subarea}"/>
                         </p:column>
-                        <p:column styleClass="t-2">
+                        <p:column styleClass="t-3">
                             <f:facet name="header">
                                 <h:outputText value="Semestre"/>
                             </f:facet>
-                            <h:outputText value="#{item.idsemestre.semestre} / #{item.idsemestre.idcarrera.carrera}"/>
+                            <h:outputText value="#{item.semestre.semestre} / #{item.semestre.carrera.carrera}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{materiaController.prepareCreate}" update=":MateriaCreateForm" oncomplete="PF('MateriaCreateDialog').show()"/>
@@ -67,22 +70,6 @@
                 <h:form id="MateriaCreateForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
-                            <p:outputLabel value="Nombre:" for="materia" />
-                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" title="Nombre de la materia" required="true" requiredMessage="El campo Materia es requerido"/>
-                            <p:outputLabel value="Codigo:" for="codmateria" />
-                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" title="Codigo de la materia" required="true" requiredMessage="El campo Codigo es requerido"/>
-                            <p:outputLabel value="Carga horaria:" for="cargahoraria" />
-                            <p:inputText id="cargahoraria" styleClass="t-3" value="#{materiaController.selected.cargahoraria}" title="Carga horario de la materia" required="true" requiredMessage="El campo Carga horaria es requerido"/>
-                            <p:outputLabel value="Carga tutorial:" for="cargatutorial" />
-                            <p:inputText id="cargatutorial" styleClass="t-3" value="#{materiaController.selected.cargatutorial}" title="Carga tutorial de la materia" required="true" requiredMessage="El campo Carga tutorial es requerido"/>
-                            <p:outputLabel value="Semestre:" for="idsemestre" />
-                            <p:selectOneMenu id="idsemestre" value="#{materiaController.semestre}" required="true" requiredMessage="El campo Semestre es requerido" >
-                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
-                                <f:selectItems value="#{semestreController.items}" 
-                                               var="idsemestreItem"
-                                               itemLabel="#{idsemestreItem.semestre}"
-                                               itemValue="#{idsemestreItem}"/>
-                            </p:selectOneMenu>
                             <p:outputLabel value="SubArea:" for="idsubarea" />
                             <p:selectOneMenu id="idsubarea" value="#{materiaController.subarea}" required="true" requiredMessage="El campo SubArea es requerido">
                                 <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
@@ -91,6 +78,44 @@
                                                itemLabel="#{idsubareaItem.subarea}"
                                                itemValue="#{idsubareaItem}"/>
                             </p:selectOneMenu>
+                            <p:outputLabel value="Semestre:" for="idsemestre" />
+                            <p:selectOneMenu id="idsemestre" value="#{materiaController.semestre}" required="true" requiredMessage="El campo Semestre es requerido" >
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{semestreController.items}" 
+                                               var="idsemestreItem"
+                                               itemLabel="#{idsemestreItem.semestre}"
+                                               itemValue="#{idsemestreItem}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombre:" for="materia" />
+                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" 
+                                         title="materia" required="true" requiredMessage="El campo Materia es requerido"/>
+                            <p:outputLabel value="Codigo:" for="codmateria" />
+                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" 
+                                         title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Creditos" for="creditos" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="creditos" styleClass="t-3" value="#{materiaController.selected.creditos}" 
+                                             title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                                <p:slider for="creditos" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas clase:" for="clase" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="clase" styleClass="t-3" value="#{materiaController.selected.horasclase}" 
+                                             title="Horas clase" required="true" requiredMessage="El campo Horas clase es requerido"/>
+                                <p:slider for="clase" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas prcticas:" for="prcticas" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="prcticas" styleClass="t-3" value="#{materiaController.selected.horaspracticas}" 
+                                             title="Horas practicas" required="true" requiredMessage="El campo Horas practicas es requerido"/>
+                                <p:slider for="prcticas" maxValue="10"/>
+                            </p:outputPanel>                           
+                            <p:outputLabel value="Aprendizaje colaborativo:" for="colaborativo" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="colaborativo" styleClass="t-3" value="#{materiaController.selected.aprendizajecolaborativo}" 
+                                             title="Aprendizaje colaborativo" required="true" requiredMessage="El campo Aprendizaje colaborativo es requerido"/>
+                                <p:slider for="colaborativo" maxValue="10"/>
+                            </p:outputPanel>
                         </p:panelGrid>
                         <div class="pull-right">
                             <p:commandButton actionListener="#{materiaController.create}" value="Guardar" 
@@ -106,30 +131,52 @@
                 <h:form id="MateriaEditForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
-                            <p:outputLabel value="Nombre:" for="materia" />
-                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" title="Nombre de la materia" required="true" requiredMessage="El campo Materia es requerido"/>
-                            <p:outputLabel value="Codigo:" for="codmateria" />
-                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" title="Codigo de la materia" required="true" requiredMessage="El campo Codigo es requerido"/>
-                            <p:outputLabel value="Carga horaria:" for="cargahoraria" />
-                            <p:inputText id="cargahoraria" styleClass="t-3" value="#{materiaController.selected.cargahoraria}" title="Carga horaria de la materia" required="true" requiredMessage="El campo Carga horaria es requerido"/>
-                            <p:outputLabel value="Carga tutorial:" for="cargatutorial" />
-                            <p:inputText id="cargatutorial" styleClass="t-3" value="#{materiaController.selected.cargatutorial}" title="Carga horario de la materia" required="true" requiredMessage="El campo Carga tutorial es requerido"/>
-                            <p:outputLabel value="Semestre:" for="idsemestre" />
-                            <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.idsemestre}" required="true" requiredMessage="El campo Semestre es requerido" >
-                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
-                                <f:selectItems value="#{semestreController.items}" 
-                                               var="idsemestreItem"
-                                               itemLabel="#{idsemestreItem.semestre}"
-                                               itemValue="#{idsemestreItem}"/>
-                            </p:selectOneMenu>
                             <p:outputLabel value="SubArea:" for="idsubarea" />
-                            <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.idsubarea}" required="true" requiredMessage="El campo SubArea es requerido">
+                            <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.subarea}" required="true" requiredMessage="El campo SubArea es requerido">
                                 <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
                                 <f:selectItems value="#{subareaController.items}"
                                                var="idsubareaItem"
                                                itemLabel="#{idsubareaItem.subarea}"
                                                itemValue="#{idsubareaItem}"/>
                             </p:selectOneMenu>
+                            <p:outputLabel value="Semestre:" for="idsemestre" />
+                            <p:selectOneMenu id="idsemestre" value="#{materiaController.selected.semestre}" required="true" requiredMessage="El campo Semestre es requerido" >
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{semestreController.items}" 
+                                               var="idsemestreItem"
+                                               itemLabel="#{idsemestreItem.semestre}"
+                                               itemValue="#{idsemestreItem}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombre:" for="materia" />
+                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" 
+                                         title="materia" required="true" requiredMessage="El campo Materia es requerido"/>
+                            <p:outputLabel value="Codigo:" for="codmateria" />
+                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" 
+                                         title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Creditos" for="creditos" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="creditos" styleClass="t-3" value="#{materiaController.selected.creditos}" 
+                                             title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                                <p:slider for="creditos" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas clase:" for="clase" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="clase" styleClass="t-3" value="#{materiaController.selected.horasclase}" 
+                                             title="Horas clase" required="true" requiredMessage="El campo Horas clase es requerido"/>
+                                <p:slider for="clase" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas prcticas:" for="prcticas" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="prcticas" styleClass="t-3" value="#{materiaController.selected.horaspracticas}" 
+                                             title="Horas practicas" required="true" requiredMessage="El campo Horas practicas es requerido"/>
+                                <p:slider for="prcticas" maxValue="10"/>
+                            </p:outputPanel>                           
+                            <p:outputLabel value="Aprendizaje colaborativo:" for="colaborativo" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="colaborativo" styleClass="t-3" value="#{materiaController.selected.aprendizajecolaborativo}" 
+                                             title="Aprendizaje colaborativo" required="true" requiredMessage="El campo Aprendizaje colaborativo es requerido"/>
+                                <p:slider for="colaborativo" maxValue="10"/>
+                            </p:outputPanel>
                         </p:panelGrid>
                         <div class="pull-right">
                             <p:commandButton actionListener="#{materiaController.update}" value="Guardar"
@@ -141,28 +188,26 @@
                 </h:form>
             </p:dialog>
 
-            <p:dialog id="MateriaViewDlg" widgetVar="MateriaViewDialog" resizable="false" appendTo="@(body)" header="Datos de la materia">
+            <p:dialog id="MateriaViewDlg" widgetVar="MateriaViewDialog" resizable="false" appendTo="@(body)" header="#{bundle.ViewMateriaTitle}">
                 <h:form id="MateriaViewForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{materiaController.selected != null}" style="min-width: 400px">
-                            <h:outputText value="Codigo"/>
-                            <h:outputText value="#{materiaController.selected.codmateria}" title="Codigo de la materia"/>
-                            <h:outputText value="Materia"/>
-                            <h:outputText value="#{materiaController.selected.materia}" title="Nombre de la materia"/>
+                            <h:outputText value="#{bundle.ViewMateriaLabel_codmateria}"/>
+                            <h:outputText value="#{materiaController.selected.codmateria}" title="#{bundle.ViewMateriaTitle_codmateria}"/>
+                            <h:outputText value="#{bundle.ViewMateriaLabel_materia}"/>
+                            <h:outputText value="#{materiaController.selected.materia}" title="#{bundle.ViewMateriaTitle_materia}"/>
                             <h:outputText value="#{bundle.ViewMateriaLabel_cargahoraria}"/>
-                            <h:outputText value="#{materiaController.selected.cargahoraria}" title="Carga horaria de la materia"/>
+                            <h:outputText value="#{materiaController.selected.horasclase}" title="#{bundle.ViewMateriaTitle_cargahoraria}"/>
                             <h:outputText value="#{bundle.ViewMateriaLabel_cargatutorial}"/>
-                            <h:outputText value="#{materiaController.selected.cargatutorial}" title="#{bundle.ViewMateriaTitle_cargatutorial}"/>
-                            <h:outputText value="#{bundle.ViewMateriaLabel_color}"/>
-                            <h:outputText value="#{materiaController.selected.color}" title="#{bundle.ViewMateriaTitle_color}"/>
+                            <h:outputText value="#{materiaController.selected.aprendizajecolaborativo}" title="#{bundle.ViewMateriaTitle_cargatutorial}"/>
                             <h:outputText value="Area:"/>
-                            <h:outputText value="#{materiaController.selected.idsubarea.idarea.area}" title="#{bundle.ViewMateriaTitle_idarea}"/>
+                            <h:outputText value="#{materiaController.selected.subarea.area.area}" title="#{bundle.ViewMateriaTitle_idarea}"/>
                             <h:outputText value="Subarea:"/>
-                            <h:outputText value="#{materiaController.selected.idsubarea.subarea}" title="#{bundle.ViewMateriaTitle_idarea}"/>
+                            <h:outputText value="#{materiaController.selected.subarea.subarea}" title="#{bundle.ViewMateriaTitle_idarea}"/>
                             <h:outputText value="Carrera"/>
-                            <h:outputText value="#{materiaController.selected.idsemestre.idcarrera.carrera}" title="#{bundle.ViewMateriaTitle_idsemestre}"/>
+                            <h:outputText value="#{materiaController.selected.semestre.carrera.carrera}" title="#{bundle.ViewMateriaTitle_idsemestre}"/>
                             <h:outputText value="Semestre"/>
-                            <h:outputText value="#{materiaController.selected.idsemestre.semestre}" title="#{bundle.ViewMateriaTitle_idsemestre}"/>
+                            <h:outputText value="#{materiaController.selected.semestre.semestre}" title="#{bundle.ViewMateriaTitle_idsemestre}"/>
                         </p:panelGrid>
                         <div class="pull-right">
                             <p:commandButton value="Cancelar" onclick="PF('MateriaViewDialog').hide()"/>

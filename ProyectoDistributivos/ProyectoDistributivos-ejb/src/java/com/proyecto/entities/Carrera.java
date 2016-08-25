@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 @Table(name = "carrera")
 @NamedQueries({
     @NamedQuery(name = "Carrera.findAll", query = "SELECT c FROM Carrera c"),
-    @NamedQuery(name = "Carrera.findByIdcarrera", query = "SELECT c FROM Carrera c WHERE c.idcarrera = :idcarrera"),
+    @NamedQuery(name = "Carrera.findByCodcarrera", query = "SELECT c FROM Carrera c WHERE c.codcarrera = :codcarrera"),
     @NamedQuery(name = "Carrera.findByCarrera", query = "SELECT c FROM Carrera c WHERE c.carrera = :carrera")})
 public class Carrera implements Serializable {
 
@@ -38,37 +38,39 @@ public class Carrera implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "idcarrera")
-    private String idcarrera;
+    @Column(name = "codcarrera")
+    private String codcarrera;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "carrera")
     private String carrera;
-    @JoinColumn(name = "idfacultad", referencedColumnName = "idfacultad")
-    @ManyToOne
-    private Facultad idfacultad;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcarrera")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "carrera")
+    private List<Detalledistributivootras> detalledistributivootrasList;
+    @JoinColumn(name = "facultad", referencedColumnName = "codfacultad")
+    @ManyToOne(optional = false)
+    private Facultad facultad;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "carrera")
     private List<Semestre> semestreList;
 
     public Carrera() {
     }
 
-    public Carrera(String idcarrera) {
-        this.idcarrera = idcarrera;
+    public Carrera(String codcarrera) {
+        this.codcarrera = codcarrera;
     }
 
-    public Carrera(String idcarrera, String carrera) {
-        this.idcarrera = idcarrera;
+    public Carrera(String codcarrera, String carrera) {
+        this.codcarrera = codcarrera;
         this.carrera = carrera;
     }
 
-    public String getIdcarrera() {
-        return idcarrera;
+    public String getCodcarrera() {
+        return codcarrera;
     }
 
-    public void setIdcarrera(String idcarrera) {
-        this.idcarrera = idcarrera;
+    public void setCodcarrera(String codcarrera) {
+        this.codcarrera = codcarrera;
     }
 
     public String getCarrera() {
@@ -79,12 +81,20 @@ public class Carrera implements Serializable {
         this.carrera = carrera;
     }
 
-    public Facultad getIdfacultad() {
-        return idfacultad;
+    public List<Detalledistributivootras> getDetalledistributivootrasList() {
+        return detalledistributivootrasList;
     }
 
-    public void setIdfacultad(Facultad idfacultad) {
-        this.idfacultad = idfacultad;
+    public void setDetalledistributivootrasList(List<Detalledistributivootras> detalledistributivootrasList) {
+        this.detalledistributivootrasList = detalledistributivootrasList;
+    }
+
+    public Facultad getFacultad() {
+        return facultad;
+    }
+
+    public void setFacultad(Facultad facultad) {
+        this.facultad = facultad;
     }
 
     public List<Semestre> getSemestreList() {
@@ -98,7 +108,7 @@ public class Carrera implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idcarrera != null ? idcarrera.hashCode() : 0);
+        hash += (codcarrera != null ? codcarrera.hashCode() : 0);
         return hash;
     }
 
@@ -109,7 +119,7 @@ public class Carrera implements Serializable {
             return false;
         }
         Carrera other = (Carrera) object;
-        if ((this.idcarrera == null && other.idcarrera != null) || (this.idcarrera != null && !this.idcarrera.equals(other.idcarrera))) {
+        if ((this.codcarrera == null && other.codcarrera != null) || (this.codcarrera != null && !this.codcarrera.equals(other.codcarrera))) {
             return false;
         }
         return true;
@@ -117,7 +127,7 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return "com.proyecto.entities.Carrera[ idcarrera=" + idcarrera + " ]";
+        return "com.proyecto.entities.Carrera[ codcarrera=" + codcarrera + " ]";
     }
     
 }

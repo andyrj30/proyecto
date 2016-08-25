@@ -3,6 +3,7 @@ package com.proyecto.controller;
 import com.proyecto.entities.Titulo;
 import com.proyecto.controller.util.JsfUtil;
 import com.proyecto.model.TituloFacade;
+import com.proyecto.model.TituloFacadeLocal;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,7 @@ public class TituloController extends AbstractController implements Serializable
     public TituloController() {
     }
 
-    private TituloFacade getFacade() {
+    private TituloFacadeLocal getFacade() {
         return ejbTitulo;
     }
 
@@ -76,9 +77,7 @@ public class TituloController extends AbstractController implements Serializable
     }
 
     public List<Titulo> getItems() {
-        if (listTitulo == null) {
-            listTitulo = getFacade().findAll();
-        }
+        listTitulo = getFacade().findAll();
         return listTitulo;
     }
 

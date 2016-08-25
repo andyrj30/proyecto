@@ -17,8 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -28,10 +26,7 @@ import javax.validation.constraints.Size;
 @Table(name = "contrato")
 @NamedQueries({
     @NamedQuery(name = "Contrato.findAll", query = "SELECT c FROM Contrato c"),
-    @NamedQuery(name = "Contrato.findByIdcontrato", query = "SELECT c FROM Contrato c WHERE c.idcontrato = :idcontrato"),
-    @NamedQuery(name = "Contrato.findByFuncion", query = "SELECT c FROM Contrato c WHERE c.funcion = :funcion"),
-    @NamedQuery(name = "Contrato.findByDedicacion", query = "SELECT c FROM Contrato c WHERE c.dedicacion = :dedicacion"),
-    @NamedQuery(name = "Contrato.findByTotalhoras", query = "SELECT c FROM Contrato c WHERE c.totalhoras = :totalhoras")})
+    @NamedQuery(name = "Contrato.findByIdcontrato", query = "SELECT c FROM Contrato c WHERE c.idcontrato = :idcontrato")})
 public class Contrato implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,30 +35,21 @@ public class Contrato implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcontrato")
     private Integer idcontrato;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "funcion")
-    private String funcion;
-    @Size(max = 50)
-    @Column(name = "dedicacion")
-    private String dedicacion;
-    @Column(name = "totalhoras")
-    private Integer totalhoras;
-    @JoinColumn(name = "cedula", referencedColumnName = "cedula")
+    @JoinColumn(name = "categoria", referencedColumnName = "idcategoria")
     @ManyToOne(optional = false)
-    private Docente cedula;
+    private Categoria categoria;
+    @JoinColumn(name = "dedicacion", referencedColumnName = "iddedicacion")
+    @ManyToOne(optional = false)
+    private Dedicacion dedicacion;
+    @JoinColumn(name = "docente", referencedColumnName = "iddocente")
+    @ManyToOne
+    private Docente docente;
 
     public Contrato() {
     }
 
     public Contrato(Integer idcontrato) {
         this.idcontrato = idcontrato;
-    }
-
-    public Contrato(Integer idcontrato, String funcion) {
-        this.idcontrato = idcontrato;
-        this.funcion = funcion;
     }
 
     public Integer getIdcontrato() {
@@ -74,36 +60,28 @@ public class Contrato implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public String getFuncion() {
-        return funcion;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setFuncion(String funcion) {
-        this.funcion = funcion;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    public String getDedicacion() {
+    public Dedicacion getDedicacion() {
         return dedicacion;
     }
 
-    public void setDedicacion(String dedicacion) {
+    public void setDedicacion(Dedicacion dedicacion) {
         this.dedicacion = dedicacion;
     }
 
-    public Integer getTotalhoras() {
-        return totalhoras;
+    public Docente getDocente() {
+        return docente;
     }
 
-    public void setTotalhoras(Integer totalhoras) {
-        this.totalhoras = totalhoras;
-    }
-
-    public Docente getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(Docente cedula) {
-        this.cedula = cedula;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 
     @Override
