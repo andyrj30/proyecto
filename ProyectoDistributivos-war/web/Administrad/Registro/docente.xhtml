@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/Administrad/template.xhtml">
+        <ui:define name="title">Lista de Docentes</ui:define>      
+        <ui:define name="body">   
+            <h:form>                
+                <p:remoteCommand name="docente" update=":DocenteListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
+            <h:form id="DocenteListForm">
+                <p:panel>
+                    <p:dataTable id="datalist" tableStyleClass="tabla" value="#{docenteController.items}" var="item"
+                                 selectionMode="single" selection="#{docenteController.selected}"
+                                 rowKey="#{item.cedula}"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column styleClass="t-1">
+                            <f:facet name="header">
+                                <h:outputText value="Cedula"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cedula}"/>
+                        </p:column>
+                        <p:column styleClass="t-3">
+                            <f:facet name="header">
+                                <h:outputText value="Nombres"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombres}"/>
+                        </p:column>
+                        <p:column  styleClass="t-3">
+                            <f:facet name="header">
+                                <h:outputText value="Apellidos"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellidos}"/>
+                        </p:column>
+                        <p:column styleClass="t-4">
+                            <f:facet name="header">
+                                <h:outputText value="Correo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.correo}"/>
+                        </p:column>
+                        <p:column styleClass="t-3">
+                            <f:facet name="header">
+                                <h:outputText value="Telefono"/>
+                            </f:facet>
+                            <h:outputText value="#{item.telefono}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{docenteController.prepareCreate}" update=":DocenteCreateForm" oncomplete="PF('DocenteCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" actionListener="#{docenteController.view}" disabled="#{empty docenteController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":DocenteEditForm" oncomplete="PF('DocenteEditDialog').show()" disabled="#{empty docenteController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{docenteController.destroy}" oncomplete="$('.tabla').DataTable();" update=":growl,datalist" disabled="#{empty docenteController.selected}">
+                                <p:confirm header="Confirmation" message="Esta seguro de eliminar este registro? Se ralizara una eliminacion en cascada." icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" closable="true" showEffect="fade" hideEffect="fade">
+                                <div class="pull-right">
+                                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </div>
+                            </p:confirmDialog>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="DocenteCreateDlg" widgetVar="DocenteCreateDialog" resizable="false" appendTo="@(body)" header="Nuevo docente">
+                <h:form id="DocenteCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{docenteController.selected != null}" style="min-width: 400px">
+                            <p:outputLabel styleClass="t-2" value="Cedula:" for="cedula" />
+                            <p:inputText styleClass="t-3" id="cedula" value="#{docenteController.selected.cedula}"
+                                         required="true" requiredMessage="El campo Cedula es requerido" maxlength="10">
+                                <f:validateLength maximum="10" minimum="5" />
+                            </p:inputText>
+                            <p:outputLabel styleClass="t-2" value="Nombres" for="nombre" />
+                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombres}"
+                                         required="true" requiredMessage="El campo Nombres es requerido"/>
+                            <p:outputLabel styleClass="t-2" value="Apellidos" for="apellido" />
+                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellidos}"
+                                         required="true" requiredMessage="El campo Apellidos es requerido"/>
+                            <p:outputLabel styleClass="t-2" value="Correo" for="correo" />
+                            <p:inputText styleClass="t-4" id="correo" value="#{docenteController.selected.correo}" />
+                            <p:outputLabel styleClass="t-2" value="Telefono" for="telefono" />
+                            <p:inputText styleClass="t-3" id="telefono" value="#{docenteController.selected.telefono}"/>
+
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{docenteController.create}" value="Guardar" icon="ui-icon-check" update="display,:DocenteListForm:datalist,:growl" oncomplete="handleSubmit(args,'DocenteCreateDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('DocenteCreateDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="DocenteEditDlg" widgetVar="DocenteEditDialog" resizable="false" appendTo="@(body)" header="Editar datos">
+                <h:form id="DocenteEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{docenteController.selected != null}" style="min-width: 400px">
+                            <p:outputLabel styleClass="t-2" value="Cedula:" for="cedula" />
+                            <p:inputText styleClass="t-3" id="cedula" value="#{docenteController.selected.cedula}"
+                                         required="true" requiredMessage="El campo Cedula es requerido" maxlength="10">
+                                <f:validateLength maximum="10" minimum="5" />
+                            </p:inputText>
+                            <p:outputLabel styleClass="t-2" value="Nombres" for="nombre" />
+                            <p:inputText styleClass="t-3" id="nombre" value="#{docenteController.selected.nombres}"
+                                         required="true" requiredMessage="El campo Nombres es requerido"/>
+                            <p:outputLabel styleClass="t-2" value="Apellidos" for="apellido" />
+                            <p:inputText styleClass="t-3" id="apellido" value="#{docenteController.selected.apellidos}"
+                                         required="true" requiredMessage="El campo Apellidos es requerido"/>
+                            <p:outputLabel styleClass="t-2" value="Correo" for="correo" />
+                            <p:inputText styleClass="t-4" id="correo" value="#{docenteController.selected.correo}" />
+                            <p:outputLabel styleClass="t-2" value="Telefono" for="telefono" />
+                            <p:inputText styleClass="t-3" id="telefono" value="#{docenteController.selected.telefono}"/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{docenteController.update}" value="Guardar" icon="ui-icon-check" update="display,:DocenteListForm:datalist,:growl" oncomplete="handleSubmit(args, 'DocenteEditDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('DocenteEditDialog').hide()"/></div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+
+</html>

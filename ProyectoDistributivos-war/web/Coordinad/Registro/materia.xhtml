@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/Coordinad/template.xhtml">
+        <ui:define name="title">Lista de Materias</ui:define>      
+
+        <ui:define name="body">
+            <h:form>                
+                <p:remoteCommand name="materia" update=":MateriaListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
+            <h:form id="MateriaListForm">
+                <p:panel>
+                    <p:dataTable id="datalist" tableStyleClass="tabla" value="#{materiaController.items}" var="item"
+                                 selectionMode="single" selection="#{materiaController.selected}"
+
+                                 rowKey="#{item.codmateria}"
+
+
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column styleClass="t-1">
+                            <f:facet name="header">
+                                <h:outputText value="Codigo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codmateria}"/>
+                        </p:column>
+                        <p:column styleClass="t-4">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.materia}"/>
+                        </p:column>
+                        <p:column styleClass="t-1">
+                            <f:facet name="header">
+                                <h:outputText value="Creditos"/>
+                            </f:facet>
+                            <h:outputText value="#{item.creditos}"/>
+                        </p:column>
+                        <p:column styleClass="t-3">
+                            <f:facet name="header">
+                                <h:outputText value="Area"/>
+                            </f:facet>
+                            <h:outputText value="#{item.subarea.area.area} / #{item.subarea.subarea}"/>
+                        </p:column>
+                        <p:column styleClass="t-3">
+                            <f:facet name="header">
+                                <h:outputText value="Semestre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.semestre.semestre} / #{item.semestre.carrera.carrera}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{materiaController.prepareCreate}" update=":MateriaCreateForm" oncomplete="PF('MateriaCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":MateriaViewForm" oncomplete="PF('MateriaViewDialog').show()" disabled="#{empty materiaController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":MateriaEditForm" oncomplete="PF('MateriaEditDialog').show()" disabled="#{empty materiaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{materiaController.destroy}" oncomplete="$('.tabla').DataTable();" update=":growl,datalist" disabled="#{empty materiaController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="MateriaCreateDlg" widgetVar="MateriaCreateDialog" resizable="false" appendTo="@(body)" header="Nueva Materia">
+                <h:form id="MateriaCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
+                            <p:outputLabel value="SubArea:" for="idsubarea" />
+                            <p:selectOneMenu id="idsubarea" value="#{materiaController.subarea}" required="true" requiredMessage="El campo SubArea es requerido">
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{subareaController.items}"
+                                               var="idsubareaItem"
+                                               itemLabel="#{idsubareaItem.subarea}"
+                                               itemValue="#{idsubareaItem}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Carrera:" for="carrera" />
+                            <p:selectOneMenu styleClass="t-6" id="carrera" value="#{materiaController.carrera}" >
+                                <p:ajax listener="#{materiaController.onCarreraChange}" update="semestre" />
+                                <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                <f:selectItems value="#{carreraController.items}" var="item" itemValue="#{item}"
+                                               itemLabel="#{item.carrera}"/>
+                            </p:selectOneMenu> 
+                            <p:outputLabel value="Semestre:" for="semestre" />
+                            <p:selectOneMenu id="semestre" value="#{materiaController.semestre}" required="true" requiredMessage="El campo Semestre es requerido" >
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{materiaController.semestres}" 
+                                               var="semestre"
+                                               itemLabel="#{semestre.semestre}"
+                                               itemValue="#{semestre}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombre:" for="materia" />
+                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" 
+                                         title="materia" required="true" requiredMessage="El campo Materia es requerido"/>
+                            <p:outputLabel value="Codigo:" for="codmateria" />
+                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" 
+                                         title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Creditos" for="creditos" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="creditos" styleClass="t-3" value="#{materiaController.selected.creditos}" 
+                                             title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                                <p:slider for="creditos" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas clase:" for="clase" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="clase" styleClass="t-3" value="#{materiaController.selected.horasclase}" 
+                                             title="Horas clase" required="true" requiredMessage="El campo Horas clase es requerido"/>
+                                <p:slider for="clase" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas practicas:" for="practicas" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="practicas" styleClass="t-3" value="#{materiaController.selected.horaspracticas}" 
+                                             title="Horas practicas" required="true" requiredMessage="El campo Horas practicas es requerido"/>
+                                <p:slider for="practicas" maxValue="10"/>
+                            </p:outputPanel>                           
+                            <p:outputLabel value="Aprendizaje colaborativo:" for="colaborativo" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="colaborativo" styleClass="t-3" value="#{materiaController.selected.aprendizajecolaborativo}" 
+                                             title="Aprendizaje colaborativo" required="true" requiredMessage="El campo Aprendizaje colaborativo es requerido"/>
+                                <p:slider for="colaborativo" maxValue="10"/>
+                            </p:outputPanel>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{materiaController.create}" value="Guardar" icon="ui-icon-check" 
+                                             update="display,:MateriaListForm:datalist,:growl" 
+                                             oncomplete="handleSubmit(args,'MateriaCreateDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('MateriaCreateDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="MateriaEditDlg" widgetVar="MateriaEditDialog" resizable="false" appendTo="@(body)" header="Editar datos">
+                <h:form id="MateriaEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{materiaController.selected != null}">
+                            <p:outputLabel value="SubArea:" for="idsubarea" />
+                            <p:selectOneMenu id="idsubarea" value="#{materiaController.selected.subarea}" required="true" requiredMessage="El campo SubArea es requerido">
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{subareaController.items}"
+                                               var="idsubareaItem"
+                                               itemLabel="#{idsubareaItem.subarea}"
+                                               itemValue="#{idsubareaItem}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Carrera:" for="carrera" />
+                            <p:selectOneMenu styleClass="t-6" id="carrera" value="#{materiaController.carrera}" >
+                                <p:ajax listener="#{materiaController.onCarreraChange}" update="semestre" />
+                                <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                <f:selectItems value="#{carreraController.items}" var="item" itemValue="#{item}"
+                                               itemLabel="#{item.carrera}"/>
+                            </p:selectOneMenu> 
+                            <p:outputLabel value="Semestre:" for="semestre" />
+                            <p:selectOneMenu id="semestre" value="#{materiaController.semestre}" required="true" requiredMessage="El campo Semestre es requerido" >
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{materiaController.semestres}" 
+                                               var="semestre"
+                                               itemLabel="#{semestre.semestre}"
+                                               itemValue="#{semestre}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Nombre:" for="materia" />
+                            <p:inputText id="materia" styleClass="t-5" value="#{materiaController.selected.materia}" 
+                                         title="materia" required="true" requiredMessage="El campo Materia es requerido"/>
+                            <p:outputLabel value="Codigo:" for="codmateria" />
+                            <p:inputText id="codmateria" styleClass="t-3" value="#{materiaController.selected.codmateria}" 
+                                         title="codmateria" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Creditos" for="creditos" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="creditos" styleClass="t-3" value="#{materiaController.selected.creditos}" 
+                                             title="Creditos" required="true" requiredMessage="El campo Codigo es requerido"
+                                             >
+                                    <p:ajax event="blur" update="clase"/>
+                                </p:inputText>
+                                <p:slider for="creditos" maxValue="10" minValue="1"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas clase:" for="clase" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="clase" styleClass="t-3" value="#{materiaController.selected.horasclase}" 
+                                             title="Horas clase" required="true" requiredMessage="El campo Horas clase es requerido"
+                                             maxlength="#{materiaController.selected.creditos}" />
+                                <p:slider for="clase" minValue="1" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Horas prcticas:" for="practicas" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="practicas" styleClass="t-3" value="#{materiaController.selected.horaspracticas}" 
+                                             title="Horas practicas" required="true" requiredMessage="El campo Horas practicas es requerido"/>
+                                <p:slider for="practicas" maxValue="10"/>
+                            </p:outputPanel>                           
+                            <p:outputLabel value="Aprendizaje colaborativo:" for="colaborativo" />
+                            <p:outputPanel styleClass="t-3">
+                                <p:inputText id="colaborativo" styleClass="t-3" value="#{materiaController.selected.aprendizajecolaborativo}" 
+                                             title="Aprendizaje colaborativo" required="true" requiredMessage="El campo Aprendizaje colaborativo es requerido"/>
+                                <p:slider for="colaborativo" maxValue="#{materiaController.selected.creditos}"/>
+                            </p:outputPanel>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{materiaController.update}" value="Guardar" icon="ui-icon-check"
+                                             update="display,:MateriaListForm:datalist,:growl" 
+                                             oncomplete="handleSubmit(args,'MateriaEditDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('MateriaEditDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="MateriaViewDlg" widgetVar="MateriaViewDialog" resizable="false" appendTo="@(body)" header="Ver datos">
+                <h:form id="MateriaViewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{materiaController.selected != null}" style="min-width: 400px">
+                            <h:outputText value="Codigo:"/>
+                            <h:outputText value="#{materiaController.selected.codmateria}"/>
+                            <h:outputText value="Nombre:"/>
+                            <h:outputText value="#{materiaController.selected.materia}"/>
+                            <h:outputText value="Horas clase:"/>
+                            <h:outputText value="#{materiaController.selected.horasclase}"/>
+                            <h:outputText value="Horas prcticas:"/>
+                            <h:outputText value="#{materiaController.selected.horaspracticas}"/>
+                            <h:outputText value="Aprendizaje colaborativo:"/>
+                            <h:outputText value="#{materiaController.selected.aprendizajecolaborativo}"/>
+                            <h:outputText value="Area:"/>
+                            <h:outputText value="#{materiaController.selected.subarea.area.area}"/>
+                            <h:outputText value="Subarea:"/>
+                            <h:outputText value="#{materiaController.selected.subarea.subarea}"/>
+                            <h:outputText value="Carrera"/>
+                            <h:outputText value="#{materiaController.selected.semestre.carrera.carrera}"/>
+                            <h:outputText value="Semestre"/>
+                            <h:outputText value="#{materiaController.selected.semestre.semestre}"/>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('MateriaViewDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

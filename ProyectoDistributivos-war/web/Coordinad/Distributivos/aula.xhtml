@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/Coordinad/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="body">
+        <div class="row">
+            <h:form>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a  class="accordion-toggle" data-toggle="collapse" href="#collapse1">Filtros</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse in">
+
+                            <p:panelGrid id="display" columns="2" columnClasses="form-group" style="width: 100%">
+                                <p:outputLabel value="Edificio:" for="edificio" />
+                                <p:selectOneMenu styleClass="t-6" id="edificio" value="" >
+                                    
+                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                    <f:selectItems value="#{edificioController.items}"
+                                                   var="item" itemValue="#{item}" 
+                                                   itemLabel="#{item.edificio}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Periodo:" for="periodo" />
+                                <p:selectOneMenu styleClass="t-6" id="periodo" value="" >
+                                    
+                                    <f:selectItem itemLabel="Seleccione un elemento..."/>
+                                    <f:selectItems value="#{periodoController.items}" var="periodo" itemValue="#{periodo}"
+                                                   itemLabel="#{periodo.peridodo}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>       
+                        </div>
+                    </div>
+                </div>
+
+            </h:form> 
+        </div>
+    </ui:define>
+</ui:composition>

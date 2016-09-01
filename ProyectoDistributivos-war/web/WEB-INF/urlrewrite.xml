@@ -1,0 +1,71 @@
+<urlrewrite>
+
+    <rule>
+        <from>/administrador/otros/([a-z]+)</from>
+        <to>/faces/Administrad/Otras/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/administrador/registro/([a-z]+)</from>
+        <to>/faces/Administrad/Registro/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/administrador/vista/([a-z]+)</from>
+        <to>/faces/Administrad/Vista/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/administrador/distributivo/([a-z]+)</from>
+        <to>/faces/Administrad/Distributivos/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/administrador</from>
+        <to>/faces/Administrad/index.xhtml</to>
+    </rule>
+    
+    <rule>
+        <from>/coordinador/otros/([a-z]+)</from>
+        <to>/faces/Coordinad/Otras/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/coordinador/registro/([a-z]+)</from>
+        <to>/faces/Coordinad/Registro/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/coordinador/distributivo/([a-z]+)</from>
+        <to>/faces/Coordinad/Distributivos/$1.xhtml</to>
+    </rule>
+    <rule>
+        <from>/coordinador</from>
+        <to>/faces/Coordinad/index.xhtml</to>
+    </rule>
+    
+    <rule>
+        <from>/docentes</from>
+        <to>/faces/docent/index.xhtml</to>
+    </rule>
+    <rule>
+        <from>/portal</from>
+        <to>/faces/index.xhtml</to>
+    </rule> 
+
+
+    <rule>
+        <from>/horario/([a-z]+)/([a-z]+)/([a-z]+)/([a-z]+)/([a-z]+)</from>
+        <to>/faces/index/horarios.xhtml?facultad=$1&amp;carrera=$2&amp;semestre=$3&amp;paralelo=$4&amp;nada=$5</to>
+    </rule>
+    <rule>
+        <from>/horario/([a-z]+)/([a-z]+)/([a-z]+)/([a-z]+)</from>
+        <to>/faces/index/horarios.xhtml?facultad=$1&amp;carrera=$2&amp;semestre=$3&amp;paralelo=$4</to>
+    </rule>
+    <rule>
+        <from>/horario/([a-z]+)/([a-z]+)/([a-z]+)</from>
+        <to>/faces/index/horarios.xhtml?facultad=$1&amp;carrera=$2&amp;semestre=$3</to>
+    </rule>
+    <rule>
+        <from>/horario/([a-z]+)/([a-z]+)</from>
+        <to>/faces/index/horarios.xhtml?facultad=$1&amp;carrera=$2</to>
+    </rule>
+    <rule>
+        <from>/horario/([a-z]+)</from>
+        <to>/faces/index/horarios.xhtml?facultad=$1</to>
+    </rule>
+</urlrewrite>

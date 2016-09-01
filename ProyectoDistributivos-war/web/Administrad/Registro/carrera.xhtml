@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/Administrad/template.xhtml">
+
+        <ui:define name="title">Lista de Carreras</ui:define>      
+        <ui:define name="body">
+            <h:form>                
+                <p:remoteCommand name="carrera" update=":CarreraListForm" oncomplete="$('.tabla').DataTable();"/>
+            </h:form>
+            <h:form id="CarreraListForm">
+                <p:panel>
+                    <p:dataTable id="datalist" tableStyleClass="tabla" value="#{carreraController.items}" var="item"
+                                 selectionMode="single" selection="#{carreraController.selected}"
+
+                                 rowKey="#{item.codcarrera}"
+
+
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column styleClass="t-1">
+                            <f:facet name="header">
+                                <h:outputText value="Codigo"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codcarrera}"/>
+                        </p:column>
+                        <p:column styleClass="t-2">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.carrera}"/>
+                        </p:column>
+                        <p:column styleClass="t-2">
+                            <f:facet name="header">
+                                <h:outputText value="Facultad"/>
+                            </f:facet>
+                            <h:outputText value="#{item.facultad.facultad}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Crear" actionListener="#{carreraController.prepareCreate}" update=":CarreraCreateForm" oncomplete="PF('CarreraCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":CarreraViewForm" oncomplete="PF('CarreraViewDialog').show()" disabled="#{empty carreraController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modificar" update=":CarreraEditForm" oncomplete="PF('CarreraEditDialog').show()" disabled="#{empty carreraController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{carreraController.destroy}" oncomplete="$('.tabla').DataTable();" update=":growl,datalist" disabled="#{empty carreraController.selected}">
+                                <p:confirm header="Confirmation" message="Esta seguro de eliminar este registro? Se ralizara una eliminacion en cascada." icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" closable="true" showEffect="fade" hideEffect="fade">
+                                <div class="pull-right">
+                                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </div>
+                            </p:confirmDialog>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <p:dialog id="CarreraCreateDlg" widgetVar="CarreraCreateDialog" resizable="false" appendTo="@(body)" header="Nueva carrera">
+                <h:form id="CarreraCreateForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
+                            <p:outputLabel value="Codigo:" for="idcarrera" />
+                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.codcarrera}" 
+                                         title="Codigo" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Nombre:" for="carrera" />
+                            <p:inputText styleClass="t-5" id="carrera" value="#{carreraController.selected.carrera}" 
+                                         title="Nombre" required="true" requiredMessage="El campo Nombre es requerido"/>
+                            <p:outputLabel value="N° de semestres" for="ns" />
+                            <p:outputPanel>
+                                <p:inputText styleClass="t-1" id="ns" value="#{carreraController.semestres}" title="Numero de semestres" required="true" requiredMessage="El campo N° de semestres es requerido"/>
+                                <p:slider for="ns" maxValue="10"/>
+                            </p:outputPanel>
+                            <p:outputLabel value="Facultad" for="idfacultad" />
+                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.facultad}"  required="true" requiredMessage="El campo Facultad es requerido">
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{facultadController.items}"
+                                               var="idfacultadItem"
+                                               itemValue="#{idfacultadItem}"
+                                               itemLabel="#{idfacultadItem.facultad}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{carreraController.create}" value="Guardar" icon="ui-icon-check" update="display,:CarreraListForm:datalist,:growl" oncomplete="handleSubmit(args,'CarreraCreateDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('CarreraCreateDialog').hide()"/>
+                        </div> 
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="CarreraEditDlg" widgetVar="CarreraEditDialog" resizable="false" appendTo="@(body)" header="Editar datos">
+                <h:form id="CarreraEditForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
+                            <p:outputLabel value="Codigo:" for="idcarrera" />
+                            <p:inputText styleClass="t-5" id="idcarrera" value="#{carreraController.selected.codcarrera}" 
+                                         title="Codigo" required="true" requiredMessage="El campo Codigo es requerido"/>
+                            <p:outputLabel value="Nombre:" for="carrera" />
+                            <p:inputText styleClass="t-5" id="carrera" value="#{carreraController.selected.carrera}" 
+                                         title="Nombre" required="true" requiredMessage="El campo Nombre es requerido"/>
+                            <p:outputLabel value="Facultad" for="idfacultad" />
+                            <p:selectOneMenu styleClass="t-6" id="idfacultad" value="#{carreraController.selected.facultad}"  required="true" requiredMessage="El campo Facultad es requerido">
+                                <f:selectItem itemLabel="Seleccione un elemento..." noSelectionOption="true" itemDisabled="true"/>
+                                <f:selectItems value="#{facultadController.items}"
+                                               var="idfacultadItem"
+                                               itemValue="#{idfacultadItem}"
+                                               itemLabel="#{idfacultadItem.facultad}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton actionListener="#{carreraController.update}" value="Guardar" icon="ui-icon-check" update="display,:CarreraListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CarreraEditDialog'); $('.tabla').DataTable();"/>
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('CarreraEditDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="CarreraViewDlg" widgetVar="CarreraViewDialog" resizable="false" appendTo="@(body)" header="Ver datos:">
+                <h:form id="CarreraViewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{carreraController.selected != null}" style="min-width: 400px">
+                            <h:outputText value="Codigo:"/>
+                            <h:outputText value="#{carreraController.selected.codcarrera}"/>
+                            <h:outputText value="Nombre:"/>
+                            <h:outputText value="#{carreraController.selected.carrera}"/>
+                            <h:outputText value="Facultad"/>
+                            <h:outputText value="#{carreraController.selected.facultad.facultad}"/>
+
+                        </p:panelGrid>
+                        <div class="pull-right">
+                            <p:commandButton value="Cancelar" icon="ui-icon-close" onclick="PF('CarreraViewDialog').hide()"/>
+                        </div>
+                    </h:panelGroup>
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

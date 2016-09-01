@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="shortcut icon" type="image/png" href="/ProyectoDistributivos-war/faces/javax.faces.resource/img/logo.png"/>
+        <title>Horarios UTEQ </title>
+        <!-- Bootstrap -->
+        <h:outputStylesheet name="vendors/bootstrap/css/bootstrap.css"/>
+        <h:outputStylesheet name="vendors/bootstrap/css/dataTables.bootstrap.css"/>
+        <!-- Font Awesome -->
+        <h:outputStylesheet name="vendors/font-awesome/css/font-awesome.css"/>
+        <!-- Custom Theme Style -->
+        <h:outputStylesheet name="css/custom.css"/>
+
+    </h:head>
+    <h:body  class="nav-md">
+        <p:growl id="growl" life="5000" />
+
+        <div class="container">
+            <div class="navbar navbar-default row">
+                <div class="col-md-2 col-lg-2 center"><br/>
+                    <img src="/ProyectoDistributivos-war/faces/javax.faces.resource/img/logoUTEQ.png" alt="Logo UTEQ" class="img-rounded logo"/>
+                </div>
+                <div class="col-md-8"><br/>
+                    <h2>Universidad Tecnica Estatal de Quevedo</h2>
+                    <h4>La primera universidad agropecuaria del Ecuador</h4>
+                </div>
+                <div class="col-md-2 right" style="font-size: 30px">
+                        <a target="_blank" href="https://www.facebook.com/uteq.ecuador/"><i class="fa fa-facebook"></i> </a>
+                        <a target="_blank" href="https://twitter.com/NoticiasUTEQ"><i class="fa fa-twitter"></i> </a>
+                        <a target="_blank" href="https://www.youtube.com/user/UTEQCHANNEL/videos"><i class="fa fa-youtube"></i> </a>
+                </div>
+            </div>
+            <div class="navbar navbar-default row">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand titulo" href="#">Horarios UTEQ</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="menuitem"><a class="" href="portal"><i class="fa fa-home icon" aria-hidden="true"></i>Inicio</a></li>
+                            <li class="menuitem"><a class="" href="horario/ingenieria"><i class="fa fa-calendar icon" aria-hidden="true"></i>Horarios</a></li>
+                            <li class="menuitem"><a href="#"><i class="fa fa-info icon" aria-hidden="true"></i>Acerca de.</a></li>
+                            <li class="menuitem"><a href="#"><i class="fa fa-envelope-o icon" aria-hidden="true"></i>Contactos</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="menuitem"><a  data-toggle="modal" data-target=".loginModal"><i class="fa fa-user icon" aria-hidden="true"></i>Iniciar Sesión</a></li>
+                        </ul>
+                        <div class="login_content">
+                            <div class="modal fade loginModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span aria-hidden="true">x</span><span class="sr-only">Close</span>
+                                            </button>
+                                            <h4 class="modal-title" id="modalLabel">Iniciar sesión</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <f:view>
+                                                    <h:form  class="login-form">
+                                                        <div class="form-group">
+                                                            <h:outputText class="label-control" value="Usuario"></h:outputText>
+                                                            <p:inputText value="#{usuarioController.activo.usuario}" styleClass="form-control"></p:inputText>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <h:outputText class="label-control" value="Contaseña"></h:outputText>
+                                                            <p:password value="#{usuarioController.activo.contasena}" styleClass="form-control"></p:password>
+                                                        </div>
+                                                        <p:commandButton styleClass="form-control btn btn-info" value="Ingresar!" update=":growl" actionListener="#{usuarioController.login}"></p:commandButton>
+
+                                                    </h:form>
+                                                </f:view>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </div>
+            <div class="navbar navbar-default row">
+                <ui:insert name="content"/>
+            </div>
+
+            <!-- footer content -->
+            <div class="navbar navbar-default row">
+                <div class="pull-right alert">
+                    <strong> 
+                        <script>document.write(new Date().getFullYear());</script>
+                        Universidad Técnica Estatal de Quevedo. 
+                    </strong> 
+                    Todos los derechos reservados.<br/>
+                </div>
+            </div>
+            <!-- /footer content -->
+        </div>
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+            <f:facet name="start">
+                <p:graphicImage name="img/loader.gif" alt="" />
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+        <!-- jquery  -->
+        <h:outputScript name="vendors/jquery/jquery.dataTables.min.js" />
+        <!-- Bootstrap -->
+        <h:outputScript name="vendors/bootstrap/js/bootstrap.js" />
+        <h:outputScript name="vendors/bootstrap/js/dataTables.bootstrap.min.js" />
+        <!-- Custom Theme Scripts -->
+        <h:outputScript name="js/custom.js" />
+        <script>
+            $('.tabla').DataTable();
+        </script>
+    </h:body>
+
+</html>
